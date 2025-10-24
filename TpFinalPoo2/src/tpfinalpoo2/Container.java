@@ -14,4 +14,9 @@ public class Container {
 		return null;
 	}
 
+	public LocalDateTime fechaIngreso() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
