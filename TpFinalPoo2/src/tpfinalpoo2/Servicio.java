@@ -6,11 +6,5 @@ public abstract class Servicio {
 		this.precio_fijo = precio_fijo;
 	}
 	
-	
-	public final double costo(Container container) {
-		return this.precio_fijo + (this.condicion(container) ? this.adicional() : 0 );  
-	}
-	
-	public abstract boolean condicion(Container container);
-	public abstract double adicional();
+	public abstract double costo(Container container);
 }

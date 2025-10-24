@@ -7,15 +7,17 @@ public class Lavado extends Servicio{
 	}
 
 	@Override
-	public boolean condicion(Container container) {
+	public double costo(Container container) {
 		// TODO Auto-generated method stub
-		return false;
+		if(container.metrosCubicos() > 70) {
+			return precio_fijo + 20;
+		}
+		
+		return precio_fijo;
 	}
 
-	@Override
-	public double adicional() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
+	
+	
 
 }
