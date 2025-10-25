@@ -3,13 +3,21 @@ package tpfinalpoo2;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CircuitoTest {
 	
-	Circuito circuito = new Circuito();
-	Tramo tramo = mock(Tramo.class);
-	Tramo otroTramo = mock(Tramo.class);
+	private Circuito circuito;
+	private Tramo tramo;
+	private Tramo otroTramo;
+	
+	@BeforeEach
+    public void setUp() {
+		circuito = new Circuito();
+		tramo = mock(Tramo.class);
+		otroTramo = mock(Tramo.class);
+    }
 	
 	@Test
 	void testUnCircuitoPuedeAgregarUnTramo() {

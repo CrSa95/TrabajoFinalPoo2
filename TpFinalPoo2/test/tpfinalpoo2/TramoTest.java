@@ -3,15 +3,25 @@ package tpfinalpoo2;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class TramoTest {
 	
-	Terminal origen = mock(Terminal.class);
-	OtraTerminal destino = mock(OtraTerminal.class);
-	double costo = 20d;
-	double duracion = 10d;
-	Tramo tramo = new Tramo(duracion, costo, origen, destino);
+	private Terminal origen;
+	private OtraTerminal destino;
+	private double costo;
+	private double duracion;
+	private Tramo tramo;
+	
+	@BeforeEach
+    public void setUp() {
+		origen = mock(Terminal.class);
+		destino = mock(OtraTerminal.class);
+		costo = 20d;
+		duracion = 10d;
+		tramo = new Tramo(duracion, costo, origen, destino);
+    }
 	
 	@Test
 	void testUnTramoConoceSuCosto() {
