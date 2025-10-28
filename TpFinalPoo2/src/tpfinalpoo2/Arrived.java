@@ -1,0 +1,10 @@
+package tpfinalpoo2;
+
+public class Arrived extends EstadoGPS{
+
+	@Override
+	protected EstadoGPS siguienteEstado(Buque buque) {
+		return new Working();
+	}
+
+}
