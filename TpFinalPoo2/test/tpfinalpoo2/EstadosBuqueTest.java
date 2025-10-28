@@ -28,6 +28,16 @@ class EstadosBuqueTest {
 	}
 	
 	@Test 
+	void noCambiaAOutboundSiEstaAmasDe50km() {
+		estadoSuject = new Inbound();
+		when(mockBuque.distanciaAdestino())
+		.thenReturn((double)51);
+		
+		assertInstanceOf(Inbound.class, estadoSuject.siguienteEstado(mockBuque));
+	}
+	
+	
+	@Test 
 	void OutboundCambiaAArrived() {
 		estadoSuject = new Outbound();
 		when(mockBuque.distanciaAdestino())
@@ -36,22 +46,51 @@ class EstadosBuqueTest {
 		assertInstanceOf(Arrived.class, estadoSuject.siguienteEstado(mockBuque));
 		
 	}
+	
+	@Test 
+	void noCambiaAArrivedSiLaDistanciaEsMayorAcero() {
+		estadoSuject = new Outbound();
+		when(mockBuque.distanciaAdestino())
+		.thenReturn((double) 10);
+		
+		assertInstanceOf(Outbound.class, estadoSuject.siguienteEstado(mockBuque));
+	}
 
 	
 	@Test 
 	void ArrivedCambiaAWorking() {
 		estadoSuject = new Arrived();
-		
+		when(mockBuque.ordenTrabajoIniciada())
+		.thenReturn(true);
 		
 		assertInstanceOf(Working.class ,estadoSuject.siguienteEstado(mockBuque));
-
+	}
+	
+	@Test 
+	void NoCambiaAWorkingSiNoTieneUnaOrdenDeTrabajo() {
+		estadoSuject = new Arrived();
+		when(mockBuque.ordenTrabajoIniciada())
+		.thenReturn(false);
+		
+		assertInstanceOf(Arrived.class ,estadoSuject.siguienteEstado(mockBuque));
 	}
 	
 	@Test
 	void WorkingADeparting() {
 		estadoSuject = new Working();
+		when(mockBuque.ordenTrabajoIniciada())
+		.thenReturn(false);
 		
 		assertInstanceOf(Departing.class, estadoSuject.siguienteEstado(mockBuque));
 		
+	}
+	
+	@Test 
+	void WorkingNoPasaADepartingHastaTerminarElTrabajo() {
+		estadoSuject = new Working();
+		when(mockBuque.ordenTrabajoIniciada())
+		.thenReturn(true);
+		
+		assertInstanceOf(Working.class, estadoSuject.siguienteEstado(mockBuque));
 	}
 }
