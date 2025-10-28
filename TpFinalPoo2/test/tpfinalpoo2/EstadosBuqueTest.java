@@ -60,7 +60,7 @@ class EstadosBuqueTest {
 	@Test 
 	void ArrivedCambiaAWorking() {
 		estadoSuject = new Arrived();
-		when(mockBuque.ordenTrabajoIniciada())
+		when(mockBuque.trabajando())
 		.thenReturn(true);
 		
 		assertInstanceOf(Working.class ,estadoSuject.siguienteEstado(mockBuque));
@@ -69,7 +69,7 @@ class EstadosBuqueTest {
 	@Test 
 	void NoCambiaAWorkingSiNoTieneUnaOrdenDeTrabajo() {
 		estadoSuject = new Arrived();
-		when(mockBuque.ordenTrabajoIniciada())
+		when(mockBuque.trabajando())
 		.thenReturn(false);
 		
 		assertInstanceOf(Arrived.class ,estadoSuject.siguienteEstado(mockBuque));
@@ -78,7 +78,7 @@ class EstadosBuqueTest {
 	@Test
 	void WorkingADeparting() {
 		estadoSuject = new Working();
-		when(mockBuque.ordenTrabajoIniciada())
+		when(mockBuque.trabajando())
 		.thenReturn(false);
 		
 		assertInstanceOf(Departing.class, estadoSuject.siguienteEstado(mockBuque));
@@ -88,7 +88,7 @@ class EstadosBuqueTest {
 	@Test 
 	void WorkingNoPasaADepartingHastaTerminarElTrabajo() {
 		estadoSuject = new Working();
-		when(mockBuque.ordenTrabajoIniciada())
+		when(mockBuque.trabajando())
 		.thenReturn(true);
 		
 		assertInstanceOf(Working.class, estadoSuject.siguienteEstado(mockBuque));

@@ -16,9 +16,9 @@ public class Buque {
 		// TODO Auto-generated method stub
 		return this.estado_gps;
 	}
-	public boolean ordenTrabajoIniciada() {
+	public boolean trabajando() {
 		// TODO Auto-generated method stub
-		return null;
+		return working;
 	}
 
 }

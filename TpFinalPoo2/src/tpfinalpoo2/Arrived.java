@@ -4,7 +4,7 @@ public class Arrived extends EstadoGPS{
 
 	@Override
 	protected EstadoGPS siguienteEstado(Buque buque) {
-		if(buque.ordenTrabajoIniciada()) return new Working();
+		if(buque.trabajando()) return new Working();
 		return this;
 	}
 
