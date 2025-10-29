@@ -35,11 +35,18 @@ public class Terminal {
 	
 	public Circuito buscarMejorCircuitoParaLLegarA(Terminal terminalDestino) {
 		
+		//En primer instancia se filtran todos los circuitos de todas las navieras 
+		//siempre y cuando el circuito parta desde la terminal gestionada
+		//ya que en Navieras podriamos llegar a tener circuitos que no partan desde 
+		//la terminal gestionada
 		List<Circuito> todosLosCircuitos = this.getNavieras().stream()
 															 .map(Naviera::getCircuitos)
 															 .flatMap(List::stream)
+															 .filter(circuito -> circuito.parteDesde(this))
 															 .toList(); 
 		
-		return this.getEstrategiaDeBusqueda().seleccionarMejor(todosLosCircuitos, this, terminalDestino);
+		//Una vez que se obtiene la lista se busca el mejor circuito dependiendo 
+		//la estrategia seteada con anterioridad 
+		return this.getEstrategiaDeBusqueda().seleccionarMejor(todosLosCircuitos, terminalDestino);
 	}
 }
