@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface IStrategyBusquedaCircuito {
 	
-	public Circuito seleccionarMejor(List<Circuito> circuitos, Terminal terminalOrigen, Terminal terminalDestino); 
+	public Circuito seleccionarMejor(List<Circuito> circuitos, Terminal terminalDestino); 
 }
