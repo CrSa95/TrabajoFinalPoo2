@@ -38,6 +38,11 @@ class BuqueTest {
 		this.setearAArrived();
 		suject.empezarTrabajo();
 	}
+	
+	void setearDeparting() {
+		this.setearAWorking();
+		suject.permitirSalida();
+	}
 
 	@Test
 	void sePuedeAvisarLlegadaAMenosDe50km() {
@@ -68,7 +73,12 @@ class BuqueTest {
 	}
 	
 	@Test 
-	void avisarLLegadaLanzaExcepcionSiNoEstaeEnModoOutbound(){
+	void avisarLLegadaLanzaExcepcionSiNoEstaEnModoOutbound(){
 		assertThrows(RuntimeException.class, ()->suject.avisarLlegada());
+	}
+	@Test 
+	void salirLanzaExcepcionSiNoEstaEnModoDeparting() {
+		assertThrows(RuntimeException.class, ()->suject.salir());
+
 	}
 }
