@@ -12,6 +12,7 @@ public class Buque {
 
 	public void actualizarGPS() {
 		this.estado_gps = this.estado_gps.actualizarGPS(this);
+		
 	}
 
 	public void avisarLlegada() {
@@ -22,6 +23,7 @@ public class Buque {
 	}
 	public void empezarTrabajo() {
 		this.estado_gps.empezarTrabajo(this);
+		this.estado_gps = this.estado_gps.actualizarGPS(this);
 	}
 
 	
@@ -29,7 +31,11 @@ public class Buque {
 		return this.viaje_asignado.terminalDestino();
 	}
 	public void permitirSalida() {
-		// TODO Auto-generated method stub
 		this.estado_gps.permitirSalida(this);
+		this.estado_gps = this.estado_gps.actualizarGPS(this);
+	}
+	public void siguienteDestino() {
+		this.viaje_asignado.siguienteTramo();
+		
 	}
 }

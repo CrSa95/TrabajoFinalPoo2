@@ -33,4 +33,8 @@ public class Viaje {
 		return 0d;
 	}
 
+	public void siguienteTramo() {
+		
+	}
+
 }

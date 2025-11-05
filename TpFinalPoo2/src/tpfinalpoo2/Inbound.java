@@ -1,11 +1,13 @@
 package tpfinalpoo2;
 
 public class Inbound extends EstadoGPS {
-
 	@Override
 	public EstadoGPS actualizarGPS(Buque buque) {
-		// TODO Auto-generated method stub
-
+		if(buque.distanciaHaciaDestino() <= 0d) {
+			return new Arrived();
+		}
+		
+		return this;
 	}
 
 	@Override 

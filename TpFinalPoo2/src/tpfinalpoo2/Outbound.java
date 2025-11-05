@@ -8,7 +8,6 @@ public class Outbound extends EstadoGPS {
 			return new Inbound();
 		}
 		
-		
 		return this;
 	}
 }
