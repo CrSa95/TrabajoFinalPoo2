@@ -5,7 +5,7 @@ public class Working extends EstadoGPS {
 	@Override
 	public EstadoGPS actualizarGPS(Buque buque) {
 		if(se_inicio_partida) {
-			return new Outbound();
+			return new Departing();
 		}
 		return this;
 	}

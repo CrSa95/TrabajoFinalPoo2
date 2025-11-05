@@ -12,7 +12,6 @@ public class Buque {
 
 	public void actualizarGPS() {
 		this.estado_gps = this.estado_gps.actualizarGPS(this);
-		
 	}
 
 	public void avisarLlegada() {
@@ -26,16 +25,21 @@ public class Buque {
 		this.estado_gps = this.estado_gps.actualizarGPS(this);
 	}
 
-	
 	public Terminal destinoActual() {
 		return this.viaje_asignado.terminalDestino();
 	}
 	public void permitirSalida() {
 		this.estado_gps.permitirSalida(this);
+		this.avisarLlegada();
 		this.estado_gps = this.estado_gps.actualizarGPS(this);
+		
 	}
 	public void siguienteDestino() {
 		this.viaje_asignado.siguienteTramo();
-		
+		this.estado_gps = this.estado_gps.actualizarGPS(this);
+	}
+	
+	public void salir() {
+		this.estado_gps.salir(this);
 	}
 }
