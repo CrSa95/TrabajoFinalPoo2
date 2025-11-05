@@ -23,4 +23,14 @@ public class Viaje {
 		return this.terminalDestino;
 	}
 
+	public Terminal terminalDestino() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Double distanciaHaciaDestino() {
+		// TODO Auto-generated method stub
+		return 0d;
+	}
+
 }
