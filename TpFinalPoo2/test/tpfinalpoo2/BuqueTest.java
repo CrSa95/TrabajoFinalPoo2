@@ -23,35 +23,36 @@ class BuqueTest {
 		suject.asignar(viaje);
 	}
 	
+	void setearAOutbound() {
+		when(viaje.distanciaHaciaDestino()).thenReturn(49d);
+		suject.actualizarGPS();
+	}
 	
+	void setearAArrived() {
+		this.setearAOutbound();
+		when(viaje.distanciaHaciaDestino()).thenReturn(0d);
+		suject.actualizarGPS(); 
+	}
+	
+	void setearAWorking() {
+		this.setearAArrived();
+		suject.empezarTrabajo();
+	}
 
 	@Test
 	void sePuedeAvisarLlegadaAMenosDe50km() {
-		when(viaje.distanciaHaciaDestino()).thenReturn(49d);
-		suject.actualizarGPS();
-		
-		
+		this.setearAOutbound();
 		assertDoesNotThrow(() -> suject.avisarLlegada());
 	}
 	@Test 
 	void sePuedeIniciarTrabajoEnLaTerminal() {
-		// Pasa de Outbound a Arrived
-		when(viaje.distanciaHaciaDestino()).thenReturn(0d);
-		suject.actualizarGPS();  
-		suject.actualizarGPS(); 
-		
-		// Empieza el trabajo
+		this.setearAArrived();
 		assertDoesNotThrow(() -> suject.empezarTrabajo());
 	}
 	
 	@Test 
 	void sePuedeIniciarPartidaEnEstadoWorking() {
-		// Pasa de Outbound a working
-		when(viaje.distanciaHaciaDestino()).thenReturn(0d);
-		suject.actualizarGPS();  
-		suject.actualizarGPS(); 
-		suject.empezarTrabajo();
-		
+		this.setearAWorking();
 		assertDoesNotThrow(() -> suject.permitirSalida());
 	}
 	
