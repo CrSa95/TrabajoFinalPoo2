@@ -30,10 +30,13 @@ public class Buque {
 	}
 	public void permitirSalida() {
 		this.estado_gps.permitirSalida(this);
+		this.avisarLlegada();
 		this.estado_gps = this.estado_gps.actualizarGPS(this);
+		
 	}
 	public void siguienteDestino() {
 		this.viaje_asignado.siguienteTramo();
+		this.estado_gps = this.estado_gps.actualizarGPS(this);
 	}
 	
 	public void salir() {

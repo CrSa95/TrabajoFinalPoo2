@@ -79,6 +79,5 @@ class BuqueTest {
 	@Test 
 	void salirLanzaExcepcionSiNoEstaEnModoDeparting() {
 		assertThrows(RuntimeException.class, ()->suject.salir());
-
 	}
 }
