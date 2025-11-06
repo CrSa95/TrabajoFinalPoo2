@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 public class TramoTest {
 	
 	private Terminal origen;
-	private OtraTerminal destino;
+	private Terminal destino;
 	private double costo;
 	private double duracion;
 	private Tramo tramo;
@@ -17,7 +17,7 @@ public class TramoTest {
 	@BeforeEach
     public void setUp() {
 		origen = mock(Terminal.class);
-		destino = mock(OtraTerminal.class);
+		destino = mock(Terminal.class);
 		costo = 20d;
 		duracion = 10d;
 		tramo = new Tramo(duracion, costo, origen, destino);

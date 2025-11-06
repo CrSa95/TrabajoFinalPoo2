@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 public class TerminalTest {
 	
 	private Terminal terminalGestionada;
-	private OtraTerminal otraTerminal;
+	private Terminal otraTerminal;
 	private Naviera naviera;
 	private Naviera otraNaviera;
 	private MenorCantidadTerminalesIntermedias menorCantTerminalesIntermedias;
@@ -25,7 +25,7 @@ public class TerminalTest {
 	@BeforeEach
     public void setUp() {
 		terminalGestionada = new Terminal("Buenos Aires");
-		otraTerminal = new OtraTerminal("Montevideo");
+		otraTerminal = new Terminal("Montevideo");
 		naviera = mock(Naviera.class);
 		otraNaviera = mock(Naviera.class);
 		menorCantTerminalesIntermedias = mock(MenorCantidadTerminalesIntermedias.class);
