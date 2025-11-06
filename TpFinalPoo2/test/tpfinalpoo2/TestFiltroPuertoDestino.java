@@ -13,13 +13,13 @@ public class TestFiltroPuertoDestino {
     private FiltroPuertoDestino filtroPD;
     private Viaje unViaje;
     private Viaje otroViaje;
-    private OtraTerminal puertoDestino;
-    private OtraTerminal otroPuertoDestino;
+    private Terminal puertoDestino;
+    private Terminal otroPuertoDestino;
 
     @BeforeEach
     public void setUp() {
-    	puertoDestino = mock(OtraTerminal.class);
-    	otroPuertoDestino = mock(OtraTerminal.class);
+    	puertoDestino = mock(Terminal.class);
+    	otroPuertoDestino = mock(Terminal.class);
     	filtroPD = new FiltroPuertoDestino(puertoDestino);
 
         unViaje = mock(Viaje.class);

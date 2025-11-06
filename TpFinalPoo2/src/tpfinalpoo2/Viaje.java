@@ -6,7 +6,7 @@ public class Viaje {
 	
 	private LocalDate fechaLlegada;
 	private LocalDate fechaSalida;
-	private OtraTerminal terminalDestino;
+	private Terminal terminalDestino;
 	
 	public LocalDate getFechaLlegada() {
 		// TODO Auto-generated method stub
@@ -18,7 +18,7 @@ public class Viaje {
 		return this.fechaSalida;
 	}
 
-	public OtraTerminal getTerminalDestino() {
+	public Terminal getTerminalDestino() {
 		// TODO Auto-generated method stub
 		return this.terminalDestino;
 	}

@@ -4,9 +4,9 @@ import java.util.List;
 
 public class FiltroPuertoDestino implements Filtro {
 	
-	private OtraTerminal destino;
+	private Terminal destino;
 	
-	public FiltroPuertoDestino(OtraTerminal destino) {
+	public FiltroPuertoDestino(Terminal destino) {
         this.destino = destino;
     }
 
