@@ -38,7 +38,7 @@ public abstract class Container {
 
 	private void setLargo(Double largo) {
 		if(largo < 0) throw new RuntimeException("Container: Largo invalido");
-		this.largo = peso;
+		this.largo = largo;
 		
 	}
 
