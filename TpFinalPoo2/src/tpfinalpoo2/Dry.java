@@ -8,8 +8,8 @@ import org.mockito.ArgumentMatchers;
 public class Dry extends Container {
 	private ArrayList<Dry> bls = new ArrayList<Dry>();
 	
-	public Dry(Cliente dueño, Double altura, Double ancho, Double largo, Double peso) {
-		super(dueño, altura, ancho, largo, peso);
+	public Dry(String ownerID, Double altura, Double ancho, Double largo, Double peso) {
+		super(ownerID, altura, ancho, largo, peso);
 	}
 
 	public void agregarProducto(Dry dry) {

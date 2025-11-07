@@ -8,28 +8,22 @@ public abstract class Container {
 	private Double ancho;
 	private Double largo;
 	protected Double peso;
-	private Cliente dueño;
 	private String id;
 	
-	public Container(Cliente dueño, 
+	public abstract Double costo();
+	public Container(String ownerID, 
 						Double altura, Double ancho, Double largo, Double peso) {
 		this.setAltura(altura);
 		this.setAncho(ancho);
 		this.setLargo(largo);
 		this.setPeso(peso);
-		this.setDueño(dueño);
+		this.setOwner(ownerID);
 	}
 	
-	public abstract Double costo();
-	
-	private void generarID() {
+	private void setOwner(String ownerId) {
+		if(ownerId == null ||ownerId.isEmpty() || ownerId.isBlank()) throw new RuntimeException("Container: Dueño invalido");
 		int numeroRandom = (int) (Math.random() * (9999998));
-		this.id = this.getDueño().id() + String.format("%07d", numeroRandom);
-	}
-
-	private void setDueño(Cliente dueño) {
-		if(dueño == null) throw new RuntimeException("Container: Dueño invalido");
-		this.dueño = dueño;
+		this.id = ownerId.concat(String.format("%07d", numeroRandom));
 	}
 
 	private void setPeso(Double peso) {
@@ -60,29 +54,20 @@ public abstract class Container {
 	}
 
 	public LocalDateTime fechaRetiro() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public LocalDateTime fechaIngreso() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	public String id() {
-		if(this.id == null) {
-			this.generarID();
-		}
 		return this.id;
 		
 	}
 	
-	public Cliente getDueño() {
-		return this.dueño;
-	}
 
 	public Double peso() {
-		// TODO Auto-generated method stub
 		return this.peso;
 	}
 }

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ContainerSuject extends Container{
-	public ContainerSuject(Cliente dueño, Double altura, Double ancho, Double largo, Double peso) {
+	public ContainerSuject(String dueño, Double altura, Double ancho, Double largo, Double peso) {
 		super(dueño, altura, ancho, largo, peso);
 	}
 
@@ -29,21 +29,19 @@ class ContainerTest {
 	Cliente cliente;
 	@BeforeEach
 	void setUp() throws Exception {
-		cliente = mock(clienteId);
-		when(cliente.id()).thenReturn(clienteId);
-		suject = new ContainerSuject(cliente, altura, ancho, largo, peso);
+		suject = new ContainerSuject(clienteId, altura, ancho, largo, peso);
 	}
 
 	@Test
 	void idContainer() {
-		assertTrue(suject.id().startsWith(cliente.id()));
+		assertTrue(suject.id().startsWith(clienteId));
 		assertEquals(11, suject.id().length());	
 	}
 	
 	@Test 
 	void idUnicoConElmismoDueño() {
 		
-		Container otroContainer = new ContainerSuject(cliente, altura, ancho, largo, peso);
+		Container otroContainer = new ContainerSuject(clienteId, altura, ancho, largo, peso);
 		assertNotEquals(suject.id(), otroContainer.id());
 	}
 	
