@@ -7,13 +7,12 @@ public class ServicioElectrico extends Servicio{
 
 	public ServicioElectrico(double precio_fijo) {
 		super(precio_fijo);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public double costo(Container container) {
+	public double costo(Orden orden) {
 		// TODO Auto-generated method stub
-		Duration duracion = Duration.between(container.fechaIngreso(), container.fechaRetiro());
+		Duration duracion = Duration.between(orden.fechaIngreso(), orden.fechaRetiro());
 		long horas = duracion.toHours();
 		if(horas < 0) return 0;
 		return horas * this.precio_fijo;

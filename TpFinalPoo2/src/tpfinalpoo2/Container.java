@@ -52,13 +52,7 @@ public abstract class Container {
 		return (altura * ancho * largo);
 	}
 
-	public LocalDateTime fechaRetiro() {
-		return null;
-	}
 
-	public LocalDateTime fechaIngreso() {
-		return null;
-	}
 	
 	public String id() {
 		return this.id;
