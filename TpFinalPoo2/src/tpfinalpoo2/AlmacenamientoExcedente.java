@@ -10,7 +10,7 @@ public class AlmacenamientoExcedente extends Servicio{
 
 	@Override
 	public double costo(Orden orden) {
-		Period periodo = Period.between(orden.carga().fechaRetiro().toLocalDate(), LocalDate.now());
+		Period periodo = Period.between(orden.fechaRetiro().toLocalDate(), LocalDate.now());
 		return precio_fijo * periodo.getDays();
 	}
 

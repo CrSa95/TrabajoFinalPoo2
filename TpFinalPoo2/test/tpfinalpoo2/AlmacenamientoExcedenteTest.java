@@ -25,7 +25,7 @@ class AlmacenamientoExcedenteTest {
 	}
 	@Test
 	void noSeCobraAlmacenamientoExcedente() {
-		when(container.fechaRetiro()).thenReturn(ahora);
+		when(orden.fechaRetiro()).thenReturn(ahora);
 		assertEquals(0, servicio.costo(orden));
 	}
 	
@@ -34,7 +34,7 @@ class AlmacenamientoExcedenteTest {
 		int numero = 5;
 		for (int i = 0; i < numero; i++) {
 			LocalDateTime dias = ahora.minusDays(i);
-			when(container.fechaRetiro()).thenReturn(dias);
+			when(orden.fechaRetiro()).thenReturn(dias);
 			assertEquals(costo_fijo * i, servicio.costo(orden));
 		}
 	}

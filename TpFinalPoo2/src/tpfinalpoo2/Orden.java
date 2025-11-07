@@ -1,6 +1,7 @@
 package tpfinalpoo2;
 
-import java.time.temporal.Temporal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Orden {
 
@@ -9,13 +10,11 @@ public class Orden {
 		return null;
 	}
 
-	public Temporal fechaIngreso() {
-		// TODO Auto-generated method stub
+	public LocalDateTime fechaRetiro() {
 		return null;
 	}
 
-	public Temporal fechaRetiro() {
-		// TODO Auto-generated method stub
+	public LocalDateTime fechaIngreso() {
 		return null;
 	}
 
