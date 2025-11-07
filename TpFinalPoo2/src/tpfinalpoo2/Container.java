@@ -61,6 +61,10 @@ public abstract class Container {
 	}
 	
 	public String id() {
-		return this.dueño.id() + "1234567";
+		return this.getDueño().id() + "1234567";
+	}
+	
+	public Cliente getDueño() {
+		return this.dueño;
 	}
 }
