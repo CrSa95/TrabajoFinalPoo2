@@ -84,12 +84,12 @@ public class Circuito {
 		    }
 	}
 	
-	public boolean existeAlgunTramoConOrigen(Terminal terminalOrigen) {
+	private boolean existeAlgunTramoConOrigen(Terminal terminalOrigen) {
 		return this.tramos.stream()
 		        		  .anyMatch(tramo -> tramo.tieneDeOrigenA(terminalOrigen));
 	}
 	
-	public boolean existeAlgunTramoConDestino(Terminal terminalDestino) {
+	private boolean existeAlgunTramoConDestino(Terminal terminalDestino) {
 		return this.tramos.stream()
 		        		  .anyMatch(tramo -> tramo.tieneDeDestinoA(terminalDestino));
 	}
