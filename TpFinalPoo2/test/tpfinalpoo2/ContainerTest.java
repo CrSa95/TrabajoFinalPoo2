@@ -12,17 +12,22 @@ class ContainerTest {
 	Cliente cliente;
 	@BeforeEach
 	void setUp() throws Exception {
-		cliente = mock(Cliente.class);
+		cliente = new Cliente(clienteId);
 		suject = mock(Container.class, CALLS_REAL_METHODS);
+		when(suject.getDueño()).thenReturn(cliente);
 	}
 
 	@Test
 	void idContainer() {
-		when(suject.getDueño()).thenReturn(cliente);
-		when(cliente.id()).thenReturn(clienteId);
-		
-		
 		assertTrue(suject.id().startsWith(cliente.id()));
 		assertEquals(11, suject.id().length());	
+	}
+	
+	@Test 
+	void idUnicoConElmismoDueño() {
+		Container otroContainer = mock(Container.class, CALLS_REAL_METHODS);
+		when(otroContainer.getDueño()).thenReturn(cliente);
+		assertNotEquals(suject.id(), otroContainer.id());
+		
 	}
 }

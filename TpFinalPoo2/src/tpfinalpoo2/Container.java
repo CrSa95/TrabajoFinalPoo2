@@ -1,6 +1,7 @@
 package tpfinalpoo2;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 
 public abstract class Container {
 	private Double altura;
@@ -8,6 +9,7 @@ public abstract class Container {
 	private Double largo;
 	private Double peso;
 	private Cliente dueño;
+	private String id;
 	
 	public Container(Cliente dueño, 
 						Double altura, Double ancho, Double largo, Double peso) {
@@ -18,6 +20,11 @@ public abstract class Container {
 		this.setDueño(dueño);
 	}
 	
+	private void generarID() {
+		int numeroRandom = (int) (Math.random() * (9999998));
+		this.id = this.getDueño().id() + String.format("%07d", numeroRandom);
+	}
+
 	private void setDueño(Cliente dueño) {
 		if(dueño == null) throw new RuntimeException("Container: Dueño invalido");
 		this.dueño = dueño;
@@ -61,7 +68,11 @@ public abstract class Container {
 	}
 	
 	public String id() {
-		return this.getDueño().id() + "1234567";
+		if(this.id == null) {
+			this.generarID();
+		}
+		return this.id;
+		
 	}
 	
 	public Cliente getDueño() {
