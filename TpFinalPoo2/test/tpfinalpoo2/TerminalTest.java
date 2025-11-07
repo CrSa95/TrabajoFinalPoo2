@@ -2,7 +2,6 @@ package tpfinalpoo2;
 
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,19 +63,15 @@ public class TerminalTest {
 		List<Circuito> circuitos = Arrays.asList(circuitoUno, circuitoDos); 
 		List<Circuito> otrosCircuitos = Arrays.asList(circuitoTres, circuitoCuatro);
 		
-		when(circuitoUno.parteDesde(terminalGestionada)).thenReturn(true);
-		when(circuitoDos.parteDesde(terminalGestionada)).thenReturn(true);
-		when(circuitoTres.parteDesde(terminalGestionada)).thenReturn(true);
-		when(circuitoCuatro.parteDesde(terminalGestionada)).thenReturn(false);
-		
 		when(naviera.getCircuitos()).thenReturn(circuitos);
 		when(otraNaviera.getCircuitos()).thenReturn(otrosCircuitos);
 		
-		when(menorCantTerminalesIntermedias.seleccionarMejor(terminalGestionada.filtrarCircuitosDeEstaTerminal(), otraTerminal)).thenReturn(circuitoUno);
+		when(menorCantTerminalesIntermedias.seleccionarMejor(terminalGestionada.getNavieras(), terminalGestionada, otraTerminal)).thenReturn(circuitoUno);
 		
 		Circuito mejorCircuito = terminalGestionada.buscarMejorCircuitoParaLLegarA(otraTerminal);
 
         Assertions.assertTrue(mejorCircuito.equals(circuitoUno));
+        Assertions.assertFalse(mejorCircuito.equals(circuitoDos));
 	}
 
 }

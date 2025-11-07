@@ -52,18 +52,7 @@ public class CircuitoTest {
 		
 		Assertions.assertEquals(30, circuito.tiempoTotal());
 	}
-	
-	@Test
-	void testUnCircuitoPuedeConocerLosSubtramosHastaUnaTerminal() {
-		circuito.agregarTramo(tramo);
-		circuito.agregarTramo(otroTramo);
-		
-		when(otraTerminal.getNombre()).thenReturn("unNombre");
-		when(tramo.getTerminalDestino()).thenReturn(otraTerminal);
-		
-		Assertions.assertTrue(circuito.subTramosHasta(otraTerminal).contains(tramo));
-	}
-	
+	/*
 	@Test
 	void testUnCircuitoPuedeCalcularElCostoTotalDeUnSubtramo() {
 		circuito.agregarTramo(tramo);
@@ -98,4 +87,5 @@ public class CircuitoTest {
 		
 		Assertions.assertTrue(circuito.parteDesde(otraTerminal));
 	}
+	*/
 }

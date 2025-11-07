@@ -37,10 +37,4 @@ public class Terminal {
 
 		return this.getEstrategiaDeBusqueda().seleccionarMejor(this.getNavieras(), this, terminalDestino);
 	}
-	
-	//Considerar los Circuitos que tengan como terminal de origen la terminal gestionada
-	//en alguna parte del Circuito 
-	//Y calcular desde ahi hasta la terminal destino 
-	//[(A->B),(B->C),(C->D),(E->A)] Terminal gestionada es B terminal destino A
-	
 }
