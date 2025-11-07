@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 public class TramoTest {
 	
 	private Terminal origen;
-	private OtraTerminal destino;
+	private Terminal destino;
 	private double costo;
 	private double duracion;
 	private Tramo tramo;
@@ -17,7 +17,7 @@ public class TramoTest {
 	@BeforeEach
     public void setUp() {
 		origen = mock(Terminal.class);
-		destino = mock(OtraTerminal.class);
+		destino = mock(Terminal.class);
 		costo = 20d;
 		duracion = 10d;
 		tramo = new Tramo(duracion, costo, origen, destino);
@@ -36,12 +36,12 @@ public class TramoTest {
 	@Test
 	void testUnTramoConoceSuTerminalDeOrigen() {
 		when(origen.getNombre()).thenReturn("Buenos Aires");
-		Assertions.assertEquals(tramo.getTerminalOrigen().getNombre(),origen.getNombre());
+		Assertions.assertTrue(tramo.tieneDeOrigenA(origen));
 	}
 	
 	@Test
 	void testUnTramoConoceSuTerminalDeDestino() {
 		when(destino.getNombre()).thenReturn("Montevideo");
-		Assertions.assertEquals(tramo.getTerminalDestino().getNombre(),destino.getNombre());
+		Assertions.assertTrue(tramo.tieneDeDestinoA(destino));
 	}
 }
