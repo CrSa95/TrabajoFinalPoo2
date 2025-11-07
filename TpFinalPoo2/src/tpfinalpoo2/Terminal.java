@@ -6,7 +6,7 @@ import java.util.List;
 public class Terminal {
 
 	private String nombre;
-	private IStrategyBusquedaCircuito estrategiaBusquedaMejorCircuito;
+	private IBusquedaCircuito estrategiaBusquedaMejorCircuito;
 	private List<Naviera> navieras = new ArrayList<>();
 	
 	public Terminal(String nombre) {
@@ -25,24 +25,22 @@ public class Terminal {
 		return this.navieras;
 	}
 	
-	public void setEstrategiaDeBusqueda(IStrategyBusquedaCircuito strategyCircuitos) {
+	public void setEstrategiaDeBusqueda(IBusquedaCircuito strategyCircuitos) {
 		this.estrategiaBusquedaMejorCircuito = strategyCircuitos;
 	}
 	
-	public IStrategyBusquedaCircuito getEstrategiaDeBusqueda() {
+	public IBusquedaCircuito getEstrategiaDeBusqueda() {
 		return this.estrategiaBusquedaMejorCircuito;
 	}
 	
 	public Circuito buscarMejorCircuitoParaLLegarA(Terminal terminalDestino) {
 
-		return this.getEstrategiaDeBusqueda().seleccionarMejor(this.filtrarCircuitosDeEstaTerminal(), terminalDestino);
+		return this.getEstrategiaDeBusqueda().seleccionarMejor(this.getNavieras(), this, terminalDestino);
 	}
 	
-	public List <Circuito> filtrarCircuitosDeEstaTerminal(){
-		return this.getNavieras().stream()
-				 .map(Naviera::getCircuitos)
-				 .flatMap(List::stream)
-				 .filter(circuito -> circuito.parteDesde(this))
-				 .toList();
-	}
+	//Considerar los Circuitos que tengan como terminal de origen la terminal gestionada
+	//en alguna parte del Circuito 
+	//Y calcular desde ahi hasta la terminal destino 
+	//[(A->B),(B->C),(C->D),(E->A)] Terminal gestionada es B terminal destino A
+	
 }
