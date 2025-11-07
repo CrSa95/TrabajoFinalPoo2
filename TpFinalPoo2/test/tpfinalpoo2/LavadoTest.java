@@ -1,6 +1,7 @@
 package tpfinalpoo2;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,7 @@ class LavadoTest {
 	Lavado servicio;
 	Container container;
 	Orden orden;
-	
+
 	@BeforeEach
 	void setup() {
 		servicio = new Lavado(monto_fijo);
@@ -20,12 +21,13 @@ class LavadoTest {
 		orden = mock(Orden.class);
 		when(orden.carga()).thenReturn(container);
 	}
+
 	@Test
 	void seAplicaPrecioFijo() {
 		Assertions.assertEquals(monto_fijo, servicio.costo(orden));
 	}
-	
-	@Test 
+
+	@Test
 	void seAplicaPrecioAdicional() {
 		when(container.metrosCubicos()).thenReturn((double) 71);
 		Assertions.assertEquals(monto_fijo + monto_adicional, servicio.costo(orden));
