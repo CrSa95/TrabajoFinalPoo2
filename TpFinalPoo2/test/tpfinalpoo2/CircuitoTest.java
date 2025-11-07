@@ -39,6 +39,7 @@ public class CircuitoTest {
 	
 	@Test
 	void testUnCircuitoPuedeCalcularSuCosto() {
+
 		circuito.agregarTramo(primerTramo);
 		circuito.agregarTramo(segundoTramo);
 		
@@ -50,6 +51,7 @@ public class CircuitoTest {
 	
 	@Test
 	void testUnCircuitoPuedeCalcularElTiempoDeRecorrido() {
+
 		circuito.agregarTramo(primerTramo);
 		circuito.agregarTramo(segundoTramo);
 		

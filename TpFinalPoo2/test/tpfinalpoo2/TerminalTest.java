@@ -62,7 +62,7 @@ public class TerminalTest {
 		
 		List<Circuito> circuitos = Arrays.asList(circuitoUno, circuitoDos); 
 		List<Circuito> otrosCircuitos = Arrays.asList(circuitoTres, circuitoCuatro);
-		
+
 		when(naviera.getCircuitos()).thenReturn(circuitos);
 		when(otraNaviera.getCircuitos()).thenReturn(otrosCircuitos);
 		
@@ -71,6 +71,7 @@ public class TerminalTest {
 		Circuito mejorCircuito = terminalGestionada.buscarMejorCircuitoParaLLegarA(otraTerminal);
 
         Assertions.assertTrue(mejorCircuito.equals(circuitoUno));
+
         Assertions.assertFalse(mejorCircuito.equals(circuitoDos));
 	}
 

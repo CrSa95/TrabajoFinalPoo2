@@ -88,7 +88,7 @@ public class Circuito {
 		return this.tramos.stream()
 		        		  .anyMatch(tramo -> tramo.tieneDeOrigenA(terminalOrigen));
 	}
-	
+
 	private boolean existeAlgunTramoConDestino(Terminal terminalDestino) {
 		return this.tramos.stream()
 		        		  .anyMatch(tramo -> tramo.tieneDeDestinoA(terminalDestino));

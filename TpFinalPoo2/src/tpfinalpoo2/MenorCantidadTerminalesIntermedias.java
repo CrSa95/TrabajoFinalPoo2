@@ -7,7 +7,7 @@ public class MenorCantidadTerminalesIntermedias implements IBusquedaCircuito {
 
 	@Override
 	public Circuito seleccionarMejor(List<Naviera> navieras, Terminal terminalOrigen, Terminal terminalDestino) {
-		
+
 		return navieras.stream()
 	        	   	   .flatMap(naviera -> naviera.getCircuitos().stream())   // todos los circuitos
 	        	   	   .min(Comparator.comparingDouble(c -> c.terminalesIntermediasDesdeHasta(terminalOrigen, terminalDestino))) // el de menor tiempo
