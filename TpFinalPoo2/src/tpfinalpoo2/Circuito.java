@@ -2,6 +2,7 @@ package tpfinalpoo2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.ToDoubleFunction;
 
 public class Circuito {
 	
@@ -23,41 +24,73 @@ public class Circuito {
 		return tramos.stream().mapToDouble(Tramo::getDuracion).sum();
 	}
 	
-	//Su funcion es realizar una lista de sub tramos hasta la terminal destino indicada
-	//esto se debe a que una lista de tramos en un circuito puede tener nuestra terminal 
-	//destino en medio de la lista, es decir, siendo la lista de tramos
-	//[(A->B),(B->C),(C->A)] si nuestra terminal destino es C no tenemos porque recorrer
-	//el circuito completo 
-	public List<Tramo> subTramosHasta(Terminal terminalDestino){
+	public double costoTotalDesdeHasta(Terminal terminalOrigen, Terminal terminalDestino) {
 		
-		List<Tramo> listaFiltrada = new ArrayList<>();
+	    return this.totalDesdeHasta(terminalOrigen, terminalDestino, Tramo::getCosto);
+	}
+	
+	public double tiempoTotalDesdeHasta(Terminal terminalOrigen,Terminal terminalDestino) {
+		
+	    return this.totalDesdeHasta(terminalOrigen, terminalDestino, Tramo::getDuracion);
+	}
+	
+    private double totalDesdeHasta(Terminal terminalOrigen, Terminal terminalDestino, ToDoubleFunction<Tramo> valorExtractor) {
+        
+    	//se verifica que en algun tramo exista como terminal de origen la terminal pasada por parametro
+      	//como asi tambien la terminal destino para que a la hora de calcular no haya errores de calculo
+        this.existeRecorridoEntre(terminalOrigen, terminalDestino);
 
-	    for (Tramo tramo : this.getTramos()) {
-	    	listaFiltrada.add(tramo);
-	        if (tramo.getTerminalDestino().getNombre().equals(terminalDestino.getNombre())) {
-	            return listaFiltrada; // encontramos el destino
-	        }
-	    }
+        //Calcula el costo desde la terminal de origen hasta la terminal destino
+        double costoDesdeHasta = this.tramos.stream()
+            .dropWhile(tramo -> !tramo.tieneDeOrigenA(terminalOrigen))
+            .takeWhile(tramo -> !tramo.tieneDeDestinoA(terminalDestino))
+            .mapToDouble(valorExtractor)
+            .sum();
 
-	    // Si no se encontró el destino, devolvemos una lista vacia
-	    listaFiltrada.clear();
-	    return listaFiltrada;
+        //TakeWhile descarta el ultimo tramo, por lo tanto hay que sumarlo
+        double costoUltimoTramo = this.tramos.stream()
+        									 .filter(tramo -> tramo.tieneDeDestinoA(terminalDestino))
+        									 .mapToDouble(valorExtractor)
+        									 .findFirst()
+        									 .orElse(0.0);
+
+        return costoDesdeHasta + costoUltimoTramo;
+    }
+	
+	public int terminalesIntermediasDesdeHasta(Terminal terminalOrigen, Terminal terminalDestino) {
+		
+		//se verifica que en algun tramo exista como terminal de origen la terminal pasada por parametro
+      	//como asi tambien la terminal destino para que a la hora de calcular no haya errores de calculo
+        this.existeRecorridoEntre(terminalOrigen, terminalDestino);
+        
+		List<Tramo> tramosIntermedios = tramos.stream()
+											  .dropWhile(tramo -> !tramo.tieneDeOrigenA(terminalOrigen))
+											  .takeWhile(tramo -> !tramo.tieneDeDestinoA(terminalDestino))
+											  .toList();
+
+		//se utiliza Math.max en caso de que sea un unico tramo el que tenga 
+		//la terminal de origen y destino por que lo seria una lista vacia y al restarle 1 
+		//daria como resultado -1
+		return Math.max(0, tramosIntermedios.size() - 1);
 	}
 	
-	//Su funcion es calcular el costo total hasta una determinada terminal destino
-	public double costoTotalHasta(Terminal terminalDestino) {
-		return this.subTramosHasta(terminalDestino).stream().mapToDouble(Tramo::getCosto).sum();
+	public void existeRecorridoEntre(Terminal terminalOrigen, Terminal terminalDestino) {
+		
+		if (!this.existeAlgunTramoConOrigen(terminalOrigen)
+				&& 
+			!this.existeAlgunTramoConDestino(terminalDestino)) {
+				
+		        throw new IllegalArgumentException("Origen y destino inexistentes en el circuito");
+		    }
 	}
 	
-	//Su funcion es calcular el tiempo total hasta una determinada terminal destino
-	public double tiempoTotalHasta(Terminal terminalDestino) {
-		return this.subTramosHasta(terminalDestino).stream().mapToDouble(Tramo::getDuracion).sum();
+	public boolean existeAlgunTramoConOrigen(Terminal terminalOrigen) {
+		return this.tramos.stream()
+		        		  .anyMatch(tramo -> tramo.tieneDeOrigenA(terminalOrigen));
 	}
 	
-	//Su funcion es informar si el circuito parte desde la terminal indicada por parametro
-	//esto nos sirve para verificar si el circuito parte desde nuestra terminal gestionada
-	public boolean parteDesde(Terminal terminal) {
-	    return !tramos.isEmpty() && tramos.get(0).getTerminalOrigen().getNombre().equals(terminal.getNombre());
+	public boolean existeAlgunTramoConDestino(Terminal terminalDestino) {
+		return this.tramos.stream()
+		        		  .anyMatch(tramo -> tramo.tieneDeDestinoA(terminalDestino));
 	}
-	
 }

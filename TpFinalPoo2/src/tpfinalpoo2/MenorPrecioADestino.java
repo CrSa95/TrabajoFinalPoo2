@@ -2,29 +2,25 @@ package tpfinalpoo2;
 
 import java.util.List;
 
-public class MenorPrecioADestino implements IStrategyBusquedaCircuito {
+public class MenorPrecioADestino implements IBusquedaCircuito {
 
 	@Override
-	public Circuito seleccionarMejor(List<Circuito> circuitos, Terminal terminalDestino) {
+	public Circuito seleccionarMejor(List<Naviera> navieras, Terminal terminalOrigen, Terminal terminalDestino) {
 		// TODO Auto-generated method stub
-		//Se inicializa la variable mejorCircuito con null ya que en caso de  
-		//no encontrar ningun circuito se devuelve null. Podriamos devolver un error
-		//personalizado para mejorar los test. 
+		
+		List<Circuito> todosLosCircuitos = navieras.stream()
+				.map(Naviera::getCircuitos)
+				.flatMap(List::stream)
+				.toList();
+
 		Circuito mejorCircuito = null;
 		
-		//Se inicializa la variable menorTiempo con el mayor valor que puede 
-        //representar double, para poder realizar una comparacion de forma mas efectiva
 		double menorCosto = Double.MAX_VALUE;
 
-		for(Circuito circuito : circuitos) {
-			//Se obtiene el costo que lleva recorrer el circuito (Ver en Circuito)
-			double menorCostoActual = circuito.costoTotalHasta(terminalDestino);
-			
-			//Este if basicamente intercambia valores en caso de que se cumplan las condiciones
-        	//y setea el nuevo circuito que cumple las condiciones
-        	//el > 0 es por si el circuito.costoTotalSubtramos devuelve 0 en caso de que
-			//no exista un tramo con la terminal destino, lo cual se tiene que evaluar
-			//para que no haya confuciones a la hora de intercambiar las variables
+		for(Circuito circuito : todosLosCircuitos) {
+
+			double menorCostoActual = circuito.costoTotalDesdeHasta(terminalOrigen, terminalDestino);
+
 			if(menorCostoActual < menorCosto && menorCostoActual > 0) {
 				menorCosto = menorCostoActual;
 				mejorCircuito = circuito;
@@ -34,7 +30,3 @@ public class MenorPrecioADestino implements IStrategyBusquedaCircuito {
 		return mejorCircuito;
 	}
 }
-
-//Esto se agregaria en caso de devolver un circuito nuevo y no el que se evalua
-//mejorCircuito = new Circuito();
-//subTramosHasta(terminalDestino).forEach(mejorCircuito::agregarTramo);
