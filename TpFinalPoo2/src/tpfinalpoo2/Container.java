@@ -10,7 +10,6 @@ public abstract class Container {
 	protected Double peso;
 	private String id;
 	
-	public abstract Double costo();
 	public Container(String ownerID, 
 						Double altura, Double ancho, Double largo, Double peso) {
 		this.setAltura(altura);
