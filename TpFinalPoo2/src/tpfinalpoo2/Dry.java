@@ -14,14 +14,7 @@ public class Dry extends Container {
 
 	public void agregarProducto(Dry dry) {
 		bls.add(dry);
-	}
-
-	@Override
-	public Double costo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+	}	
 	@Override
 	public Double peso() {
 		return this.peso + bls.stream().mapToDouble(Dry::peso).sum();
