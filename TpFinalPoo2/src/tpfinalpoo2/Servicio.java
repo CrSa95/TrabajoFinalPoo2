@@ -6,5 +6,5 @@ public abstract class Servicio {
 		this.precio_fijo = precio_fijo;
 	}
 	
-	public abstract double costo(Container container);
+	public abstract double costo(Orden orden);
 }

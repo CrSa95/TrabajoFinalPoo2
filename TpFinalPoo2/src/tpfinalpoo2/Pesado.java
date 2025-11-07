@@ -7,7 +7,7 @@ public class Pesado extends Servicio{
 	}
 
 	@Override
-	public double costo(Container container) {
+	public double costo(Orden orden) {
 		return this.precio_fijo;
 	}
 

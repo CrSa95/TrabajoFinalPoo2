@@ -7,9 +7,8 @@ public class Lavado extends Servicio{
 	}
 
 	@Override
-	public double costo(Container container) {
-		// TODO Auto-generated method stub
-		if(container.metrosCubicos() > 70) {
+	public double costo(Orden orden) {
+		if(orden.carga().metrosCubicos() > 70) {
 			return precio_fijo + 20;
 		}
 		
