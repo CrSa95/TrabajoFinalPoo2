@@ -7,7 +7,7 @@ public abstract class Container {
 	private Double altura;
 	private Double ancho;
 	private Double largo;
-	private Double peso;
+	protected Double peso;
 	private Cliente dueño;
 	private String id;
 	
@@ -19,6 +19,8 @@ public abstract class Container {
 		this.setPeso(peso);
 		this.setDueño(dueño);
 	}
+	
+	public abstract Double costo();
 	
 	private void generarID() {
 		int numeroRandom = (int) (Math.random() * (9999998));
@@ -77,5 +79,10 @@ public abstract class Container {
 	
 	public Cliente getDueño() {
 		return this.dueño;
+	}
+
+	public Double peso() {
+		// TODO Auto-generated method stub
+		return this.peso;
 	}
 }

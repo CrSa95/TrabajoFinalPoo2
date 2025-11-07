@@ -10,6 +10,12 @@ class ContainerSuject extends Container{
 	public ContainerSuject(Cliente dueño, Double altura, Double ancho, Double largo, Double peso) {
 		super(dueño, altura, ancho, largo, peso);
 	}
+
+	@Override
+	public Double costo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 
 
@@ -45,6 +51,11 @@ class ContainerTest {
 	@Test 
 	void metrosCubicos() {
 		assertEquals(altura * ancho * largo, suject.metrosCubicos());
+	}
+	
+	@Test 
+	void peso() {
+		assertEquals(peso, suject.peso());
 	}
 	
 }
