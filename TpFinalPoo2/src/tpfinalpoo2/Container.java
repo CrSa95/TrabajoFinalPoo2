@@ -65,7 +65,6 @@ public abstract class Container {
 		return this.id;
 		
 	}
-	
 
 	public Double peso() {
 		return this.peso;
