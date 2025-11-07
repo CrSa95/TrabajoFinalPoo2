@@ -36,12 +36,12 @@ public class TramoTest {
 	@Test
 	void testUnTramoConoceSuTerminalDeOrigen() {
 		when(origen.getNombre()).thenReturn("Buenos Aires");
-		Assertions.assertEquals(tramo.getTerminalOrigen().getNombre(),origen.getNombre());
+		Assertions.assertTrue(tramo.tieneDeOrigenA(origen));
 	}
 	
 	@Test
 	void testUnTramoConoceSuTerminalDeDestino() {
 		when(destino.getNombre()).thenReturn("Montevideo");
-		Assertions.assertEquals(tramo.getTerminalDestino().getNombre(),destino.getNombre());
+		Assertions.assertTrue(tramo.tieneDeDestinoA(destino));
 	}
 }
