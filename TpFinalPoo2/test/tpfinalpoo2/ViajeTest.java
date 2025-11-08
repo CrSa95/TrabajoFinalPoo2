@@ -5,8 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +12,11 @@ import org.junit.jupiter.api.Test;
 class ViajeTest {
 	Viaje suject;
 	Circuito circuito;
-	ArrayList<Tramo> tramos;
 	LocalDate fechaSalida = LocalDate.now();
+	
+	Terminal terminal1 = new Terminal(null);
+	Terminal terminal2 = new Terminal(null);
+	Terminal terminal3 = new Terminal(null);
 	@BeforeEach
 	void setUp() throws Exception {
 		circuito = mock(Circuito.class);
@@ -37,6 +38,11 @@ class ViajeTest {
 		assertEquals(fechaSalida, suject.getFechaLlegada());
 		when(circuito.tiempoTotal()).thenReturn(5d);
 		assertEquals(fechaSalida.plusDays(5), suject.getFechaLlegada());
+	}
+	
+	@Test
+	void fechaInicio() {
+		assertEquals(fechaSalida, suject.getFechaSalida());
 	}
 
 }

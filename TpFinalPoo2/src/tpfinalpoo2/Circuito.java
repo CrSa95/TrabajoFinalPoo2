@@ -93,4 +93,14 @@ public class Circuito {
 		return this.tramos.stream()
 		        		  .anyMatch(tramo -> tramo.tieneDeDestinoA(terminalDestino));
 	}
+
+	public Terminal destinoActual() {
+		// TODO Auto-generated method stub
+		return this.tramoActual().getTerminalDestino();
+	}
+
+	private Tramo tramoActual() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
