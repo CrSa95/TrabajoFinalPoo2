@@ -25,7 +25,6 @@ public class Circuito {
 	}
 	
 	public double costoTotalDesdeHasta(Terminal terminalOrigen, Terminal terminalDestino) {
-		
 	    return this.totalDesdeHasta(terminalOrigen, terminalDestino, Tramo::getCosto);
 	}
 	
@@ -95,12 +94,19 @@ public class Circuito {
 	}
 
 	public Terminal destinoActual() {
-		// TODO Auto-generated method stub
 		return this.tramoActual().getTerminalDestino();
 	}
+	
 
 	private Tramo tramoActual() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Object origenActual() {
+		return null;
+	}
+
+	public Terminal terminalOrigen() {
+		return this.tramos.getFirst().getTerminalOrigen();
 	}
 }

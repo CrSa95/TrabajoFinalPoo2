@@ -49,9 +49,9 @@ public class Viaje {
 		return this.circuito.costoCircuito();
 	}
 
-	public Double fechaLlegada(Terminal terminal3) {
-		// TODO Auto-generated method stub
-		return 0d;
+	public LocalDate fechaLlegada(Terminal terminal) {
+		long tiempoLlegada = (long) this.circuito.tiempoTotalDesdeHasta(this.circuito.terminalOrigen(), terminal);
+		return this.fechaSalida.plusDays(tiempoLlegada);
 	}
 
 

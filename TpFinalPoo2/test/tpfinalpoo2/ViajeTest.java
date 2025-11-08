@@ -14,14 +14,14 @@ class ViajeTest {
 	Circuito circuito;
 	LocalDate fechaSalida = LocalDate.now();
 	
-	Terminal terminal1 = new Terminal(null);
-	Terminal terminal2 = new Terminal(null);
-	Terminal terminal3 = new Terminal(null);
+	Terminal terminalOrigen = new Terminal(null);
+	Terminal terminalIntermedia = new Terminal(null);
+	Terminal terminalFinal = new Terminal(null);
 	@BeforeEach
 	void setUp() throws Exception {
 		circuito = mock(Circuito.class);
 		suject = new Viaje(circuito, fechaSalida);
-		
+		when(circuito.terminalOrigen()).thenReturn(terminalOrigen);
 	}
 
 	@Test
@@ -47,8 +47,16 @@ class ViajeTest {
 	
 	@Test 
 	void fechaLlegadaHaciaTerminal() {
-		when(circuito.tiempoTotalDesdeHasta(terminal1, terminal3)).thenReturn(0d);
-		assertEquals(0d, suject.fechaLlegada(terminal3));
+		
+		when(circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalOrigen)).thenReturn(0d);
+		assertEquals(fechaSalida, suject.fechaLlegada(terminalOrigen));
+		
+		
+		when(circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalIntermedia)).thenReturn(2d);
+		assertEquals(fechaSalida.plusDays(2l), suject.fechaLlegada(terminalIntermedia));
+		
+		when(circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalFinal)).thenReturn(5d);
+		assertEquals(fechaSalida.plusDays(5l), suject.fechaLlegada(terminalFinal));
 	}
 	
 
