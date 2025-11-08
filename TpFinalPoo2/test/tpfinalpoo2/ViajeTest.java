@@ -48,15 +48,28 @@ class ViajeTest {
 	@Test 
 	void fechaLlegadaHaciaTerminal() {
 		
-		when(circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalOrigen)).thenReturn(0d);
+		when(circuito.tiempoHaciaTerminalDesdeOrigen(terminalOrigen)).thenReturn(0l);
 		assertEquals(fechaSalida, suject.fechaLlegada(terminalOrigen));
 		
 		
-		when(circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalIntermedia)).thenReturn(2d);
+		when(circuito.tiempoHaciaTerminalDesdeOrigen(terminalIntermedia)).thenReturn(2l);
 		assertEquals(fechaSalida.plusDays(2l), suject.fechaLlegada(terminalIntermedia));
 		
-		when(circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalFinal)).thenReturn(5d);
+		when(circuito.tiempoHaciaTerminalDesdeOrigen(terminalFinal)).thenReturn(5l);
 		assertEquals(fechaSalida.plusDays(5l), suject.fechaLlegada(terminalFinal));
+	}
+	
+	@Test 
+	void terminalDestino() {
+		when(circuito.destinoActual()).thenReturn(terminalOrigen);
+		assertEquals(terminalOrigen, suject.getTerminalDestino());
+		
+		
+		when(circuito.destinoActual()).thenReturn(terminalIntermedia);
+		assertEquals(terminalIntermedia, suject.getTerminalDestino());
+		
+		when(circuito.destinoActual()).thenReturn(terminalFinal);
+		assertEquals(terminalFinal, suject.getTerminalDestino());
 	}
 	
 

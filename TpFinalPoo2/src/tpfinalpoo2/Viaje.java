@@ -4,10 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Viaje {
-
-	private LocalDate fechaLlegada;
 	private LocalDate fechaSalida;
-	private Terminal terminalDestino;
 	private Circuito circuito;
 
 	public Viaje(Circuito circuito, LocalDate fechaSalida2) {
@@ -27,7 +24,7 @@ public class Viaje {
 
 	public Terminal getTerminalDestino() {
 		// TODO Auto-generated method stub
-		return this.terminalDestino;
+		return this.circuito.destinoActual();
 	}
 
 	public Terminal terminalDestino() {
@@ -50,8 +47,9 @@ public class Viaje {
 	}
 
 	public LocalDate fechaLlegada(Terminal terminal) {
-		long tiempoLlegada = (long) this.circuito.tiempoTotalDesdeHasta(this.circuito.terminalOrigen(), terminal);
-		return this.fechaSalida.plusDays(tiempoLlegada);
+		return this.fechaSalida.plusDays(
+				this.circuito.tiempoHaciaTerminalDesdeOrigen(terminal)
+		);
 	}
 
 

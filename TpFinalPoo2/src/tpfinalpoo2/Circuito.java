@@ -109,4 +109,8 @@ public class Circuito {
 	public Terminal terminalOrigen() {
 		return this.tramos.getFirst().getTerminalOrigen();
 	}
+
+	public long tiempoHaciaTerminalDesdeOrigen(Terminal terminal) {
+		return (long) this.costoTotalDesdeHasta(this.terminalOrigen(), terminal);
+	}
 }
