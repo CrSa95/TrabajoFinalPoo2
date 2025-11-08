@@ -3,11 +3,14 @@ package tpfinalpoo2;
 public class Buque {
 	private EstadoGPS estado_gps;
 	private Viaje viaje_asignado;
+	private Tramo tramo_actual;
+	private Coordenadas coordenadas;
 	public Buque() {
 		this.estado_gps = new Outbound();
 	}
 	public void asignar(Viaje viaje) {
 		this.viaje_asignado = viaje;
+		this.tramo_actual = viaje.tramoInicial();
 	}
 
 	public void actualizarGPS() {
@@ -18,7 +21,7 @@ public class Buque {
 		this.estado_gps.avisarLlegada(this);
 	}
 	public Double distanciaHaciaDestino() {
-		return this.viaje_asignado.distanciaHaciaDestino();
+		return this.tramo_actual.distanciaHacia(coordenadas);
 	}
 	public void empezarTrabajo() {
 		this.estado_gps.empezarTrabajo(this);
@@ -26,7 +29,7 @@ public class Buque {
 	}
 
 	public Terminal destinoActual() {
-		return this.viaje_asignado.terminalDestino();
+		return this.viaje_asignado.getTerminalDestino();
 	}
 	public void permitirSalida() {
 		this.estado_gps.permitirSalida(this);
@@ -35,7 +38,7 @@ public class Buque {
 		
 	}
 	public void siguienteDestino() {
-		this.viaje_asignado.siguienteTramo();
+		this.tramo_actual = this.viaje_asignado.siguienteTramo(tramo_actual);
 		this.estado_gps = this.estado_gps.actualizarGPS(this);
 	}
 	

@@ -1,6 +1,10 @@
 package tpfinalpoo2;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +30,25 @@ public class CircuitoTest {
 		terminalOrigen = mock(Terminal.class);
 		terminalDestino = mock(Terminal.class);
     }
+	
+	@Test
+	void siguienteTramoTest() {
+		circuito.agregarTramo(primerTramo);
+		circuito.agregarTramo(segundoTramo);
+		circuito.agregarTramo(tercerTramo);
+		
+		assertEquals(segundoTramo, circuito.siguienteTramo(primerTramo));
+		assertEquals(tercerTramo, circuito.siguienteTramo(segundoTramo));
+	}
+	
+	@Test
+	void siguienteTramoDelUltimoDevuelveElPrimero() {
+		circuito.agregarTramo(primerTramo);
+		circuito.agregarTramo(segundoTramo);
+		circuito.agregarTramo(tercerTramo);
+		
+		assertEquals(primerTramo, circuito.siguienteTramo(tercerTramo));
+	}
 	
 	@Test
 	void testUnCircuitoPuedeAgregarUnTramo() {

@@ -31,8 +31,8 @@ public class TerminalTest {
 	
 	@BeforeEach
     public void setUp() {
-		terminalGestionada = new Terminal("Buenos Aires");
-		otraTerminal = new Terminal("Montevideo");
+		terminalGestionada = new Terminal("Buenos Aires", null);
+		otraTerminal = new Terminal("Montevideo", null);
 		naviera = mock(Naviera.class);
 		otraNaviera = mock(Naviera.class);
 		menorCantTerminalesIntermedias = mock(MenorCantidadTerminalesIntermedias.class);

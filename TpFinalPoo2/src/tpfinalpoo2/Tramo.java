@@ -37,5 +37,13 @@ public class Tramo {
 	public boolean tieneDeDestinoA(Terminal terminalDestino) {
 		return this.getTerminalDestino().getNombre().equals(terminalDestino.getNombre());
 	}
+
+	public Coordenadas getTerminalDestinoCoordenadas() {
+		return this.destino.coordenadas();
+	}
+
+	public Double distanciaHacia(Coordenadas coordenadas) {
+		return 0d;
+	}
 	
 }

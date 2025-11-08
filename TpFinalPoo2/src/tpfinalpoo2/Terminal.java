@@ -7,11 +7,13 @@ import java.util.stream.Collectors;
 public class Terminal {
 
 	private String nombre;
+	private Coordenadas coordenadas;
 	private IBusquedaCircuito estrategiaBusquedaMejorCircuito;
 	private List<Naviera> navieras = new ArrayList<>();
 	
-	public Terminal(String nombre) {
+	public Terminal(String nombre, Coordenadas coordenadas) {
 		this.nombre = nombre;
+		this.coordenadas = coordenadas;
 	}
 	
 	public String getNombre() {
@@ -43,5 +45,10 @@ public class Terminal {
 	public Circuito buscarMejorCircuitoParaLLegarA(Terminal terminalDestino) {
 
 		return this.getEstrategiaDeBusqueda().seleccionarMejor(this.getNavieras(), this, terminalDestino);
+	}
+
+	public Coordenadas coordenadas() {
+		// TODO Auto-generated method stub
+		return this.coordenadas;
 	}
 }

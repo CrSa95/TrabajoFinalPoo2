@@ -25,7 +25,6 @@ public class Circuito {
 	}
 	
 	public double costoTotalDesdeHasta(Terminal terminalOrigen, Terminal terminalDestino) {
-		
 	    return this.totalDesdeHasta(terminalOrigen, terminalDestino, Tramo::getCosto);
 	}
 	
@@ -93,4 +92,44 @@ public class Circuito {
 		return this.tramos.stream()
 		        		  .anyMatch(tramo -> tramo.tieneDeDestinoA(terminalDestino));
 	}
+
+	public Terminal destinoActual() {
+		return this.tramoActual().getTerminalDestino();
+	}
+	
+
+	private Tramo tramoActual() {
+		return null;
+	}
+
+	public Object origenActual() {
+		return null;
+	}
+
+	public Terminal terminalOrigen() {
+		return this.tramos.getFirst().getTerminalOrigen();
+	}
+
+	public long tiempoHaciaTerminalDesdeOrigen(Terminal terminal) {
+		return (long) this.costoTotalDesdeHasta(this.terminalOrigen(), terminal);
+	}
+
+	public Double tiempoHaciaDestinoActual(Terminal terminalOrigen) {
+		return 0d;
+	}
+
+	public Tramo tramoInicial() {
+		return this.getTramos().getFirst();
+	}
+
+	public Tramo siguienteTramo(Tramo tramo_actual) {
+		Tramo siguiente = this.tramoInicial();
+		try {
+			int siguienteIndice = this.getTramos().indexOf(tramo_actual) + 1;
+			return this.getTramos().get(siguienteIndice);
+		}catch(IndexOutOfBoundsException e) {
+			return this.tramoInicial();
+		}
+	}
+
 }
