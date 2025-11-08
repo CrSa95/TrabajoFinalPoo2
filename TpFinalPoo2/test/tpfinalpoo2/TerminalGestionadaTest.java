@@ -78,8 +78,8 @@ public class TerminalGestionadaTest {
 				chofer
 		);
 		terminalGestionada.exportar(orden);
-		Assertions.assertThrows(RuntimeException.class,()->terminalGestionada.retirarCarga(container, camion, otroChofer));
-		Assertions.assertThrows(RuntimeException.class,()->terminalGestionada.retirarCarga(container, otroCamion, chofer));
+		Assertions.assertThrows(RuntimeException.class,()->terminalGestionada.ingresarCarga(container, camion, otroChofer));
+		Assertions.assertThrows(RuntimeException.class,()->terminalGestionada.ingresarCarga(container, otroCamion, chofer));
 	}
 	
 	
