@@ -7,15 +7,16 @@ public class Orden {
 	private Container carga;
 	private Chofer chofer;
 	private Camion camion;
-	public Orden(Container container, Camion camion, Chofer chofer) {
+	private Cliente cliente;
+	public Orden(Container container, Camion camion, Chofer chofer, Cliente cliente) {
 		this.carga = container;
 		this.camion = camion;
 		this.chofer = chofer;
+		this.cliente = cliente;
 	}
 
 	public Container carga() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.carga;
 	}
 
 	public LocalDateTime fechaRetiro() {
@@ -43,6 +44,16 @@ public class Orden {
 	}
 	private void verificarCamion(Camion camion) {
 		if(!this.camion.patente().equals(camion.patente())) throw new RuntimeException();
+	}
+
+	public void notificarLlegada(Buque buque) {
+		if(this.mismoViaje(buque.viaje())) {
+			this.cliente.notificar();
+		}
+	}
+	
+	private boolean mismoViaje(Viaje viaje) {
+		return viaje.equals(viaje);
 	}
 
 }

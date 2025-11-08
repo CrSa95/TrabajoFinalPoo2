@@ -11,8 +11,10 @@ class BuqueTest {
 	Buque suject;
 	Tramo tramoActual;
 	Viaje viaje;
+	Terminal terminalSuject;
 	@BeforeEach
 	void setUp() throws Exception {
+		terminalSuject = mock(Terminal.class);
 		suject = new Buque();
 		tramoActual = mock(Tramo.class);
 		viaje = mock(Viaje.class);
@@ -44,6 +46,7 @@ class BuqueTest {
 	@Test
 	void sePuedeAvisarLlegadaAMenosDe50km() {
 		this.setearAOutbound();
+		when(suject.destinoActual()).thenReturn(terminalSuject);
 		assertDoesNotThrow(() -> suject.avisarLlegada());
 	}
 	@Test 

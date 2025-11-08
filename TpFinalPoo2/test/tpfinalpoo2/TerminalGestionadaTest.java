@@ -35,6 +35,7 @@ public class TerminalGestionadaTest {
 	Camion camion;
 	Chofer chofer;
 	Orden orden;
+	Cliente cliente;
 	@BeforeEach
     public void setUp() {
 		terminalGestionada = new TerminalGestionada("Buenos Aires", null);
@@ -57,20 +58,17 @@ public class TerminalGestionadaTest {
 		container = new Tanque("FakeID", 1d, 1d, 1d, 1d);
 		chofer = new Chofer("44444444");
 		camion = new Camion("ABBDDF");
+		cliente = new Cliente("Cliente");
 		orden = new Orden(
 				container,
 				camion,
-				chofer
+				chofer,
+				cliente
 		);
     }
 	
 	@Test 
 	void retirarUnaCarga() {
-		Orden orden = new Orden(
-				container,
-				camion,
-				chofer
-		);
 		terminalGestionada.exportar(orden);
 		Assertions.assertDoesNotThrow(() -> terminalGestionada.ingresarCarga(container, camion, chofer));
 	}
