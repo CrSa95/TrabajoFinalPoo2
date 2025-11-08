@@ -49,4 +49,10 @@ public class Viaje {
 		return this.circuito.costoCircuito();
 	}
 
+	public Double fechaLlegada(Terminal terminal3) {
+		// TODO Auto-generated method stub
+		return 0d;
+	}
+
+
 }

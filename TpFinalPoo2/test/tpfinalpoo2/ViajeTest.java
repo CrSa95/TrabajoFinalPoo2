@@ -25,7 +25,7 @@ class ViajeTest {
 	}
 
 	@Test
-	void elCostoEsElMismoQueElCostoDelCircuito() {
+	void costoViaje() {
 		assertEquals(0d, suject.costo());
 		when(circuito.costoCircuito()).thenReturn(5d);
 		assertEquals(5d, suject.costo());
@@ -33,7 +33,7 @@ class ViajeTest {
 	
 	
 	@Test
-	void fechaLLegadaAumentaConLaDuracionDelCircuito() {
+	void fechaLlegadaViaje() {
 		when(circuito.tiempoTotal()).thenReturn(0d);
 		assertEquals(fechaSalida, suject.getFechaLlegada());
 		when(circuito.tiempoTotal()).thenReturn(5d);
@@ -44,5 +44,12 @@ class ViajeTest {
 	void fechaInicio() {
 		assertEquals(fechaSalida, suject.getFechaSalida());
 	}
+	
+	@Test 
+	void fechaLlegadaHaciaTerminal() {
+		when(circuito.tiempoTotalDesdeHasta(terminal1, terminal3)).thenReturn(0d);
+		assertEquals(0d, suject.fechaLlegada(terminal3));
+	}
+	
 
 }
