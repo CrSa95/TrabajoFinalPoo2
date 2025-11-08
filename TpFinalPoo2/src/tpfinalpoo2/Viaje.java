@@ -39,5 +39,10 @@ public class Viaje {
 		return this.circuito.tramoInicial();
 	}
 
+	public Tramo siguienteTramo(Tramo tramoActual) {
+		// TODO Auto-generated method stub
+		return this.circuito.siguienteTramo(tramoActual);
+	}
+
 
 }

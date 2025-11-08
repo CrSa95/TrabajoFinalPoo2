@@ -123,4 +123,9 @@ public class Circuito {
 		return this.getTramos().getFirst();
 	}
 
+	public Tramo siguienteTramo(Tramo tramoInicial) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
