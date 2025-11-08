@@ -34,6 +34,7 @@ public class TerminalGestionadaTest {
 	Container container;
 	Camion camion;
 	Chofer chofer;
+	Orden orden;
 	@BeforeEach
     public void setUp() {
 		terminalGestionada = new TerminalGestionada("Buenos Aires", null);
@@ -56,6 +57,11 @@ public class TerminalGestionadaTest {
 		container = new Tanque("FakeID", 1d, 1d, 1d, 1d);
 		chofer = new Chofer("44444444");
 		camion = new Camion("ABBDDF");
+		orden = new Orden(
+				container,
+				camion,
+				chofer
+		);
     }
 	
 	@Test 
@@ -72,11 +78,6 @@ public class TerminalGestionadaTest {
 	void personalNoAutorizadoNoPuedorIngresarCarga() {
 		Chofer otroChofer = new Chofer("333333");
 		Camion otroCamion = new Camion("ZZZZZZ");
-		Orden orden = new Orden(
-				container,
-				camion,
-				chofer
-		);
 		terminalGestionada.exportar(orden);
 		Assertions.assertThrows(RuntimeException.class,()->terminalGestionada.ingresarCarga(container, camion, otroChofer));
 		Assertions.assertThrows(RuntimeException.class,()->terminalGestionada.ingresarCarga(container, otroCamion, chofer));
@@ -86,11 +87,6 @@ public class TerminalGestionadaTest {
 	@Test 
 	void personalNoAutorizadoNoPuedorRetirarCarga() {		
 		Chofer otroChofer = new Chofer("333333");
-		Orden orden = new Orden(
-				container,
-				camion,
-				chofer
-		);
 		terminalGestionada.importar(orden);
 		Assertions.assertThrows(RuntimeException.class,()->terminalGestionada.retirarCarga(container, camion, otroChofer));
 		Camion otroCamion = new Camion("ZZZZZZ");
@@ -99,11 +95,6 @@ public class TerminalGestionadaTest {
 	
 	@Test 
 	void ingresarCarga() {
-		Orden orden = new Orden(
-				container,
-				camion,
-				chofer
-		);
 		terminalGestionada.exportar(orden);
 		Assertions.assertDoesNotThrow(() -> terminalGestionada.retirarCarga(container, camion, chofer));
 	}
