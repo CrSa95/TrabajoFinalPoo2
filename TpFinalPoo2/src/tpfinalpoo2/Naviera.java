@@ -2,6 +2,7 @@ package tpfinalpoo2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Naviera {
 	
@@ -33,9 +34,10 @@ public class Naviera {
 		return this.circuitos;
 	}
 	
-	public List<Viaje> buscarViajes(Filtro busqueda) {
-		return busqueda.filtrar(this.getViajes());
+	public List<Viaje> buscarViajesQueCumplan(List<Filtro> filtros) {
+		return filtros.stream()
+		        	  .flatMap(filtro -> filtro.filtrar(this.getViajes()).stream())
+		        	  .distinct() //elimina viajes duplicados
+		        	  .collect(Collectors.toList());
 	}
-	
-
 }

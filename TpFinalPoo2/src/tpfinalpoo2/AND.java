@@ -13,7 +13,7 @@ public class AND implements Filtro{
 
     public List<Viaje> filtrar(List<Viaje> viajes) {
         List<Viaje> resultado = viajes;
-        for (Filtro filtro : filtros) {
+        for (Filtro filtro : this.getFiltros()) {
             resultado = filtro.filtrar(resultado);
         }
         return resultado;

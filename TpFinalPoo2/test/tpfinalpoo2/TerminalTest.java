@@ -20,6 +20,14 @@ public class TerminalTest {
 	private Circuito circuitoDos;
 	private Circuito circuitoTres;
 	private Circuito circuitoCuatro;
+	private Viaje viaje;
+	private Viaje unViaje;
+	private Viaje otroViaje;
+	private AND filtroANDMock;
+	private OR filtroORMock;
+	private FiltroFechaSalida filtroFechaSalida;
+	private FiltroFechaLlegada filtroFechaLlegada;
+	private FiltroPuertoDestino filtroPuertoDestino;
 	
 	@BeforeEach
     public void setUp() {
@@ -32,6 +40,14 @@ public class TerminalTest {
 		circuitoDos = mock(Circuito.class);
 		circuitoTres = mock(Circuito.class);
 		circuitoCuatro = mock(Circuito.class);
+		viaje = mock(Viaje.class);
+		unViaje = mock(Viaje.class);
+		otroViaje = mock(Viaje.class);
+		filtroANDMock = mock(AND.class);
+		filtroORMock = mock(OR.class);
+		filtroFechaSalida = mock(FiltroFechaSalida.class);
+		filtroFechaLlegada = mock(FiltroFechaLlegada.class);
+		filtroPuertoDestino = mock(FiltroPuertoDestino.class);
     }
 	
 	@Test
@@ -51,6 +67,39 @@ public class TerminalTest {
 		Assertions.assertEquals(null, terminalGestionada.getEstrategiaDeBusqueda());
 		terminalGestionada.setEstrategiaDeBusqueda(menorCantTerminalesIntermedias);
 		Assertions.assertTrue(terminalGestionada.getEstrategiaDeBusqueda().equals(menorCantTerminalesIntermedias));
+	}
+	
+	@Test
+    void testUnaTerminalPuedeBuscarViajes() {
+		
+		List<Viaje> viajes = Arrays.asList(viaje, unViaje, otroViaje);
+		
+		List<Filtro> filtrosAND = Arrays.asList(filtroFechaSalida,filtroFechaLlegada);
+		
+		List<Filtro> filtrosOR = Arrays.asList(filtroPuertoDestino);
+		
+		when(filtroANDMock.getFiltros()).thenReturn(filtrosAND);
+		when(filtroORMock.getFiltros()).thenReturn(filtrosOR);
+		
+		when(filtroANDMock.filtrar(viajes)).thenReturn(Arrays.asList(viaje));
+		when(filtroORMock.filtrar(viajes)).thenReturn(Arrays.asList(viaje,unViaje));
+		
+	    List<Filtro> filtros = Arrays.asList(filtroANDMock,filtroORMock);
+	    
+	    when(naviera.getViajes()).thenReturn(Arrays.asList(viaje, unViaje, otroViaje));
+	    when(otraNaviera.getViajes()).thenReturn(Arrays.asList(viaje, otroViaje));
+	    
+	    when(naviera.buscarViajesQueCumplan(filtros)).thenReturn(Arrays.asList(viaje, unViaje));
+	    when(otraNaviera.buscarViajesQueCumplan(filtros)).thenReturn(Arrays.asList(viaje));
+		
+	    terminalGestionada.agregarNaviera(naviera);
+	    terminalGestionada.agregarNaviera(otraNaviera);
+	    
+		List<Viaje> resultado = terminalGestionada.busquedaDeRutasMaritimasQueCumplan(filtros);
+		
+		Assertions.assertTrue(resultado.contains(viaje));
+		Assertions.assertTrue(resultado.contains(unViaje));
+		Assertions.assertFalse(resultado.contains(otroViaje));
 	}
 	
 	@Test
@@ -74,5 +123,4 @@ public class TerminalTest {
 
         Assertions.assertFalse(mejorCircuito.equals(circuitoDos));
 	}
-
 }
