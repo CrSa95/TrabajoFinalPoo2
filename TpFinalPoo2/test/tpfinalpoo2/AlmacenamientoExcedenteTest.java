@@ -18,9 +18,7 @@ class AlmacenamientoExcedenteTest {
 	@BeforeEach
 	void setup() {
 		servicio = new AlmacenamientoExcedente(costo_fijo);
-
 		orden = mock(Orden.class);
-
 	}
 
 	@Test
@@ -31,12 +29,20 @@ class AlmacenamientoExcedenteTest {
 
 	@Test
 	void seCobraAlmacenamientoExcedentePorDia() {
-		int numero = 5;
-		for (int i = 0; i < numero; i++) {
-			LocalDateTime dias = ahora.minusDays(i);
-			when(orden.fechaRetiro()).thenReturn(dias);
-			assertEquals(costo_fijo * i, servicio.costo(orden));
-		}
+		when(orden.fechaRetiro()).thenReturn(ahora);
+		assertEquals(costo_fijo * 0, servicio.costo(orden));
+		
+		when(orden.fechaRetiro()).thenReturn(ahora.plusDays(1l));
+		assertEquals(costo_fijo * -1, servicio.costo(orden));
+		
+		when(orden.fechaRetiro()).thenReturn(ahora.plusDays(2l));
+		assertEquals(costo_fijo * -2, servicio.costo(orden));
+		
+		when(orden.fechaRetiro()).thenReturn(ahora.plusDays(3l));
+		assertEquals(costo_fijo * -3, servicio.costo(orden));
+		
+		when(orden.fechaRetiro()).thenReturn(ahora.plusDays(4l));
+		assertEquals(costo_fijo * -4, servicio.costo(orden));
 	}
 
 }

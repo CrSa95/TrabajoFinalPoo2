@@ -14,7 +14,7 @@ class BuqueTest {
 	Terminal terminalSuject;
 	@BeforeEach
 	void setUp() throws Exception {
-		terminalSuject = mock(Terminal.class);
+		terminalSuject = spy(Terminal.class);
 		suject = new Buque();
 		tramoActual = mock(Tramo.class);
 		viaje = mock(Viaje.class);
@@ -48,6 +48,8 @@ class BuqueTest {
 		this.setearAOutbound();
 		when(suject.destinoActual()).thenReturn(terminalSuject);
 		assertDoesNotThrow(() -> suject.avisarLlegada());
+		
+		verify(terminalSuject).notificarClientes(suject);
 	}
 	@Test 
 	void sePuedeIniciarTrabajoEnLaTerminal() {
