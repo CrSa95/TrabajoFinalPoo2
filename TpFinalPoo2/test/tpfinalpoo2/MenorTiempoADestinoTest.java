@@ -18,8 +18,8 @@ public class MenorTiempoADestinoTest {
 	private Naviera otraNaviera;
 	private Circuito unCircuito;
 	private Circuito otroCircuito;
-	private Terminal terminalOrigen;
-	private Terminal terminalDestino;
+	private TerminalGestionada terminalOrigen;
+	private TerminalGestionada terminalDestino;
 	
 	@BeforeEach
     public void setUp() {
@@ -29,8 +29,8 @@ public class MenorTiempoADestinoTest {
 		otraNaviera = mock(Naviera.class);
 		unCircuito = mock(Circuito.class);
 		otroCircuito = mock(Circuito.class);
-		terminalOrigen = mock(Terminal.class);
-		terminalDestino = mock(Terminal.class);
+		terminalOrigen = mock(TerminalGestionada.class);
+		terminalDestino = mock(TerminalGestionada.class);
 
     }
 	

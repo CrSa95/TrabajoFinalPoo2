@@ -17,8 +17,8 @@ public class CircuitoTest {
 	private Tramo segundoTramo;
 	private Tramo tercerTramo;
 	private Tramo cuartoTramo;
-	private Terminal terminalOrigen;
-	private Terminal terminalDestino;
+	private TerminalGestionada terminalOrigen;
+	private TerminalGestionada terminalDestino;
 	
 	@BeforeEach
     public void setUp() {
@@ -27,8 +27,8 @@ public class CircuitoTest {
 		segundoTramo = mock(Tramo.class);
 		tercerTramo = mock(Tramo.class);
 		cuartoTramo = mock(Tramo.class);
-		terminalOrigen = mock(Terminal.class);
-		terminalDestino = mock(Terminal.class);
+		terminalOrigen = mock(TerminalGestionada.class);
+		terminalDestino = mock(TerminalGestionada.class);
     }
 	
 	@Test

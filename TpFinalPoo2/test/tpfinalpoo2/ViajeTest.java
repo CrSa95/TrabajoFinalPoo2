@@ -16,9 +16,9 @@ class ViajeTest {
 	
 	Tramo tramoInicial;
 	Tramo siguienteTramo;
-	Terminal terminalOrigen = new Terminal(null, null);
-	Terminal terminalIntermedia = new Terminal(null, null);
-	Terminal terminalFinal = new Terminal(null, null);
+	Terminal terminalOrigen = new TerminalGestionada(null, null);
+	Terminal terminalIntermedia = new TerminalGestionada(null, null);
+	Terminal terminalFinal = new TerminalGestionada(null, null);
 
 	@BeforeEach
 	void setUp() throws Exception {
