@@ -115,8 +115,12 @@ public class Circuito {
 	}
 
 	public Double tiempoHaciaDestinoActual(Terminal terminalOrigen) {
-		// TODO Auto-generated method stub
 		return 0d;
+	}
+
+	public Tramo tramoInicial() {
+		// TODO Auto-generated method stub
+		return this.getTramos().getFirst();
 	}
 
 }
