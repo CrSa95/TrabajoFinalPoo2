@@ -14,10 +14,10 @@ public class OR implements Filtro {
 
     @Override
     public List<Viaje> filtrar(List<Viaje> viajes) {
-        return filtros.stream()
-        	       .flatMap(f -> f.filtrar(viajes).stream())
-        	       .distinct()
-        	       .collect(Collectors.toList());
+        return this.getFiltros().stream()
+        	       				.flatMap(f -> f.filtrar(viajes).stream())
+        	       				.distinct()
+        	       				.collect(Collectors.toList());
     }
     
     public List<Filtro> getFiltros(){
