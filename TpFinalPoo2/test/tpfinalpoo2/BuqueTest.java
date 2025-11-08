@@ -17,6 +17,7 @@ class BuqueTest {
 		tramoActual = mock(Tramo.class);
 		viaje = mock(Viaje.class);
 		when(viaje.tramoInicial()).thenReturn(tramoActual);
+		when(viaje.siguienteTramo(tramoActual)).thenReturn(tramoActual);
 		suject.asignar(viaje);
 	}
 	

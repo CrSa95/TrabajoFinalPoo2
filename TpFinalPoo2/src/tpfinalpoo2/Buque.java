@@ -38,7 +38,7 @@ public class Buque {
 		
 	}
 	public void siguienteDestino() {
-		this.viaje_asignado.getTerminalDestino();
+		this.tramo_actual = this.viaje_asignado.siguienteTramo(tramo_actual);
 		this.estado_gps = this.estado_gps.actualizarGPS(this);
 	}
 	

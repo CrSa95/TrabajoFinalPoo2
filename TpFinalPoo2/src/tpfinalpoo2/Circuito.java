@@ -119,13 +119,17 @@ public class Circuito {
 	}
 
 	public Tramo tramoInicial() {
-		// TODO Auto-generated method stub
 		return this.getTramos().getFirst();
 	}
 
-	public Tramo siguienteTramo(Tramo tramoInicial) {
-		// TODO Auto-generated method stub
-		return null;
+	public Tramo siguienteTramo(Tramo tramo_actual) {
+		Tramo siguiente = this.tramoInicial();
+		try {
+			int siguienteIndice = this.getTramos().indexOf(tramo_actual) + 1;
+			return this.getTramos().get(siguienteIndice);
+		}catch(IndexOutOfBoundsException e) {
+			return this.tramoInicial();
+		}
 	}
 
 }
