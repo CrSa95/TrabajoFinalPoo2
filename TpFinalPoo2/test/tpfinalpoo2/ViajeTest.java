@@ -14,9 +14,9 @@ class ViajeTest {
 	Circuito circuito;
 	LocalDate fechaSalida = LocalDate.now();
 
-	Terminal terminalOrigen = new Terminal(null);
-	Terminal terminalIntermedia = new Terminal(null);
-	Terminal terminalFinal = new Terminal(null);
+	Terminal terminalOrigen = new Terminal(null, null);
+	Terminal terminalIntermedia = new Terminal(null, null);
+	Terminal terminalFinal = new Terminal(null, null);
 
 	@BeforeEach
 	void setUp() throws Exception {
