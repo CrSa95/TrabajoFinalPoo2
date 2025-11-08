@@ -9,28 +9,25 @@ import org.junit.jupiter.api.Test;
 
 class BuqueTest {
 	Buque suject;
-	Terminal terminalSpy;
-	Terminal nuevoDestino;
+	Tramo tramoActual;
 	Viaje viaje;
 	@BeforeEach
 	void setUp() throws Exception {
 		suject = new Buque();
-		terminalSpy = spy(new Terminal(""));
-		nuevoDestino = mock(Terminal.class);
+		tramoActual = mock(Tramo.class);
 		viaje = mock(Viaje.class);
-		when(viaje.getTerminalDestino())
-		.thenReturn(terminalSpy);
+		when(viaje.tramoInicial()).thenReturn(tramoActual);
 		suject.asignar(viaje);
 	}
 	
 	void setearAOutbound() {
-		when(viaje.distanciaHaciaDestino()).thenReturn(49d);
+		when(tramoActual.distanciaHacia(null)).thenReturn(49d);
 		suject.actualizarGPS();
 	}
 	
 	void setearAArrived() {
 		this.setearAOutbound();
-		when(viaje.distanciaHaciaDestino()).thenReturn(0d);
+		when(tramoActual.distanciaHacia(null)).thenReturn(0d);
 		suject.actualizarGPS(); 
 	}
 	
@@ -43,7 +40,6 @@ class BuqueTest {
 		this.setearAWorking();
 		suject.permitirSalida();
 	}
-
 	@Test
 	void sePuedeAvisarLlegadaAMenosDe50km() {
 		this.setearAOutbound();
