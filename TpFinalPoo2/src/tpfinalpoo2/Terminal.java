@@ -2,6 +2,7 @@ package tpfinalpoo2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Terminal {
 
@@ -31,6 +32,12 @@ public class Terminal {
 	
 	public IBusquedaCircuito getEstrategiaDeBusqueda() {
 		return this.estrategiaBusquedaMejorCircuito;
+	}
+	
+	public List<Viaje> busquedaDeRutasMaritimasQueCumplan(List<Filtro> filtros){
+		return this.getNavieras().stream()
+	        	  				 .flatMap(naviera -> naviera.buscarViajesQueCumplan(filtros).stream())
+	        	  				 .collect(Collectors.toList());
 	}
 	
 	public Circuito buscarMejorCircuitoParaLLegarA(Terminal terminalDestino) {
