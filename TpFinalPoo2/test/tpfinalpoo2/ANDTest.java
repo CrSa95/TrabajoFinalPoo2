@@ -1,6 +1,8 @@
 package tpfinalpoo2;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ANDTest {
-	
+
 	private AND filtroAND;
 	private FiltroFechaLlegada filtroFechaLlegada;
 	private FiltroFechaSalida filtroFechaSalida;
@@ -18,39 +20,39 @@ public class ANDTest {
 	private Naviera naviera;
 	private Viaje viaje;
 	private Viaje otroViaje;
-	
+
 	@BeforeEach
-    public void setUp() {
+	public void setUp() {
+		filtroAND = new AND();
 		filtroFechaLlegada = mock(FiltroFechaLlegada.class);
-		filtroFechaSalida = mock(FiltroFechaSalida.class);	
+		filtroFechaSalida = mock(FiltroFechaSalida.class);
 		filtroPuertoDestino = mock(FiltroPuertoDestino.class);
 		naviera = mock(Naviera.class);
-		filtroAND = new AND();
 		viaje = mock(Viaje.class);
 		otroViaje = mock(Viaje.class);
-    }
-	
+	}
+
 	@Test
 	void testSePuedeAgregarUnFiltro() {
 		filtroAND.agregarFiltro(filtroFechaLlegada);
 		Assertions.assertTrue(filtroAND.getFiltros().contains(filtroFechaLlegada));
 	}
-	
+
 	@Test
-    void testSeAplicanLosFiltrosDeBusqueda() {
+	void testSeAplicanLosFiltrosDeBusqueda() {
 
 		List<Viaje> listaViajes = Arrays.asList(viaje, otroViaje);
 		List<Viaje> listaFiltrada = Arrays.asList(viaje);
-		
+
 		when(naviera.getViajes()).thenReturn(listaViajes);
 		when(filtroFechaSalida.filtrar(listaViajes)).thenReturn(listaFiltrada);
-	    when(filtroPuertoDestino.filtrar(listaFiltrada)).thenReturn(listaFiltrada);
-		
-	    filtroAND.agregarFiltro(filtroFechaSalida);
-	    filtroAND.agregarFiltro(filtroPuertoDestino);
-	    
+		when(filtroPuertoDestino.filtrar(listaFiltrada)).thenReturn(listaFiltrada);
+
+		filtroAND.agregarFiltro(filtroFechaSalida);
+		filtroAND.agregarFiltro(filtroPuertoDestino);
+
 		List<Viaje> resultado = filtroAND.filtrar(naviera.getViajes());
-		 
+
 		verify(filtroFechaSalida).filtrar(listaViajes);
 		verify(filtroPuertoDestino).filtrar(listaFiltrada);
 		Assertions.assertEquals(resultado, listaFiltrada);

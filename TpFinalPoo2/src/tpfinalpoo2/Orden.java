@@ -1,13 +1,13 @@
 package tpfinalpoo2;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public class Orden {
 	
 
-	private LocalDate fecha_llegada;
-	private LocalDate fecha_salida;
+	private LocalDateTime fecha_llegada;
+	private LocalDateTime fecha_salida;
 	private Terminal origen;
 	private Terminal destino;
 	private Viaje viaje_seleccionado;
@@ -17,7 +17,7 @@ public class Orden {
 	private Chofer chofer;
 	private Cliente dueno;
 	
-	public Orden(LocalDate fecha_llegada, LocalDate fecha_salida, Terminal origen, Terminal destino,
+	public Orden(LocalDateTime fecha_llegada, LocalDateTime fecha_salida, Terminal origen, Terminal destino,
 			Viaje viaje_seleccionado, Set<Servicio> servicios_contratados, Container carga, Camion camion,
 			Chofer chofer, Cliente dueno) {
 		this.fecha_llegada = fecha_llegada;
@@ -34,7 +34,7 @@ public class Orden {
 	
 	
 	public boolean verificar(Camion camionAVerificar, Chofer choferAVerificar, Container cargaAVerificar) {
-		return this.verificarCamion(camionAVerificar) && this.verificarChofer(choferAVerificar) && this.verificarCarga(cargaAVerificar);)
+		return this.verificarCamion(camionAVerificar) && this.verificarChofer(choferAVerificar) && this.verificarCarga(cargaAVerificar);
 	}
 	
 	public double costoEnServicios() {
@@ -44,16 +44,16 @@ public class Orden {
 		        .sum();
 	}
 	
-	public LocalDate fechaSalida() {
+	public LocalDateTime fechaSalida() {
 		return this.fecha_salida;
 	}
 	
-	public LocalDate fechaLlegada() {
+	public LocalDateTime fechaLlegada() {
 		return this.fecha_llegada;
 	}
 	
 	public Viaje viaje() {
-		return this.viaje_seleccionado;
+    return this.viaje_seleccionado.equals(viaje);
 	}
 	
 	private boolean verificarCamion(Camion camionAVerificar) {
@@ -67,4 +67,23 @@ public class Orden {
 	private boolean verificarCarga(Container cargaAVerificar) {
 		return true; // TO DO: Forma de identificar container
 	}
+
+	public Container carga() {
+		return this.carga;
+	}
+
+	public boolean perteneceAlContainer(Container container) {
+		return this.carga.isEqual(container);
+	}
+
+	public void notificarLlegada(Buque buque) {
+		if (this.mismoViaje(buque.viaje())) {
+			this.dueno.notificar();
+		}
+	}
+
+	private boolean mismoViaje(Viaje viaje) {
+		return this.viaje_seleccionado.equals(viaje);
+	}
+
 }

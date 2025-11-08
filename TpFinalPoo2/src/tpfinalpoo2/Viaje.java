@@ -3,38 +3,40 @@ package tpfinalpoo2;
 import java.time.LocalDate;
 
 public class Viaje {
-	
-	private LocalDate fechaLlegada;
 	private LocalDate fechaSalida;
-	private OtraTerminal terminalDestino;
-	
+	private Circuito circuito;
+
+	public Viaje(Circuito circuito, LocalDate fechaSalida) {
+		this.circuito = circuito;
+		this.fechaSalida = fechaSalida;
+	}
+
 	public LocalDate getFechaLlegada() {
-		// TODO Auto-generated method stub
-		return this.fechaLlegada;
+		return fechaSalida.plusDays((long) circuito.tiempoTotal());
 	}
 
 	public LocalDate getFechaSalida() {
-		// TODO Auto-generated method stub
 		return this.fechaSalida;
 	}
 
-	public OtraTerminal getTerminalDestino() {
-		// TODO Auto-generated method stub
-		return this.terminalDestino;
+	public Terminal getTerminalDestino() {
+		return this.circuito.destinoActual();
 	}
 
-	public Terminal terminalDestino() {
-		// TODO Auto-generated method stub
-		return null;
+	public Double costo() {
+		return this.circuito.costoCircuito();
 	}
 
-	public Double distanciaHaciaDestino() {
-		// TODO Auto-generated method stub
-		return 0d;
+	public LocalDate fechaLlegada(Terminal terminal) {
+		return this.fechaSalida.plusDays(this.circuito.tiempoHaciaTerminalDesdeOrigen(terminal));
 	}
 
-	public void siguienteTramo() {
-		
+	public Tramo tramoInicial() {
+		return this.circuito.tramoInicial();
+	}
+
+	public Tramo siguienteTramo(Tramo tramoActual) {
+		return this.circuito.siguienteTramo(tramoActual);
 	}
 
 }

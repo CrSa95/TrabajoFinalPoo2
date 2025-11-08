@@ -1,14 +1,9 @@
 package tpfinalpoo2;
 
-public class Terminal {
+public interface Terminal {
+	public String getNombre();
 
-	private String nombre;
-	
-	public Terminal(String nombre) {
-		this.nombre = nombre;
-	}
-	
-	public String getNombre() {
-		return this.nombre;
-	}
+	public Coordenadas coordenadas();
+
+	public void notificarClientes(Buque buque);
 }
