@@ -45,4 +45,7 @@ public class Buque {
 	public void salir() {
 		this.estado_gps.salir(this);
 	}
+	public Viaje viaje() {
+		return this.viaje_asignado;
+	}
 }

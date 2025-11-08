@@ -1,5 +1,7 @@
 package tpfinalpoo2;
 
+import static org.mockito.ArgumentMatchers.contains;
+
 import java.time.LocalDateTime;
 import java.util.Random;
 
@@ -61,5 +63,10 @@ public abstract class Container {
 
 	public Double peso() {
 		return this.peso;
+	}
+
+	public boolean isEqual(Container container) {
+		// TODO Auto-generated method stub
+		return this.id().equals(container.id());
 	}
 }

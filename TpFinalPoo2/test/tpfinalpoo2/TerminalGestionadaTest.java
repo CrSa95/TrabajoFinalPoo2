@@ -1,5 +1,7 @@
 package tpfinalpoo2;
 
+import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
@@ -9,7 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class TerminalTest {
+public class TerminalGestionadaTest {
 	
 	private TerminalGestionada terminalGestionada;
 	private TerminalGestionada otraTerminal;
@@ -29,6 +31,11 @@ public class TerminalTest {
 	private FiltroFechaLlegada filtroFechaLlegada;
 	private FiltroPuertoDestino filtroPuertoDestino;
 	
+	Container container;
+	Camion camion;
+	Chofer chofer;
+	Orden orden;
+	Cliente cliente;
 	@BeforeEach
     public void setUp() {
 		terminalGestionada = new TerminalGestionada("Buenos Aires", null);
@@ -48,8 +55,49 @@ public class TerminalTest {
 		filtroFechaSalida = mock(FiltroFechaSalida.class);
 		filtroFechaLlegada = mock(FiltroFechaLlegada.class);
 		filtroPuertoDestino = mock(FiltroPuertoDestino.class);
+		container = new Tanque("FakeID", 1d, 1d, 1d, 1d);
+		chofer = new Chofer("44444444");
+		camion = new Camion("ABBDDF");
+		cliente = new Cliente("Cliente");
+		orden = new Orden(
+				container,
+				camion,
+				chofer,
+				cliente
+		);
     }
 	
+	@Test 
+	void retirarUnaCarga() {
+		terminalGestionada.exportar(orden);
+		Assertions.assertDoesNotThrow(() -> terminalGestionada.ingresarCarga(container, camion, chofer));
+	}
+	@Test 
+	void personalNoAutorizadoNoPuedorIngresarCarga() {
+		Chofer otroChofer = new Chofer("333333");
+		Camion otroCamion = new Camion("ZZZZZZ");
+		terminalGestionada.exportar(orden);
+		Assertions.assertThrows(RuntimeException.class,()->terminalGestionada.ingresarCarga(container, camion, otroChofer));
+		Assertions.assertThrows(RuntimeException.class,()->terminalGestionada.ingresarCarga(container, otroCamion, chofer));
+	}
+	
+	
+	@Test 
+	void personalNoAutorizadoNoPuedorRetirarCarga() {		
+		Chofer otroChofer = new Chofer("333333");
+		terminalGestionada.importar(orden);
+		Assertions.assertThrows(RuntimeException.class,()->terminalGestionada.retirarCarga(container, camion, otroChofer));
+		Camion otroCamion = new Camion("ZZZZZZ");
+		Assertions.assertThrows(RuntimeException.class,()->terminalGestionada.retirarCarga(container, otroCamion, chofer));
+	}
+	
+	@Test 
+	void ingresarCarga() {
+		terminalGestionada.exportar(orden);
+		Assertions.assertDoesNotThrow(() -> terminalGestionada.retirarCarga(container, camion, chofer));
+	}
+	
+
 	@Test
 	void testLaTerminalConoceSuNombre() {
 		Assertions.assertEquals("Buenos Aires", terminalGestionada.getNombre());

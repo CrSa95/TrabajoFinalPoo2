@@ -2,7 +2,10 @@ package tpfinalpoo2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.junit.jupiter.api.function.Executable;
 
 public class TerminalGestionada implements Terminal{
 
@@ -10,10 +13,18 @@ public class TerminalGestionada implements Terminal{
 	private Coordenadas coordenadas;
 	private IBusquedaCircuito estrategiaBusquedaMejorCircuito;
 	private List<Naviera> navieras = new ArrayList<>();
-	
+	private List<Orden> ordenes = new ArrayList<>();
 	public TerminalGestionada(String nombre, Coordenadas coordenadas) {
 		this.nombre = nombre;
 		this.coordenadas = coordenadas;
+	}
+	
+	public void exportar(Orden orden) {
+		this.ordenes.add(orden);
+	}
+	
+	public void importar(Orden orden) {
+		this.ordenes.add(orden);
 	}
 	
 	public String getNombre() {
@@ -50,4 +61,18 @@ public class TerminalGestionada implements Terminal{
 	public Coordenadas coordenadas() {
 		return this.coordenadas;
 	}
+
+	public void retirarCarga(Container container, Camion camion, Chofer chofer) {
+		this.ordenes.stream().forEach(orden -> orden.verificar(container, camion, chofer));
+	}
+
+	public void ingresarCarga(Container container, Camion camion, Chofer chofer) {
+		this.ordenes.stream().forEach(orden -> orden.verificar(container, camion, chofer));
+	}
+
+	@Override
+	public void notificarClientes(Buque buque) {
+		this.ordenes.forEach(orden-> orden.notificarLlegada(buque));
+	}
+	
 }

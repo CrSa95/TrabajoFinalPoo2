@@ -21,11 +21,11 @@ public class ANDTest {
 	
 	@BeforeEach
     public void setUp() {
+		filtroAND = new AND();
 		filtroFechaLlegada = mock(FiltroFechaLlegada.class);
 		filtroFechaSalida = mock(FiltroFechaSalida.class);	
 		filtroPuertoDestino = mock(FiltroPuertoDestino.class);
 		naviera = mock(Naviera.class);
-		filtroAND = new AND();
 		viaje = mock(Viaje.class);
 		otroViaje = mock(Viaje.class);
     }
