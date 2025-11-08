@@ -26,7 +26,7 @@ public class Buque {
 	}
 
 	public Terminal destinoActual() {
-		return this.viaje_asignado.terminalDestino();
+		return this.viaje_asignado.getTerminalDestino();
 	}
 	public void permitirSalida() {
 		this.estado_gps.permitirSalida(this);
@@ -35,7 +35,7 @@ public class Buque {
 		
 	}
 	public void siguienteDestino() {
-		this.viaje_asignado.siguienteTramo();
+		this.viaje_asignado.getTerminalDestino();
 		this.estado_gps = this.estado_gps.actualizarGPS(this);
 	}
 	

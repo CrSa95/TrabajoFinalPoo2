@@ -113,4 +113,10 @@ public class Circuito {
 	public long tiempoHaciaTerminalDesdeOrigen(Terminal terminal) {
 		return (long) this.costoTotalDesdeHasta(this.terminalOrigen(), terminal);
 	}
+
+	public Double tiempoHaciaDestinoActual(Terminal terminalOrigen) {
+		// TODO Auto-generated method stub
+		return 0d;
+	}
+
 }

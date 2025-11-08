@@ -13,10 +13,11 @@ class ViajeTest {
 	Viaje suject;
 	Circuito circuito;
 	LocalDate fechaSalida = LocalDate.now();
-	
+
 	Terminal terminalOrigen = new Terminal(null);
 	Terminal terminalIntermedia = new Terminal(null);
 	Terminal terminalFinal = new Terminal(null);
+
 	@BeforeEach
 	void setUp() throws Exception {
 		circuito = mock(Circuito.class);
@@ -30,8 +31,7 @@ class ViajeTest {
 		when(circuito.costoCircuito()).thenReturn(5d);
 		assertEquals(5d, suject.costo());
 	}
-	
-	
+
 	@Test
 	void fechaLlegadaViaje() {
 		when(circuito.tiempoTotal()).thenReturn(0d);
@@ -39,38 +39,35 @@ class ViajeTest {
 		when(circuito.tiempoTotal()).thenReturn(5d);
 		assertEquals(fechaSalida.plusDays(5), suject.getFechaLlegada());
 	}
-	
+
 	@Test
 	void fechaInicio() {
 		assertEquals(fechaSalida, suject.getFechaSalida());
 	}
-	
-	@Test 
+
+	@Test
 	void fechaLlegadaHaciaTerminal() {
-		
+
 		when(circuito.tiempoHaciaTerminalDesdeOrigen(terminalOrigen)).thenReturn(0l);
 		assertEquals(fechaSalida, suject.fechaLlegada(terminalOrigen));
-		
-		
+
 		when(circuito.tiempoHaciaTerminalDesdeOrigen(terminalIntermedia)).thenReturn(2l);
 		assertEquals(fechaSalida.plusDays(2l), suject.fechaLlegada(terminalIntermedia));
-		
+
 		when(circuito.tiempoHaciaTerminalDesdeOrigen(terminalFinal)).thenReturn(5l);
 		assertEquals(fechaSalida.plusDays(5l), suject.fechaLlegada(terminalFinal));
 	}
-	
-	@Test 
+
+	@Test
 	void terminalDestino() {
 		when(circuito.destinoActual()).thenReturn(terminalOrigen);
 		assertEquals(terminalOrigen, suject.getTerminalDestino());
-		
-		
+
 		when(circuito.destinoActual()).thenReturn(terminalIntermedia);
 		assertEquals(terminalIntermedia, suject.getTerminalDestino());
-		
+
 		when(circuito.destinoActual()).thenReturn(terminalFinal);
 		assertEquals(terminalFinal, suject.getTerminalDestino());
 	}
-	
-
 }
+

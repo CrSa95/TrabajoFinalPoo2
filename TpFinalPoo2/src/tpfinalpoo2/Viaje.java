@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public class Viaje {
 	private LocalDate fechaSalida;
 	private Circuito circuito;
-
+ 
 	public Viaje(Circuito circuito, LocalDate fechaSalida2) {
 		this.circuito = circuito;
 		this.fechaSalida = fechaSalida2;
@@ -18,28 +18,17 @@ public class Viaje {
 	}
 
 	public LocalDate getFechaSalida() {
-		// TODO Auto-generated method stub
 		return this.fechaSalida;
 	}
 
 	public Terminal getTerminalDestino() {
-		// TODO Auto-generated method stub
 		return this.circuito.destinoActual();
 	}
 
-	public Terminal terminalDestino() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public Double distanciaHaciaDestino() {
-		// TODO Auto-generated method stub
 		return 0d;
 	}
 
-	public void siguienteTramo() {
-
-	}
 
 	public Double costo() {
 		// TODO Auto-generated method stub

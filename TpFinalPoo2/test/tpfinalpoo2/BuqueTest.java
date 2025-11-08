@@ -18,7 +18,7 @@ class BuqueTest {
 		terminalSpy = spy(new Terminal(""));
 		nuevoDestino = mock(Terminal.class);
 		viaje = mock(Viaje.class);
-		when(viaje.terminalDestino())
+		when(viaje.getTerminalDestino())
 		.thenReturn(terminalSpy);
 		suject.asignar(viaje);
 	}
