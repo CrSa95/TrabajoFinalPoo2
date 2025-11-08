@@ -1,7 +1,6 @@
 package tpfinalpoo2;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Viaje {
 	private LocalDate fechaSalida;

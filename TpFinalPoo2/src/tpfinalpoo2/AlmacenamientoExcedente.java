@@ -3,7 +3,7 @@ package tpfinalpoo2;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class AlmacenamientoExcedente extends Servicio{
+public class AlmacenamientoExcedente extends Servicio {
 	public AlmacenamientoExcedente(double precio_fijo) {
 		super(precio_fijo);
 	}

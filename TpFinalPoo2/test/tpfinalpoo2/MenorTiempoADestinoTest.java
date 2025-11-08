@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class MenorTiempoADestinoTest {
-	
+
 	private MenorTiempoADestino menorTiempoADestino;
 	private Naviera unaNaviera;
 	private Naviera otraNaviera;
@@ -20,10 +20,10 @@ public class MenorTiempoADestinoTest {
 	private Circuito otroCircuito;
 	private TerminalGestionada terminalOrigen;
 	private TerminalGestionada terminalDestino;
-	
+
 	@BeforeEach
-    public void setUp() {
-		
+	public void setUp() {
+
 		menorTiempoADestino = new MenorTiempoADestino();
 		unaNaviera = mock(Naviera.class);
 		otraNaviera = mock(Naviera.class);
@@ -32,28 +32,30 @@ public class MenorTiempoADestinoTest {
 		terminalOrigen = mock(TerminalGestionada.class);
 		terminalDestino = mock(TerminalGestionada.class);
 
-    }
-	
+	}
+
 	@Test
 	void testPuedeSeleccionarElCircuitoDeMenorDuracionEntreDosTerminales() {
-		
+
 		List<Circuito> circuitosUnaNaviera = Arrays.asList(unCircuito);
 		List<Circuito> circuitosOtraNaviera = Arrays.asList(otroCircuito);
-		
+
 		when(unaNaviera.getCircuitos()).thenReturn(circuitosUnaNaviera);
 		when(otraNaviera.getCircuitos()).thenReturn(circuitosOtraNaviera);
-		
+
 		when(unCircuito.tiempoTotalDesdeHasta(terminalOrigen, terminalDestino)).thenReturn(10d);
 		when(otroCircuito.tiempoTotalDesdeHasta(terminalOrigen, terminalDestino)).thenReturn(5d);
-		
+
 		List<Naviera> listaNavieras = Arrays.asList(unaNaviera, otraNaviera);
-		
+
 		Circuito mejorCircuito = menorTiempoADestino.seleccionarMejor(listaNavieras, terminalOrigen, terminalDestino);
 
-        Assertions.assertTrue(mejorCircuito.equals(otroCircuito));
-        
-        List<Naviera> listaVacia = new ArrayList<>();
-        
-        Assertions.assertThrows(Exception.class, () -> {menorTiempoADestino.seleccionarMejor(listaVacia, terminalOrigen, terminalDestino);});
+		Assertions.assertTrue(mejorCircuito.equals(otroCircuito));
+
+		List<Naviera> listaVacia = new ArrayList<>();
+
+		Assertions.assertThrows(Exception.class, () -> {
+			menorTiempoADestino.seleccionarMejor(listaVacia, terminalOrigen, terminalDestino);
+		});
 	}
 }

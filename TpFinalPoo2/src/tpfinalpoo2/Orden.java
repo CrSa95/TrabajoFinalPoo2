@@ -1,6 +1,5 @@
 package tpfinalpoo2;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Orden {
@@ -8,6 +7,7 @@ public class Orden {
 	private Chofer chofer;
 	private Camion camion;
 	private Cliente cliente;
+
 	public Orden(Container container, Camion camion, Chofer chofer, Cliente cliente) {
 		this.carga = container;
 		this.camion = camion;
@@ -32,26 +32,31 @@ public class Orden {
 	}
 
 	public void verificar(Container container, Camion camion, Chofer chofer) {
-		if(this.carga.isEqual(container)) {
+		if (this.carga.isEqual(container)) {
 			this.verificarCamion(camion);
 			this.verificarChofer(chofer);
 		}
 
 	}
-	
+
 	private void verificarChofer(Chofer chofer) {
-		if(!this.chofer.dni().equals(chofer.dni())) throw new RuntimeException();
+		if (!this.chofer.dni().equals(chofer.dni())) {
+			throw new RuntimeException();
+		}
 	}
+
 	private void verificarCamion(Camion camion) {
-		if(!this.camion.patente().equals(camion.patente())) throw new RuntimeException();
+		if (!this.camion.patente().equals(camion.patente())) {
+			throw new RuntimeException();
+		}
 	}
 
 	public void notificarLlegada(Buque buque) {
-		if(this.mismoViaje(buque.viaje())) {
+		if (this.mismoViaje(buque.viaje())) {
 			this.cliente.notificar();
 		}
 	}
-	
+
 	private boolean mismoViaje(Viaje viaje) {
 		return viaje.equals(viaje);
 	}

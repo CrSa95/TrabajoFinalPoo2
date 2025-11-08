@@ -31,16 +31,16 @@ class AlmacenamientoExcedenteTest {
 	void seCobraAlmacenamientoExcedentePorDia() {
 		when(orden.fechaRetiro()).thenReturn(ahora);
 		assertEquals(costo_fijo * 0, servicio.costo(orden));
-		
+
 		when(orden.fechaRetiro()).thenReturn(ahora.plusDays(1l));
 		assertEquals(costo_fijo * -1, servicio.costo(orden));
-		
+
 		when(orden.fechaRetiro()).thenReturn(ahora.plusDays(2l));
 		assertEquals(costo_fijo * -2, servicio.costo(orden));
-		
+
 		when(orden.fechaRetiro()).thenReturn(ahora.plusDays(3l));
 		assertEquals(costo_fijo * -3, servicio.costo(orden));
-		
+
 		when(orden.fechaRetiro()).thenReturn(ahora.plusDays(4l));
 		assertEquals(costo_fijo * -4, servicio.costo(orden));
 	}

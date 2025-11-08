@@ -1,17 +1,15 @@
 package tpfinalpoo2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CircuitoTest {
-	
+
 	private Circuito circuito;
 	private Tramo primerTramo;
 	private Tramo segundoTramo;
@@ -19,9 +17,9 @@ public class CircuitoTest {
 	private Tramo cuartoTramo;
 	private TerminalGestionada terminalOrigen;
 	private TerminalGestionada terminalDestino;
-	
+
 	@BeforeEach
-    public void setUp() {
+	public void setUp() {
 		circuito = new Circuito();
 		primerTramo = mock(Tramo.class);
 		segundoTramo = mock(Tramo.class);
@@ -29,27 +27,27 @@ public class CircuitoTest {
 		cuartoTramo = mock(Tramo.class);
 		terminalOrigen = mock(TerminalGestionada.class);
 		terminalDestino = mock(TerminalGestionada.class);
-    }
-	
+	}
+
 	@Test
 	void siguienteTramoTest() {
 		circuito.agregarTramo(primerTramo);
 		circuito.agregarTramo(segundoTramo);
 		circuito.agregarTramo(tercerTramo);
-		
+
 		assertEquals(segundoTramo, circuito.siguienteTramo(primerTramo));
 		assertEquals(tercerTramo, circuito.siguienteTramo(segundoTramo));
 	}
-	
+
 	@Test
 	void siguienteTramoDelUltimoDevuelveElPrimero() {
 		circuito.agregarTramo(primerTramo);
 		circuito.agregarTramo(segundoTramo);
 		circuito.agregarTramo(tercerTramo);
-		
+
 		assertEquals(primerTramo, circuito.siguienteTramo(tercerTramo));
 	}
-	
+
 	@Test
 	void testUnCircuitoPuedeAgregarUnTramo() {
 		Assertions.assertTrue(circuito.getTramos().isEmpty());
@@ -59,37 +57,37 @@ public class CircuitoTest {
 		Assertions.assertEquals(2, circuito.getTramos().size());
 		Assertions.assertFalse(circuito.getTramos().isEmpty());
 	}
-	
+
 	@Test
 	void testUnCircuitoPuedeCalcularSuCosto() {
 
 		circuito.agregarTramo(primerTramo);
 		circuito.agregarTramo(segundoTramo);
-		
+
 		when(primerTramo.getCosto()).thenReturn(10d);
 		when(segundoTramo.getCosto()).thenReturn(20d);
-		
+
 		Assertions.assertEquals(30, circuito.costoCircuito());
 	}
-	
+
 	@Test
 	void testUnCircuitoPuedeCalcularElTiempoDeRecorrido() {
 
 		circuito.agregarTramo(primerTramo);
 		circuito.agregarTramo(segundoTramo);
-		
+
 		when(primerTramo.getDuracion()).thenReturn(10d);
 		when(segundoTramo.getDuracion()).thenReturn(20d);
-		
+
 		Assertions.assertEquals(30, circuito.tiempoTotal());
 	}
-	
+
 	@Test
 	void testUnCircuitoPuedeCalcularElCostoTotalDeUnSubtramo() {
 		circuito.agregarTramo(primerTramo);
 		circuito.agregarTramo(segundoTramo);
 		circuito.agregarTramo(tercerTramo);
-		
+
 		when(terminalOrigen.getNombre()).thenReturn("unNombre");
 		when(terminalDestino.getNombre()).thenReturn("otroNombre");
 		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
@@ -98,8 +96,8 @@ public class CircuitoTest {
 		when(segundoTramo.getTerminalDestino()).thenReturn(terminalDestino);
 		when(primerTramo.getCosto()).thenReturn(10d);
 		when(segundoTramo.getCosto()).thenReturn(10d);
-		
-		Assertions.assertEquals(20d,circuito.costoTotalDesdeHasta(terminalOrigen,terminalDestino));
+
+		Assertions.assertEquals(20d, circuito.costoTotalDesdeHasta(terminalOrigen, terminalDestino));
 	}
 
 	@Test
@@ -107,7 +105,7 @@ public class CircuitoTest {
 		circuito.agregarTramo(primerTramo);
 		circuito.agregarTramo(segundoTramo);
 		circuito.agregarTramo(tercerTramo);
-		
+
 		when(terminalOrigen.getNombre()).thenReturn("unNombre");
 		when(terminalDestino.getNombre()).thenReturn("otroNombre");
 		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
@@ -116,43 +114,45 @@ public class CircuitoTest {
 		when(segundoTramo.getTerminalDestino()).thenReturn(terminalDestino);
 		when(primerTramo.getDuracion()).thenReturn(10d);
 		when(segundoTramo.getDuracion()).thenReturn(10d);
-		
-		Assertions.assertEquals(20d,circuito.tiempoTotalDesdeHasta(terminalOrigen,terminalDestino));
+
+		Assertions.assertEquals(20d, circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalDestino));
 	}
-	
+
 	@Test
 	void testUnCircuitoPuedeCalcularTerminalesIntermediasDesdeUnaTerminalAOtra() {
 		circuito.agregarTramo(primerTramo);
 		circuito.agregarTramo(segundoTramo);
 		circuito.agregarTramo(tercerTramo);
 		circuito.agregarTramo(cuartoTramo);
-		
+
 		when(terminalOrigen.getNombre()).thenReturn("unNombre");
 		when(terminalDestino.getNombre()).thenReturn("otroNombre");
 		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
 		when(tercerTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
 		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
 		when(tercerTramo.getTerminalDestino()).thenReturn(terminalDestino);
-		
-		Assertions.assertEquals(1,circuito.terminalesIntermediasDesdeHasta(terminalOrigen,terminalDestino));
+
+		Assertions.assertEquals(1, circuito.terminalesIntermediasDesdeHasta(terminalOrigen, terminalDestino));
 	}
-	
+
 	@Test
 	void testUnCircuitoPuedeInformarSiExisteUnRecorridoEntreTerminales() {
 		circuito.agregarTramo(primerTramo);
 		circuito.agregarTramo(segundoTramo);
 		circuito.agregarTramo(tercerTramo);
 		circuito.agregarTramo(cuartoTramo);
-		
-		Assertions.assertThrows(Exception.class, () -> {circuito.existeRecorridoEntre(terminalOrigen, terminalDestino);});
-		
+
+		Assertions.assertThrows(Exception.class, () -> {
+			circuito.existeRecorridoEntre(terminalOrigen, terminalDestino);
+		});
+
 		when(terminalOrigen.getNombre()).thenReturn("unNombre");
 		when(terminalDestino.getNombre()).thenReturn("otroNombre");
 		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
 		when(tercerTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
 		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
 		when(tercerTramo.getTerminalDestino()).thenReturn(terminalDestino);
-		
-		Assertions.assertDoesNotThrow(() -> circuito.existeRecorridoEntre(terminalOrigen, terminalDestino));		
+
+		Assertions.assertDoesNotThrow(() -> circuito.existeRecorridoEntre(terminalOrigen, terminalDestino));
 	}
 }

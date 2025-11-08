@@ -1,6 +1,7 @@
 package tpfinalpoo2;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class NavieraTest {
-	
+
 	private Naviera naviera;
 	private Buque buque;
 	private Buque otroBuque;
@@ -24,9 +25,9 @@ public class NavieraTest {
 	private FiltroFechaSalida filtroFechaSalida;
 	private FiltroFechaLlegada filtroFechaLlegada;
 	private FiltroPuertoDestino filtroPuertoDestino;
-	
+
 	@BeforeEach
-    public void setUp() {
+	public void setUp() {
 		naviera = new Naviera();
 		buque = mock(Buque.class);
 		otroBuque = mock(Buque.class);
@@ -40,9 +41,9 @@ public class NavieraTest {
 		filtroFechaSalida = mock(FiltroFechaSalida.class);
 		filtroFechaLlegada = mock(FiltroFechaLlegada.class);
 		filtroPuertoDestino = mock(FiltroPuertoDestino.class);
-		
-    }
-	
+
+	}
+
 	@Test
 	void testUnaNavieraPuedeAgregarBuques() {
 		Assertions.assertTrue(naviera.getBuques().isEmpty());
@@ -52,8 +53,8 @@ public class NavieraTest {
 		Assertions.assertEquals(2, naviera.getBuques().size());
 		Assertions.assertFalse(naviera.getBuques().isEmpty());
 	}
-	
-	@Test 
+
+	@Test
 	void testUnaNavieraPuedeAgregarViajes() {
 		Assertions.assertTrue(naviera.getViajes().isEmpty());
 		naviera.agregarViaje(viaje);
@@ -62,8 +63,8 @@ public class NavieraTest {
 		Assertions.assertEquals(2, naviera.getViajes().size());
 		Assertions.assertFalse(naviera.getViajes().isEmpty());
 	}
-	
-	@Test 
+
+	@Test
 	void testUnaNavieraPuedeAgregarCircuitos() {
 		Assertions.assertTrue(naviera.getCircuitos().isEmpty());
 		naviera.agregarCircuito(circuito);
@@ -72,33 +73,32 @@ public class NavieraTest {
 		Assertions.assertEquals(2, naviera.getCircuitos().size());
 		Assertions.assertFalse(naviera.getCircuitos().isEmpty());
 	}
-	
+
 	@Test
-    void testUnaNavieraPuedeBuscarViajes() {
-		
+	void testUnaNavieraPuedeBuscarViajes() {
+
 		List<Viaje> viajes = Arrays.asList(viaje, unViaje, otroViaje);
-		
-		List<Filtro> filtrosAND = Arrays.asList(filtroFechaSalida,filtroFechaLlegada);
-		
+
+		List<Filtro> filtrosAND = Arrays.asList(filtroFechaSalida, filtroFechaLlegada);
+
 		List<Filtro> filtrosOR = Arrays.asList(filtroPuertoDestino);
-		
+
 		when(filtroANDMock.getFiltros()).thenReturn(filtrosAND);
 		when(filtroORMock.getFiltros()).thenReturn(filtrosOR);
-		
+
 		when(filtroANDMock.filtrar(viajes)).thenReturn(Arrays.asList(viaje));
-		when(filtroORMock.filtrar(viajes)).thenReturn(Arrays.asList(viaje,unViaje));
-		
-	    List<Filtro> filtros = Arrays.asList(filtroANDMock,filtroORMock);
-	    
+		when(filtroORMock.filtrar(viajes)).thenReturn(Arrays.asList(viaje, unViaje));
+
+		List<Filtro> filtros = Arrays.asList(filtroANDMock, filtroORMock);
+
 		naviera.agregarViaje(viaje);
 		naviera.agregarViaje(unViaje);
 		naviera.agregarViaje(otroViaje);
-		
+
 		List<Viaje> resultado = naviera.buscarViajesQueCumplan(filtros);
-		
+
 		Assertions.assertTrue(resultado.contains(viaje));
 		Assertions.assertTrue(resultado.contains(unViaje));
 		Assertions.assertFalse(resultado.contains(otroViaje));
 	}
 }
-

@@ -1,12 +1,12 @@
 package tpfinalpoo2;
 
 public class Tramo {
-	
+
 	private double costo;
 	private double duracion;
 	private Terminal origen;
 	private Terminal destino;
-	
+
 	public Tramo(double duracion, double costo, Terminal origen, Terminal destino) {
 		this.costo = costo;
 		this.duracion = duracion;
@@ -29,11 +29,11 @@ public class Tramo {
 	public Terminal getTerminalDestino() {
 		return this.destino;
 	}
-	
+
 	public boolean tieneDeOrigenA(Terminal terminalOrigen) {
 		return this.getTerminalOrigen().getNombre().equals(terminalOrigen.getNombre());
 	}
-	
+
 	public boolean tieneDeDestinoA(Terminal terminalDestino) {
 		return this.getTerminalDestino().getNombre().equals(terminalDestino.getNombre());
 	}
@@ -45,5 +45,5 @@ public class Tramo {
 	public Double distanciaHacia(Coordenadas coordenadas) {
 		return 0d;
 	}
-	
+
 }

@@ -1,7 +1,8 @@
 package tpfinalpoo2;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,10 +10,11 @@ import org.junit.jupiter.api.Test;
 class CoordenadaTest {
 	Coordenadas coord1;
 	Coordenadas coord2;
+
 	@BeforeEach
 	void setUp() throws Exception {
 		coord1 = new Coordenadas(60d, 20d);
-		coord2 =mock(Coordenadas.class);
+		coord2 = mock(Coordenadas.class);
 	}
 
 	@Test

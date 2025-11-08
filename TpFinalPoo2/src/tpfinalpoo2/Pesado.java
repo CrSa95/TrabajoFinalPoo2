@@ -1,6 +1,6 @@
 package tpfinalpoo2;
 
-public class Pesado extends Servicio{
+public class Pesado extends Servicio {
 
 	public Pesado(double precio_fijo) {
 		super(precio_fijo);

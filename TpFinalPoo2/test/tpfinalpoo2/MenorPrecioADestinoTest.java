@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class MenorPrecioADestinoTest {
-	
+
 	private MenorPrecioADestino menorPrecioADestino;
 	private Naviera unaNaviera;
 	private Naviera otraNaviera;
@@ -20,10 +20,10 @@ public class MenorPrecioADestinoTest {
 	private Circuito otroCircuito;
 	private TerminalGestionada terminalOrigen;
 	private TerminalGestionada terminalDestino;
-	
+
 	@BeforeEach
-    public void setUp() {
-		
+	public void setUp() {
+
 		menorPrecioADestino = new MenorPrecioADestino();
 		unaNaviera = mock(Naviera.class);
 		otraNaviera = mock(Naviera.class);
@@ -32,28 +32,30 @@ public class MenorPrecioADestinoTest {
 		terminalOrigen = mock(TerminalGestionada.class);
 		terminalDestino = mock(TerminalGestionada.class);
 
-    }
-	
+	}
+
 	@Test
 	void testPuedeSeleccionarElCircuitoDeMenorDuracionEntreDosTerminales() {
-		
+
 		List<Circuito> circuitosUnaNaviera = Arrays.asList(unCircuito);
 		List<Circuito> circuitosOtraNaviera = Arrays.asList(otroCircuito);
-		
+
 		when(unaNaviera.getCircuitos()).thenReturn(circuitosUnaNaviera);
 		when(otraNaviera.getCircuitos()).thenReturn(circuitosOtraNaviera);
-		
+
 		when(unCircuito.costoTotalDesdeHasta(terminalOrigen, terminalDestino)).thenReturn(5d);
 		when(otroCircuito.costoTotalDesdeHasta(terminalOrigen, terminalDestino)).thenReturn(10d);
-		
+
 		List<Naviera> listaNavieras = Arrays.asList(unaNaviera, otraNaviera);
-		
+
 		Circuito mejorCircuito = menorPrecioADestino.seleccionarMejor(listaNavieras, terminalOrigen, terminalDestino);
 
-        Assertions.assertTrue(mejorCircuito.equals(unCircuito));
-        
-        List<Naviera> listaVacia = new ArrayList<>();
-        
-        Assertions.assertThrows(Exception.class, () -> {menorPrecioADestino.seleccionarMejor(listaVacia, terminalOrigen, terminalDestino);});
+		Assertions.assertTrue(mejorCircuito.equals(unCircuito));
+
+		List<Naviera> listaVacia = new ArrayList<>();
+
+		Assertions.assertThrows(Exception.class, () -> {
+			menorPrecioADestino.seleccionarMejor(listaVacia, terminalOrigen, terminalDestino);
+		});
 	}
 }

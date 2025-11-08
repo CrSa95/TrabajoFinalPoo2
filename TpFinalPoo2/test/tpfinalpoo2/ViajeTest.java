@@ -13,7 +13,7 @@ class ViajeTest {
 	Viaje suject;
 	Circuito circuito;
 	LocalDate fechaSalida = LocalDate.now();
-	
+
 	Tramo tramoInicial;
 	Tramo siguienteTramo;
 	Terminal terminalOrigen = new TerminalGestionada(null, null);
@@ -71,18 +71,16 @@ class ViajeTest {
 		when(circuito.destinoActual()).thenReturn(terminalFinal);
 		assertEquals(terminalFinal, suject.getTerminalDestino());
 	}
-	
-	
+
 	@Test
 	void siguienteTramo() {
 		when(circuito.tramoInicial()).thenReturn(tramoInicial);
-		
+
 		assertEquals(tramoInicial, suject.tramoInicial());
-		
+
 		when(circuito.siguienteTramo(tramoInicial)).thenReturn(siguienteTramo);
-		
+
 		assertEquals(siguienteTramo, suject.siguienteTramo(tramoInicial));
-		
+
 	}
 }
-
