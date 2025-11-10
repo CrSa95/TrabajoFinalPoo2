@@ -1,6 +1,7 @@
 package tpfinalpoo2;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -29,16 +30,19 @@ public class TerminalGestionadaTest {
 	private FiltroFechaSalida filtroFechaSalida;
 	private FiltroFechaLlegada filtroFechaLlegada;
 	private FiltroPuertoDestino filtroPuertoDestino;
-
-	Container container;
-	Camion camion;
-	Chofer chofer;
-	Orden orden;
-	Cliente cliente;
+	private Container container;
+	private Camion camion;
+	private Chofer chofer;
+	private Orden orden;
+	private Cliente cliente;
+	private Coordenadas coordenadas;
+	private Buque buque;
+	private Orden ordenMock;
 
 	@BeforeEach
 	public void setUp() {
-		terminalGestionada = new TerminalGestionada("Buenos Aires", null);
+		coordenadas = mock(Coordenadas.class);
+		terminalGestionada = new TerminalGestionada("Buenos Aires", coordenadas);
 		otraTerminal = new TerminalGestionada("Montevideo", null);
 		naviera = mock(Naviera.class);
 		otraNaviera = mock(Naviera.class);
@@ -60,6 +64,17 @@ public class TerminalGestionadaTest {
 		camion = new Camion("ABBDDF");
 		cliente = new Cliente("Cliente");
 		orden = new Orden(container, camion, chofer, cliente);
+		buque = mock(Buque.class);
+		ordenMock = mock(Orden.class);
+	}
+	
+	@Test
+	void unaTerminalConoceSusCoordenadas() {
+		when(coordenadas.coordX()).thenReturn(0d);
+		when(coordenadas.coordY()).thenReturn(0d);
+		
+		Assertions.assertEquals(coordenadas.coordX(), terminalGestionada.coordenadas().coordX());
+		Assertions.assertEquals(coordenadas.coordY(), terminalGestionada.coordenadas().coordY());
 	}
 
 	@Test
@@ -94,6 +109,15 @@ public class TerminalGestionadaTest {
 	void ingresarCarga() {
 		terminalGestionada.exportar(orden);
 		Assertions.assertDoesNotThrow(() -> terminalGestionada.retirarCarga(container, camion, chofer));
+	}
+	
+	@Test
+	void terminalGestionadaPuedeNotificarASusClientes() {
+		terminalGestionada.exportar(ordenMock);
+		
+		terminalGestionada.notificarClientes(buque);
+		
+		verify(ordenMock).notificarLlegada(buque);
 	}
 
 	@Test
