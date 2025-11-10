@@ -155,4 +155,64 @@ public class CircuitoTest {
 
 		Assertions.assertDoesNotThrow(() -> circuito.existeRecorridoEntre(terminalOrigen, terminalDestino));
 	}
+	
+	@Test
+	void testUnCircuitoPuedeCalcularElTiempoDesdeSuTerminalOrigenHastaOtra() {
+		circuito.agregarTramo(primerTramo);
+		circuito.agregarTramo(segundoTramo);
+		circuito.agregarTramo(tercerTramo);
+
+		when(terminalOrigen.getNombre()).thenReturn("unNombre");
+		when(terminalDestino.getNombre()).thenReturn("otroNombre");
+		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
+		when(segundoTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
+		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
+		when(segundoTramo.getTerminalDestino()).thenReturn(terminalDestino);
+		when(primerTramo.getDuracion()).thenReturn(10d);
+		when(segundoTramo.getDuracion()).thenReturn(10d);
+
+		Assertions.assertEquals(20l, circuito.tiempoHaciaTerminalDesdeOrigen(terminalDestino));
+	}
+	
+	@Test
+	void testUnCircuitoConoceElTiempoQueLeLlevaIrASuSiguienteTramo() {
+		circuito.agregarTramo(primerTramo);
+		circuito.agregarTramo(segundoTramo);
+		circuito.agregarTramo(tercerTramo);
+
+		when(terminalOrigen.getNombre()).thenReturn("unNombre");
+		when(terminalDestino.getNombre()).thenReturn("otroNombre");
+		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
+		when(segundoTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
+		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
+		when(segundoTramo.getTerminalDestino()).thenReturn(terminalDestino);
+		when(primerTramo.getDuracion()).thenReturn(10d);
+		when(segundoTramo.getDuracion()).thenReturn(10d);
+
+		Assertions.assertEquals(10d, circuito.tiempoHaciaDestinoActual());
+	}
+	
+	@Test
+	void testUnCircuitoConoceSuDestinoActual() {
+		circuito.agregarTramo(primerTramo);
+
+		when(terminalOrigen.getNombre()).thenReturn("unNombre");
+		when(terminalDestino.getNombre()).thenReturn("otroNombre");
+		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
+		when(primerTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
+		when(primerTramo.getTerminalDestino()).thenReturn(terminalDestino);
+
+		Assertions.assertEquals(terminalDestino, circuito.destinoActual());
+	}
+	
+	@Test
+	void testUnCircuitoConoceSuOrigenActual() {
+		circuito.agregarTramo(primerTramo);
+		
+		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
+		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
+
+		Assertions.assertEquals(terminalOrigen, circuito.origenActual());
+	}
+
 }

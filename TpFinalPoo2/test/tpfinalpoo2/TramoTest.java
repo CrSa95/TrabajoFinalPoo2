@@ -14,6 +14,7 @@ public class TramoTest {
 	private double costo;
 	private double duracion;
 	private Tramo tramo;
+	private Coordenadas coordenadasMock;
 
 	@BeforeEach
 	public void setUp() {
@@ -22,6 +23,7 @@ public class TramoTest {
 		costo = 20d;
 		duracion = 10d;
 		tramo = new Tramo(duracion, costo, origen, destino);
+		coordenadasMock = mock(Coordenadas.class);
 	}
 
 	@Test
@@ -44,5 +46,13 @@ public class TramoTest {
 	void testUnTramoConoceSuTerminalDeDestino() {
 		when(destino.getNombre()).thenReturn("Montevideo");
 		Assertions.assertTrue(tramo.tieneDeDestinoA(destino));
+	}
+	
+	@Test
+	void testUnTramoConoceLasCoordenadasDeSuTerminalDestino() {
+		
+		when(destino.coordenadas()).thenReturn(coordenadasMock);
+		
+		Assertions.assertEquals(coordenadasMock, tramo.getTerminalDestinoCoordenadas());
 	}
 }
