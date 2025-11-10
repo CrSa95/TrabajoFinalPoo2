@@ -116,7 +116,6 @@ public class Circuito {
 	}
 
 	public Tramo siguienteTramo(Tramo tramo_actual) {
-		Tramo siguiente = this.tramoInicial();
 		try {
 			int siguienteIndice = this.getTramos().indexOf(tramo_actual) + 1;
 			return this.getTramos().get(siguienteIndice);
