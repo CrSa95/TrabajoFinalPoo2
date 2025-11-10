@@ -92,11 +92,11 @@ public class Circuito {
 	}
 
 	private Tramo tramoActual() {
-		return null;
+		return this.tramos.getFirst();
 	}
 
-	public Object origenActual() {
-		return null;
+	public Terminal origenActual() {
+		return this.tramos.getFirst().getTerminalOrigen();
 	}
 
 	public Terminal terminalOrigen() {
@@ -104,11 +104,11 @@ public class Circuito {
 	}
 
 	public long tiempoHaciaTerminalDesdeOrigen(Terminal terminal) {
-		return (long) this.costoTotalDesdeHasta(this.terminalOrigen(), terminal);
+		return (long) this.tiempoTotalDesdeHasta(this.terminalOrigen(), terminal);
 	}
 
-	public Double tiempoHaciaDestinoActual(Terminal terminalOrigen) {
-		return 0d;
+	public Double tiempoHaciaDestinoActual() {
+		return this.siguienteTramo(this.tramoInicial()).getDuracion();
 	}
 
 	public Tramo tramoInicial() {
@@ -116,7 +116,6 @@ public class Circuito {
 	}
 
 	public Tramo siguienteTramo(Tramo tramo_actual) {
-		Tramo siguiente = this.tramoInicial();
 		try {
 			int siguienteIndice = this.getTramos().indexOf(tramo_actual) + 1;
 			return this.getTramos().get(siguienteIndice);

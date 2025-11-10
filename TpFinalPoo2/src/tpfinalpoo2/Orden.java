@@ -22,7 +22,7 @@ public class Orden {
 	public LocalDateTime fechaRetiro() {
 		return null;
 	}
-
+	
 	public LocalDateTime fechaIngreso() {
 		return null;
 	}

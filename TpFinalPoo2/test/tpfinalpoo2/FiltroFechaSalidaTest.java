@@ -11,30 +11,30 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class TestFiltroFechaLlegada {
+public class FiltroFechaSalidaTest {
 
-	private FiltroFechaLlegada filtroFL;
+	private FiltroFechaSalida filtroFS;
 	private Viaje unViaje;
 	private Viaje otroViaje;
-	private LocalDate fechaLlegada;
+	private LocalDate fechaSalida;
 
 	@BeforeEach
 	public void setUp() {
-		fechaLlegada = LocalDate.of(2025, 11, 1);
-		filtroFL = new FiltroFechaLlegada(fechaLlegada);
+		fechaSalida = LocalDate.of(2025, 12, 1);
+		filtroFS = new FiltroFechaSalida(fechaSalida);
 
 		unViaje = mock(Viaje.class);
 		otroViaje = mock(Viaje.class);
 
-		when(unViaje.getFechaLlegada()).thenReturn(LocalDate.of(2025, 11, 1));
-		when(otroViaje.getFechaLlegada()).thenReturn(LocalDate.of(2025, 11, 10));
+		when(unViaje.getFechaSalida()).thenReturn(LocalDate.of(2025, 12, 1));
+		when(otroViaje.getFechaSalida()).thenReturn(LocalDate.of(2025, 11, 10));
 
 	}
 
 	@Test
 	public void testFiltrar() {
 		List<Viaje> viajes = Arrays.asList(unViaje, otroViaje);
-		List<Viaje> resultado = filtroFL.filtrar(viajes);
+		List<Viaje> resultado = filtroFS.filtrar(viajes);
 
 		Assertions.assertEquals(1, resultado.size());
 		Assertions.assertEquals(unViaje, resultado.get(0));

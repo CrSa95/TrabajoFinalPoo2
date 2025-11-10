@@ -11,8 +11,8 @@ class Coordenadas {
 	}
 
 	public Double distanciaHacia(Coordenadas coordenadas) {
-		Double x = Math.pow(this.coord_x - coordenadas.coordX(), 2);
-		Double y = Math.pow(this.coord_y - coordenadas.coordY(), 2);
+		Double x = Math.pow(this.coordX() - coordenadas.coordX(), 2);
+		Double y = Math.pow(this.coordY() - coordenadas.coordY(), 2);
 		return Math.sqrt(x + y);
 	}
 

@@ -1,5 +1,6 @@
 package tpfinalpoo2;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,15 @@ class DryTest {
 		suject = new Dry("Dueño", 1d, 1d, 1d, 1d);
 	}
 
+	@Test 
+	void elConstructorPuedeFallar(){
+		assertThrows(RuntimeException.class, () -> new Dry(null, 1d, 1d, 1d, 1d));
+		assertThrows(RuntimeException.class, () -> new Dry("Dueño", -1d, 1d, 1d, 1d));
+		assertThrows(RuntimeException.class, () -> new Dry("Dueño", 1d, -1d, 1d, 1d));
+		assertThrows(RuntimeException.class, () -> new Dry("Dueño", 1d, 1d, -1d, 1d));
+		assertThrows(RuntimeException.class, () -> new Dry("Dueño", 1d, 1d, 1d, -1d));
+	}
+	
 	@Test
 	void elPesoAumentaPorDry() {
 		Dry dry1 = new Dry("Dueño", 1d, 1d, 1d, 1d);
