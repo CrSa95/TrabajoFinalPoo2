@@ -7,6 +7,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +16,8 @@ class BuqueTest {
 	Tramo tramoActual;
 	Viaje viaje;
 	Terminal terminalSuject;
+	EstadoGPS estadoGPS;
+	Outbound estadoOutboundMock;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -25,27 +28,36 @@ class BuqueTest {
 		when(viaje.tramoInicial()).thenReturn(tramoActual);
 		when(viaje.siguienteTramo(tramoActual)).thenReturn(tramoActual);
 		suject.asignar(viaje);
+		estadoGPS = mock(EstadoGPS.class);
+		estadoOutboundMock = mock(Outbound.class);
+		
 	}
 
+	@Test
 	void setearAOutbound() {
 		when(tramoActual.distanciaHacia(null)).thenReturn(49d);
 		suject.actualizarGPS();
 	}
 
+	@Test
 	void setearAArrived() {
 		this.setearAOutbound();
 		when(tramoActual.distanciaHacia(null)).thenReturn(0d);
 		suject.actualizarGPS();
 	}
 
+	@Test
 	void setearAWorking() {
 		this.setearAArrived();
 		suject.empezarTrabajo();
 	}
-
+	
+	@Test
 	void setearDeparting() {
 		this.setearAWorking();
 		suject.permitirSalida();
+		suject.actualizarGPS();
+		suject.salir();
 	}
 
 	@Test
@@ -88,4 +100,11 @@ class BuqueTest {
 	void salirLanzaExcepcionSiNoEstaEnModoDeparting() {
 		assertThrows(RuntimeException.class, () -> suject.salir());
 	}
+	
+	@Test
+	void unBuqueConoceSuViaje() {
+		suject.asignar(viaje);
+		Assertions.assertEquals(viaje, suject.viaje());
+	}
+
 }

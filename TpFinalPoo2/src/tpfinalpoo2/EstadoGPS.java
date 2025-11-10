@@ -7,11 +7,13 @@ public abstract class EstadoGPS {
 	public void empezarTrabajo(Buque buque) {
 		throw new RuntimeException("No se puede iniciar trabajo actualmente; muy lejos de la terminal");
 	}
-
+	
+	/*
 	public void informar(Buque buque) {
 		throw new RuntimeException("No se puede informar a la terminal actualmente: muy lejos de la terminal");
 	}
-
+	 */
+	
 	public void permitirSalida(Buque buque) {
 		throw new RuntimeException("El buque ya esta en un viaje");
 	}
