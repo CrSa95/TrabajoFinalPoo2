@@ -25,4 +25,8 @@ public abstract class EstadoGPS {
 	public void salir(Buque buque) {
 		throw new RuntimeException("El buque no puede salir actualmente");
 	}
+
+	public void avisarPartida(Buque buque) {
+		throw new RuntimeException("El buque no puede avisar su salida actualmente");
+	}
 }

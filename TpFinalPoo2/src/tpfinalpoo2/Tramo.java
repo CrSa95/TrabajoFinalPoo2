@@ -43,7 +43,7 @@ public class Tramo {
 	}
 
 	public Double distanciaHacia(Coordenadas coordenadas) {
-		return 0d;
+		return this.getTerminalDestino().coordenadas().distanciaHacia(coordenadas);
 	}
 
 }

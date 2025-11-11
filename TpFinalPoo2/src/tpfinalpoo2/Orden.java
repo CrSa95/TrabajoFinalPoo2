@@ -53,12 +53,19 @@ public class Orden {
 
 	public void notificarLlegada(Buque buque) {
 		if (this.mismoViaje(buque.viaje())) {
-			this.cliente.notificar();
+			this.cliente.notificarLlegada(buque);
 		}
 	}
 
+
 	private boolean mismoViaje(Viaje viaje) {
 		return viaje.equals(viaje);
+	}
+
+	public void notificarPartida(Buque buque) {
+		if (this.mismoViaje(buque.viaje())) {
+			this.cliente.notificarPartida(buque);
+		}
 	}
 
 }

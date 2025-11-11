@@ -29,9 +29,9 @@ public class DepartingTest {
 	}
 	
 	@Test
-	void testElEstadoDepartingPuedeDecirleAlBuqueQueSalga() {
-		estadoDeparting.salir(buqueMock);
-		verify(buqueMock).siguienteDestino();
+	void elEstadoDepartingPuedeAvisarSuSalida() {
+		estadoDeparting.avisarPartida(buqueMock);
+		verify(buqueMock).avisarPartida();
 	}
 
 }
