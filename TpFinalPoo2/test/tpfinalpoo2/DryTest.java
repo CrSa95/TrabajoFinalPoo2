@@ -8,24 +8,34 @@ import org.junit.jupiter.api.Test;
 
 class DryTest {
 	Dry suject;
-
+	String ownerID = "Dueño";
+	Double altura_valida = 1d; 
+	Double ancho_valido = 1d; 
+	Double largo_valido = 1d;
+	Double peso_valido = 1d;
 	@BeforeEach
 	void setUp() {
-		suject = new Dry("Dueño", 1d, 1d, 1d, 1d);
+		suject = new Dry(ownerID, 1d, 1d, 1d, 1d);
 	}
 
 	@Test 
-	void elConstructorPuedeFallar(){
-		assertThrows(RuntimeException.class, () -> new Dry(null, 1d, 1d, 1d, 1d));
-		assertThrows(RuntimeException.class, () -> new Dry("Dueño", -1d, 1d, 1d, 1d));
-		assertThrows(RuntimeException.class, () -> new Dry("Dueño", 1d, -1d, 1d, 1d));
-		assertThrows(RuntimeException.class, () -> new Dry("Dueño", 1d, 1d, -1d, 1d));
-		assertThrows(RuntimeException.class, () -> new Dry("Dueño", 1d, 1d, 1d, -1d));
+	void noSePermitenDueñosVaciosONulos(){
+		assertThrows(RuntimeException.class, () -> new Dry(null, altura_valida, ancho_valido, largo_valido, peso_valido));
+		assertThrows(RuntimeException.class, () -> new Dry("", altura_valida, ancho_valido, largo_valido, peso_valido));
+	}
+	
+	@Test 
+	void noSePermitenValoresNegativos() {
+		assertThrows(RuntimeException.class, () -> new Dry(ownerID, -1d, ancho_valido, largo_valido, peso_valido));
+		assertThrows(RuntimeException.class, () -> new Dry(ownerID, altura_valida, -1d, largo_valido, peso_valido));
+		assertThrows(RuntimeException.class, () -> new Dry(ownerID, altura_valida, ancho_valido, -1d, peso_valido));
+		assertThrows(RuntimeException.class, () -> new Dry(ownerID, altura_valida, ancho_valido, largo_valido, -1d));
+		
 	}
 	
 	@Test
 	void elPesoAumentaPorDry() {
-		Dry dry1 = new Dry("Dueño", 1d, 1d, 1d, 1d);
+		Dry dry1 = new Dry(ownerID, altura_valida, ancho_valido, largo_valido, peso_valido);
 		assertEquals(1d, suject.peso());
 		suject.agregarProducto(dry1);
 		assertEquals(2d, suject.peso());
