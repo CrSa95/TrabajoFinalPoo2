@@ -58,5 +58,6 @@ public class Buque {
 
 	public void avisarPartida() {
 		this.tramo_actual.getTerminalDestino().avisarPartida(this);
+		this.estado_gps = this.estado_gps.actualizarGPS(this);
 	}
 }

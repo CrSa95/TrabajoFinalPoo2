@@ -19,11 +19,9 @@ public class WorkingTest {
 	}
 
 	@Test
-	void testElEstadoWorkinNoPuedeCambiarElEstadoADepartingSiLaPartidaNoSeInicio() {
-		
+	void testElEstadoWorkinNoPuedeCambiarElEstadoADepartingSiLaPartidaNoSeInicio() {	
 		EstadoGPS cambioDeEstado = estadoWorking.actualizarGPS(buqueMock);
 		Assertions.assertEquals(estadoWorking, cambioDeEstado);
-		
 	}
 	
 	@Test
