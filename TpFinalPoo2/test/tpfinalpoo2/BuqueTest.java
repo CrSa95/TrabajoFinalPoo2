@@ -75,9 +75,7 @@ class BuqueTest {
 		suject.empezarTrabajo();
 		suject.permitirSalida();
 		suject.avisarPartida();
-		
 		verify(terminal).avisarPartida(suject);
-	
 	}
 
 	@Test

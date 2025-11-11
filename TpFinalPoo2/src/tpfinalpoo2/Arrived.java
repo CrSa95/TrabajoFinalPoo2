@@ -6,7 +6,6 @@ public class Arrived extends EstadoGPS {
 	@Override
 	public void empezarTrabajo(Buque buque) {
 		se_inicio_trabajo = true;
-		buque.siguienteDestino();
 	}
 
 	@Override

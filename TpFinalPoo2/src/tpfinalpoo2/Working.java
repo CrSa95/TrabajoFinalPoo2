@@ -14,6 +14,7 @@ public class Working extends EstadoGPS {
 	@Override
 	public void permitirSalida(Buque buque) {
 		this.se_inicio_partida = true;
+		buque.siguienteDestino();
 	}
 
 }
