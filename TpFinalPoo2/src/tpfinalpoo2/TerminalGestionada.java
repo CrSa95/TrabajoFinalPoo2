@@ -70,13 +70,19 @@ public class TerminalGestionada implements Terminal {
 	}
 
 	@Override
-	public void notificarClientes(Buque buque) {
+	public void avisarLlegada(Buque buque) {
 		this.ordenes.forEach(orden -> orden.notificarLlegada(buque));
 	}
 
 	@Override
 	public void avisarPartida(Buque buque) {
 		this.ordenes.forEach(orden -> orden.notificarPartida(buque));
+		
+	}
+
+	@Override
+	public void notificarClientes(Buque buque) {
+		// TODO Auto-generated method stub
 		
 	}
 

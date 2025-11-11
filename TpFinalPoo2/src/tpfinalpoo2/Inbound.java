@@ -12,6 +12,6 @@ public class Inbound extends EstadoGPS {
 
 	@Override
 	public void avisarLlegada(Buque buque) {
-		buque.destinoActual().notificarClientes(buque);
+		buque.destinoActual().avisarLlegada(buque);
 	}
 }

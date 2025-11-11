@@ -42,7 +42,7 @@ class BuqueTest {
 		when(suject.destinoActual()).thenReturn(terminalSuject);
 		assertDoesNotThrow(() -> suject.avisarLlegada());
 
-		verify(terminalSuject).notificarClientes(suject);
+		verify(terminalSuject).avisarLlegada(suject);
 	}
 
 	@Test
