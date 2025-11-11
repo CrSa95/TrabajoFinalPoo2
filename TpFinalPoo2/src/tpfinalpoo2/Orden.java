@@ -51,13 +51,13 @@ public class Orden {
 
 	private void verificarChofer(Chofer chofer) {
 		if (!this.chofer.dni().equals(chofer.dni())) {
-			throw new RuntimeException();
+			throw new RuntimeException("Chofer no autorizado");
 		}
 	}
 
 	private void verificarCamion(Camion camion) {
 		if (!this.camion.patente().equals(camion.patente())) {
-			throw new RuntimeException();
+			throw new RuntimeException("Camion no autorizado");
 		}
 	}
 
