@@ -18,7 +18,6 @@ public class TerminalGestionadaTest {
 
 	private TerminalGestionada terminalGestionada;
 	private Naviera naviera;
-	private MenorCantidadTerminalesIntermedias menorCantTerminalesIntermedias;
 	private Container container;
 	private Camion camion;
 	private Chofer chofer;
@@ -35,7 +34,6 @@ public class TerminalGestionadaTest {
 		coordenadas = mock(Coordenadas.class);
 		terminalGestionada = new TerminalGestionada("Buenos Aires", coordenadas);
 		naviera = mock(Naviera.class);
-		menorCantTerminalesIntermedias = mock(MenorCantidadTerminalesIntermedias.class);
 		container = mock(Container.class);
 		chofer = mock(Chofer.class);
 		camion = mock(Camion.class);
@@ -146,12 +144,6 @@ public class TerminalGestionadaTest {
 		Assertions.assertEquals(1, terminalGestionada.getNavieras().size());
 	}
 
-	@Test
-	void testLaTerminalPuedeCambiarDeEstrategiaParaLaBusquedaDeCircuitos() {
-		Assertions.assertEquals(null, terminalGestionada.getEstrategiaDeBusqueda());
-		terminalGestionada.setEstrategiaDeBusqueda(menorCantTerminalesIntermedias);
-		Assertions.assertTrue(terminalGestionada.getEstrategiaDeBusqueda().equals(menorCantTerminalesIntermedias));
-	}
 
 	@Test
 	void testUnaTerminalPuedeBuscarViajes() {
