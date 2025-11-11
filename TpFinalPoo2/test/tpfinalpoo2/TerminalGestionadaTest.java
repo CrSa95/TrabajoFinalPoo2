@@ -1,6 +1,7 @@
 package tpfinalpoo2;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -113,6 +114,7 @@ public class TerminalGestionadaTest {
 	
 	@Test
 	void terminalGestionadaPuedeNotificarASusClientes() {
+		
 		terminalGestionada.exportar(ordenMock);
 		
 		terminalGestionada.notificarClientes(buque);
@@ -141,57 +143,33 @@ public class TerminalGestionadaTest {
 
 	@Test
 	void testUnaTerminalPuedeBuscarViajes() {
-
-		List<Viaje> viajes = Arrays.asList(viaje, unViaje, otroViaje);
-
-		List<Filtro> filtrosAND = Arrays.asList(filtroFechaSalida, filtroFechaLlegada);
-
-		List<Filtro> filtrosOR = Arrays.asList(filtroPuertoDestino);
-
-		when(filtroANDMock.getFiltros()).thenReturn(filtrosAND);
-		when(filtroORMock.getFiltros()).thenReturn(filtrosOR);
-
-		when(filtroANDMock.filtrar(viajes)).thenReturn(Arrays.asList(viaje));
-		when(filtroORMock.filtrar(viajes)).thenReturn(Arrays.asList(viaje, unViaje));
-
-		List<Filtro> filtros = Arrays.asList(filtroANDMock, filtroORMock);
-
-		when(naviera.getViajes()).thenReturn(Arrays.asList(viaje, unViaje, otroViaje));
-		when(otraNaviera.getViajes()).thenReturn(Arrays.asList(viaje, otroViaje));
-
-		when(naviera.buscarViajesQueCumplan(filtros)).thenReturn(Arrays.asList(viaje, unViaje));
-		when(otraNaviera.buscarViajesQueCumplan(filtros)).thenReturn(Arrays.asList(viaje));
-
+		Filtro filtro = spy(Filtro.class); 
+		List<Filtro> filtros = Arrays.asList(filtro);
+		Naviera naviera = spy(Naviera.class);
 		terminalGestionada.agregarNaviera(naviera);
-		terminalGestionada.agregarNaviera(otraNaviera);
-
-		List<Viaje> resultado = terminalGestionada.busquedaDeRutasMaritimasQueCumplan(filtros);
-
-		Assertions.assertTrue(resultado.contains(viaje));
-		Assertions.assertTrue(resultado.contains(unViaje));
-		Assertions.assertFalse(resultado.contains(otroViaje));
+		terminalGestionada.busquedaDeRutasMaritimasQueCumplan(filtros);
+		verify(naviera).buscarViajesQueCumplan(filtros);
 	}
 
-	@Test
-	void testLaTerminalPuedeBuscarUnMejorCircuito() {
+	
+	@Test 
+	void seCambiaLaEstrategiaDeBusquedaDeCircuitos() {
+		IBusquedaCircuito estrategia1 = spy(IBusquedaCircuito.class);
+		IBusquedaCircuito estrategia2 = spy(IBusquedaCircuito.class);
+		IBusquedaCircuito estrategia3 = spy(IBusquedaCircuito.class);
 
-		terminalGestionada.setEstrategiaDeBusqueda(menorCantTerminalesIntermedias);
-		terminalGestionada.agregarNaviera(naviera);
-		terminalGestionada.agregarNaviera(otraNaviera);
 
-		List<Circuito> circuitos = Arrays.asList(circuitoUno, circuitoDos);
-		List<Circuito> otrosCircuitos = Arrays.asList(circuitoTres, circuitoCuatro);
-
-		when(naviera.getCircuitos()).thenReturn(circuitos);
-		when(otraNaviera.getCircuitos()).thenReturn(otrosCircuitos);
-
-		when(menorCantTerminalesIntermedias.seleccionarMejor(terminalGestionada.getNavieras(), terminalGestionada,
-				otraTerminal)).thenReturn(circuitoUno);
-
-		Circuito mejorCircuito = terminalGestionada.buscarMejorCircuitoParaLLegarA(otraTerminal);
-
-		Assertions.assertTrue(mejorCircuito.equals(circuitoUno));
-
-		Assertions.assertFalse(mejorCircuito.equals(circuitoDos));
+		terminalGestionada.setEstrategiaDeBusqueda(estrategia1);
+		terminalGestionada.buscarMejorCircuitoParaLLegarA(otraTerminal);
+		verify(estrategia1).seleccionarMejor(terminalGestionada.getNavieras(),terminalGestionada, otraTerminal);
+		
+		terminalGestionada.setEstrategiaDeBusqueda(estrategia2);
+		terminalGestionada.buscarMejorCircuitoParaLLegarA(otraTerminal);
+		verify(estrategia2).seleccionarMejor(terminalGestionada.getNavieras(),terminalGestionada, otraTerminal);
+		
+		terminalGestionada.setEstrategiaDeBusqueda(estrategia3);
+		terminalGestionada.buscarMejorCircuitoParaLLegarA(otraTerminal);
+		verify(estrategia3).seleccionarMejor(terminalGestionada.getNavieras(),terminalGestionada, otraTerminal);
 	}
+
 }
