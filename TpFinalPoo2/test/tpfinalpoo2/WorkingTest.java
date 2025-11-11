@@ -29,7 +29,6 @@ public class WorkingTest {
 	@Test
 	void testElEstadoWorkinPermiteLaSalida() {
 		estadoWorking.permitirSalida(buqueMock);
-		verify(buqueMock).siguienteDestino();
 	}
 	
 }

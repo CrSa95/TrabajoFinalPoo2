@@ -21,9 +21,10 @@ class BuqueTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		tramoActual = mock(Tramo.class);
 		terminalSuject = spy(Terminal.class);
 		suject = new Buque();
-		tramoActual = mock(Tramo.class);
+		
 		viaje = mock(Viaje.class);
 		when(viaje.tramoInicial()).thenReturn(tramoActual);
 		when(viaje.siguienteTramo(tramoActual)).thenReturn(tramoActual);
@@ -59,6 +60,24 @@ class BuqueTest {
 		suject.actualizarGPS();
 		suject.empezarTrabajo();
 		assertDoesNotThrow(() -> suject.permitirSalida());
+	}
+	
+	@Test 
+	void alPasarDeEstadoDepartingAInboundSeNotificaSalida() {
+		Terminal terminal = spy(Terminal.class);
+		Tramo siguienteTramo = mock(Tramo.class);
+		when(viaje.siguienteTramo(tramoActual)).thenReturn(siguienteTramo); 
+		when(siguienteTramo.getTerminalDestino()).thenReturn(terminal);
+		
+		when(tramoActual.distanciaHacia(null)).thenReturn(0d);
+		suject.actualizarGPS();
+		suject.actualizarGPS();
+		suject.empezarTrabajo();
+		suject.permitirSalida();
+		suject.avisarPartida();
+		
+		verify(terminal).avisarPartida(suject);
+	
 	}
 
 	@Test
