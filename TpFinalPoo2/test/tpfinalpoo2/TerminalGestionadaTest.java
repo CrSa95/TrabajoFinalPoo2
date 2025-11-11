@@ -63,7 +63,7 @@ public class TerminalGestionadaTest {
 		chofer = new Chofer("44444444");
 		camion = new Camion("ABBDDF");
 		cliente = new Cliente("Cliente");
-		orden = new Orden(container, camion, chofer, cliente);
+		orden = new Orden(container, camion, chofer, cliente, null, null);
 		buque = mock(Buque.class);
 		ordenMock = mock(Orden.class);
 	}
