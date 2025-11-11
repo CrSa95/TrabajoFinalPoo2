@@ -8,4 +8,5 @@ public interface Terminal {
 	public void notificarClientes(Buque buque);
 
 	public void avisarPartida(Buque buque);
+	
 }
