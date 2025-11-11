@@ -4,19 +4,16 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Factura {
-	private ArrayList<Servicio> servicios;
 	private Orden orden;
-	public Factura(LocalDate fecha_facturacion, ArrayList<Servicio> servicios, double costo_recorrido, Orden orden) {
-		this.servicios = servicios;
-		this.orden = orden;
-	}
-
-	public Double costoTotal() {
-		return 50d + this.costoDeServicios();
+	private Double costo_recorrido;
+	private Double costo_servicios;
+	public Factura(Orden orden) {
+		this.costo_recorrido = orden.costoRecorrido();
+		this.costo_servicios = orden.costoEnServicios();
 	}
 	
-	private Double costoDeServicios() {
-		return this.servicios.stream().mapToDouble(servicio -> servicio.costo(orden)).sum();
-}
+	public Double costoTotal() {
+		return this.costo_recorrido + this.costo_servicios;
+	}
 
 }

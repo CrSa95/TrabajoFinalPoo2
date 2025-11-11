@@ -13,37 +13,42 @@ import org.junit.jupiter.api.Test;
 class FacturaTest {
 	Factura suject;
 	ArrayList<Servicio> servicios;
-	Double costo_recorrido = 50d;
-	LocalDate fecha_facturacion;
 	Container container;
 	Orden orden;
 	@BeforeEach
 	void setUp() throws Exception {
-	
+		orden = mock(Orden.class);
 	}
 
 	@Test
-	void facturaSinServiciosSoloSeSumaElCostoRecorrido() {
-		servicios = new ArrayList<Servicio>();
-
-		suject = new Factura(fecha_facturacion, servicios, 50d, orden);
+	void factuaCostoRecorrido() {
+		Double costo_recorrido = 50d;
+		when(orden.costoRecorrido()).thenReturn(costo_recorrido);
+		when(orden.costoEnServicios()).thenReturn(0d);
+		suject = new Factura(orden);
 		assertEquals(costo_recorrido, suject.costoTotal());
 	}
 	
-	@Test 
-	void facturaConServiciosSeSumaElCostoDeLosServicios() {
-		servicios = new ArrayList<Servicio>();
-		Servicio servicioMock = mock(Servicio.class);
-		Double costo_servicio = 50d;
-		servicios.add(servicioMock);
-		servicios.add(servicioMock);
-		servicios.add(servicioMock);
-		servicios.add(servicioMock);
-		
-		when(servicioMock.costo(orden)).thenReturn(costo_servicio);
-		
-		suject = new Factura(fecha_facturacion, servicios, 50d, orden);
-		assertEquals(costo_recorrido + (costo_servicio * 4), suject.costoTotal());
+	@Test
+	void facturaCostoServicios() {
+		Double costo_servicios = 500d;
+		when(orden.costoRecorrido()).thenReturn(0d);
+		when(orden.costoEnServicios()).thenReturn(costo_servicios);
+		suject = new Factura(orden);
+
+		assertEquals(costo_servicios, suject.costoTotal());
 	}
+	
+	
+	@Test 
+	void facturacionTotal() {
+		Double costo_recorrido = 50d;
+		Double costo_servicios = 500d;
+		when(orden.costoEnServicios()).thenReturn(costo_servicios);
+		when(orden.costoRecorrido()).thenReturn(costo_recorrido);
+		suject = new Factura(orden);
+		assertEquals(costo_recorrido + costo_servicios, suject.costoTotal());
+	}
+	
 
 }

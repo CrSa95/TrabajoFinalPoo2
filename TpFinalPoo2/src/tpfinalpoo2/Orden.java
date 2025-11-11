@@ -1,20 +1,30 @@
 package tpfinalpoo2;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 public class Orden {
 	private Container carga;
 	private Chofer chofer;
 	private Camion camion;
 	private Cliente cliente;
-
-	public Orden(Container container, Camion camion, Chofer chofer, Cliente cliente) {
+	private Viaje viaje_seleccionado;
+	private Set<Servicio> servicios_contratados;
+	public Orden(Container container, Camion camion, Chofer chofer, Cliente cliente, Set<Servicio> servicios_contratados, Viaje viaje_seleccionado) {
 		this.carga = container;
 		this.camion = camion;
 		this.chofer = chofer;
 		this.cliente = cliente;
+		this.servicios_contratados = servicios_contratados;
+		this.viaje_seleccionado = viaje_seleccionado;
 	}
-
+	
+	public double costoEnServicios() {
+		return this.servicios_contratados
+		        .stream()
+		        .mapToDouble(servicio -> servicio.costo(this))
+		        .sum();
+	}
 	public Container carga() {
 		return this.carga;
 	}
@@ -66,6 +76,10 @@ public class Orden {
 		if (this.mismoViaje(buque.viaje())) {
 			this.cliente.notificarPartida(buque);
 		}
+	}
+
+	public Double costoRecorrido() {
+		return this.viaje_seleccionado.costo();
 	}
 
 }
