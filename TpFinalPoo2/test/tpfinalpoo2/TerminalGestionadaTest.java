@@ -122,12 +122,16 @@ public class TerminalGestionadaTest {
 
 	@Test
 	void terminalGestionadaPuedeNotificarASusClientes() {
-
 		terminalGestionada.exportar(ordenMock);
-
 		terminalGestionada.notificarClientes(buque);
-
 		verify(ordenMock).notificarLlegada(buque);
+	}
+	
+	@Test 
+	void notificarPartida() {
+		terminalGestionada.exportar(ordenMock);
+		terminalGestionada.avisarPartida(buque);
+		verify(ordenMock).notificarPartida(buque);
 	}
 
 	@Test
