@@ -20,7 +20,7 @@ class BuqueTest {
 	Terminal terminal_origen;
 	@BeforeEach
 	void setUp() throws Exception{
-		suject = new Buque();
+		suject = new Buque("Buque Marzo");
 		viaje = mock(Viaje.class);
 		terminal_destino = spy(Terminal.class);
 		terminal_origen = spy(Terminal.class);

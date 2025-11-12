@@ -5,8 +5,15 @@ public class Buque {
 	private Viaje viaje_asignado;
 	private Tramo tramo_actual;
 	private Coordenadas coordenadas;
+	private String nombre;
 	
-
+	public Buque(String nombre) {
+		this.nombre = nombre;
+	}
+	
+	public String nombre() {
+		return this.nombre;
+	}
 	public void asignar(Viaje viaje) {
 		this.viaje_asignado = viaje;
 		this.estado_gps = new Outbound();
