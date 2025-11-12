@@ -3,7 +3,7 @@ package tpfinalpoo2;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,18 +16,18 @@ public class FiltroFechaLlegadaTest {
 	private FiltroFechaLlegada filtroFL;
 	private Viaje unViaje;
 	private Viaje otroViaje;
-	private LocalDate fechaLlegada;
+	private LocalDateTime fechaLlegada;
 
 	@BeforeEach
 	public void setUp() {
-		fechaLlegada = LocalDate.of(2025, 11, 1);
+		fechaLlegada = LocalDateTime.of(2025, 11, 1, 0, 0);
 		filtroFL = new FiltroFechaLlegada(fechaLlegada);
 
 		unViaje = mock(Viaje.class);
 		otroViaje = mock(Viaje.class);
 
-		when(unViaje.getFechaLlegada()).thenReturn(LocalDate.of(2025, 11, 1));
-		when(otroViaje.getFechaLlegada()).thenReturn(LocalDate.of(2025, 11, 10));
+		when(unViaje.getFechaLlegada()).thenReturn(LocalDateTime.of(2025, 11, 1, 0, 0));
+		when(otroViaje.getFechaLlegada()).thenReturn(LocalDateTime.of(2025, 11, 10, 0, 0));
 
 	}
 

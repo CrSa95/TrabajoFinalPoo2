@@ -31,7 +31,7 @@ class ServicioElectricoTest {
 		int cant_horas = 5;
 		LocalDateTime fechaRetiro = fechaIngreso.plusHours(cant_horas);
 		when(orden.fechaRetiro()).thenReturn(fechaRetiro);
-		when(orden.fechaIngreso()).thenReturn(fechaIngreso);
+		when(orden.fechaSalida()).thenReturn(fechaIngreso);
 
 		assertEquals(costo_fijo_kw_h * cant_horas, servicio.costo(orden));
 	}
@@ -41,7 +41,7 @@ class ServicioElectricoTest {
 		int cant_dias = 5;
 		LocalDateTime fechaRetiro = fechaIngreso.plusDays(cant_dias);
 		when(orden.fechaRetiro()).thenReturn(fechaRetiro);
-		when(orden.fechaIngreso()).thenReturn(fechaIngreso);
+		when(orden.fechaSalida()).thenReturn(fechaIngreso);
 
 		assertEquals(costo_fijo_kw_h * cant_dias * 24, servicio.costo(orden));
 	}
@@ -50,7 +50,7 @@ class ServicioElectricoTest {
 	void noSeCobraMontosNegativos() {
 		LocalDateTime fechaRetiro = fechaIngreso.plusDays(-5);
 		when(orden.fechaRetiro()).thenReturn(fechaRetiro);
-		when(orden.fechaIngreso()).thenReturn(fechaIngreso);
+		when(orden.fechaSalida()).thenReturn(fechaIngreso);
 		assertTrue(servicio.costo(orden) >= 0);
 
 	}

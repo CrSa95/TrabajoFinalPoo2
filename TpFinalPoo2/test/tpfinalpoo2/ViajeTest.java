@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 class ViajeTest {
 	Viaje suject;
 	Circuito circuito;
-	LocalDate fechaSalida = LocalDate.now();
+	LocalDateTime fechaSalida = LocalDateTime.now();
 
 	Tramo tramoInicial;
 	Tramo siguienteTramo;
