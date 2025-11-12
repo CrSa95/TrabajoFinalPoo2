@@ -39,4 +39,10 @@ public class Viaje {
 		return this.circuito.siguienteTramo(tramoActual);
 	}
 
+	public LocalDateTime proximaFecha(Terminal origen, Terminal destino) {
+		return this.getFechaSalida().plusDays((long) this.circuito.tiempoTotalDesdeHasta(origen, destino));
+
+		
+	}
+
 }
