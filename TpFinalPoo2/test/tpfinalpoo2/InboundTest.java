@@ -1,6 +1,7 @@
 package tpfinalpoo2;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Assertions;
@@ -20,11 +21,16 @@ public class InboundTest {
 
 	@Test
 	void testElEstadoInboundNoPuedeCambiarElEstadoAArrivedSiLaDistanciaADestinoNoEsLaCorrecta() {
-		
 		when(buqueMock.distanciaHaciaDestino()).thenReturn(10d);
 		EstadoGPS cambioDeEstado = estadoInbound.actualizarGPS(buqueMock);
 		Assertions.assertEquals(estadoInbound, cambioDeEstado);
+	}
+	
+	@Test
+	void inboundAvisaLlegada() {
+		estadoInbound.avisarLlegada(buqueMock);
 		
+		verify(buqueMock).avisarLlegada();
 	}
 	
 }
