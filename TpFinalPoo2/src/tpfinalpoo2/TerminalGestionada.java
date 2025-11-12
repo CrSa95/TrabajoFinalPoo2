@@ -1,5 +1,6 @@
 package tpfinalpoo2;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -109,6 +110,10 @@ public class TerminalGestionada implements Terminal {
 	@Override
 	public void avisarLlegada(Buque buque) {
 		this.ordenes.forEach(orden->orden.notificarLlegada(buque));
+	}
+
+	public LocalDateTime proximaFecha(Terminal terminal) {
+		return this.navieras.stream().map(nav -> nav.proximaFecha(this, terminal)).min((arg0, arg1) -> arg0.compareTo(arg1)).orElse(LocalDateTime.MAX);
 	}
 
 }

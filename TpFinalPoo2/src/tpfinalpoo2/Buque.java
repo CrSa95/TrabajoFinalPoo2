@@ -85,4 +85,15 @@ public class Buque implements Reportable {
 	public String generar(Reporte reporte) {
 		return reporte.emitir(this);
 	}
+	
+	public LocalDateTime proximaFecha(Terminal origen, Terminal destino) {
+		try {
+			if(viaje_asignado == null) return LocalDateTime.MAX;
+			
+			return this.viaje_asignado.proximaFecha(origen, destino);
+		} catch (IllegalArgumentException e) {
+			return LocalDateTime.MAX;
+		}
+		
+	}
 }
