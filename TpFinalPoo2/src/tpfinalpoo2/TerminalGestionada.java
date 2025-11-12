@@ -2,6 +2,7 @@ package tpfinalpoo2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class TerminalGestionada implements Terminal {
@@ -15,6 +16,29 @@ public class TerminalGestionada implements Terminal {
 	public TerminalGestionada(String nombre, Coordenadas coordenadas) {
 		this.nombre = nombre;
 		this.coordenadas = coordenadas;
+	}
+	
+	public List<Container> cargasEnViaje(Viaje viaje) {
+	    return filtrarCargas(o -> viaje.equals(o.viaje()));
+	}
+
+	public List<Container> cargasImportadasEnViaje(Viaje viaje) {
+	    return filtrarCargas(o -> viaje.equals(o.viaje()) && o.esImportacion());
+	}
+
+	public List<Container> cargasExportadasEnViaje(Viaje viaje) {
+	    return filtrarCargas(o -> viaje.equals(o.viaje()) && o.esExportacion());
+	}
+	
+	private List<Container> filtrarCargas(Predicate<Orden> criterio) {
+	    return this.ordenes.stream()
+	            .filter(criterio)
+	            .map(Orden::carga)
+	            .toList();
+	}
+	
+	public int cantCargasEnViaje(Viaje viaje) {
+		return this.cargasEnViaje(viaje).size();
 	}
 
 	public void exportar(Orden orden) {

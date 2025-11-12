@@ -18,4 +18,9 @@ public class Refrigerado extends Container {
 	public Double temperaturaRequerida() {
 		return this.temperatura_requerida;
 	}
+	
+	@Override
+	public String tipo() {
+		return "Refrigerado";
+	}
 }
