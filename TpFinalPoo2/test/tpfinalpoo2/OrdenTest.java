@@ -17,7 +17,7 @@ public class OrdenTest {
     private Cliente clienteMock;
     private Servicio servicioMock1;
     private Servicio servicioMock2;
-    private TerminalGestionada destinoMock;
+    private Terminal terminalMock;
     private Buque buqueMock;
 
     private static final String PATENTE_CAMION = "AAA123";
@@ -33,7 +33,7 @@ public class OrdenTest {
     	this.clienteMock = mock(Cliente.class);
     	this.servicioMock1 = mock(Servicio.class);
     	this.servicioMock2 = mock(Servicio.class);
-        this.destinoMock = mock(TerminalGestionada.class);
+        this.terminalMock = mock(Terminal.class);
         this.buqueMock = mock(Buque.class);
 
         when(camionMock.patente()).thenReturn(PATENTE_CAMION);
@@ -141,10 +141,10 @@ public class OrdenTest {
     
     @Test
     void fechaLlegadaDevuelveFechaLlegadaDeViaje() {
-    	orden.terminalDestino(destinoMock);
+    	orden.terminalDestino(terminalMock);
     	
         LocalDateTime fechaLlegadaViaje = LocalDateTime.now().plusDays(3);
-        when(viajeMock.fechaLlegada(destinoMock)).thenReturn(fechaLlegadaViaje);
+        when(viajeMock.fechaLlegada(terminalMock)).thenReturn(fechaLlegadaViaje);
 
         assertEquals(fechaLlegadaViaje, orden.fechaLlegada());
     }
@@ -159,12 +159,12 @@ public class OrdenTest {
 
     @Test
     void fechaRetiroCorrecta() {
-    	orden.terminalDestino(destinoMock);
+    	orden.terminalDestino(terminalMock);
     	
         LocalDateTime FechaLlegadaViaje = LocalDateTime.of(2025, 11, 11, 14, 30);
         LocalDateTime retiroEsperado = FechaLlegadaViaje.plusDays(1).withHour(8);
         
-        when(viajeMock.fechaLlegada(destinoMock)).thenReturn(FechaLlegadaViaje);
+        when(viajeMock.fechaLlegada(terminalMock)).thenReturn(FechaLlegadaViaje);
 
         LocalDateTime retiro = orden.fechaRetiro();
 
@@ -182,15 +182,15 @@ public class OrdenTest {
     
     @Test
     void clienteRecibeNotificacionDePartida() {
+    	orden.terminalOrigen(terminalMock);
         orden.notificarPartida(buqueMock);
-        
         verify(clienteMock).notificarPartida(buqueMock);
     }
 
     @Test
     void clienteRecibeNotificacionDeLlegada() {
+    	orden.terminalDestino(terminalMock);
         orden.notificarLlegada(buqueMock);
-        
         verify(clienteMock).notificarLlegada(buqueMock);
     }
 }

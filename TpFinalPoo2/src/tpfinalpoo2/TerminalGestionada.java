@@ -18,10 +18,12 @@ public class TerminalGestionada implements Terminal {
 	}
 
 	public void exportar(Orden orden) {
+		orden.terminalOrigen(this);
 		this.ordenes.add(orden);
 	}
 
 	public void importar(Orden orden) {
+		orden.terminalDestino(this);
 		this.ordenes.add(orden);
 	}
 
@@ -82,8 +84,8 @@ public class TerminalGestionada implements Terminal {
 
 	@Override
 	public void avisarLlegada(Buque buque) {
-		// TODO Auto-generated method stub
-		
+		this.ordenes.forEach(orden->orden.notificarLlegada(buque));
+
 	}
 
 }
