@@ -2,10 +2,14 @@ package tpfinalpoo2;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,6 +39,29 @@ class BuqueTest {
 		when(viaje.tramoInicial()).thenReturn(tramo_inicial);
 		when(tramo_inicial.getTerminalDestino()).thenReturn(terminal_destino);
 		when(tramo_inicial.getTerminalOrigen()).thenReturn(terminal_origen);
+	}
+	
+	@Test 
+	void proximaFechaTest() {
+		LocalDateTime fecha_esperada = LocalDateTime.now();
+		when(viaje.proximaFecha(terminal_destino, terminal_origen)).thenReturn(fecha_esperada);
+		suject.asignar(viaje);
+		assertEquals(fecha_esperada, suject.proximaFecha(terminal_destino, terminal_origen));
+	}
+	
+	@Test 
+	void proximaFechaTestDevuelveLaMasAltaEnCasoDeNoTenerDestino() {
+		LocalDateTime fecha_esperada = LocalDateTime.MAX;
+		suject.asignar(viaje);
+		when(viaje.proximaFecha(terminal_destino, terminal_origen)).thenReturn(fecha_esperada);
+		assertEquals(fecha_esperada, suject.proximaFecha(terminal_destino, terminal_origen));
+	}
+	
+	@Test 
+	void proximaFechaDeBuqueSinViajeRegresaFechaMaxima() {
+		LocalDateTime fecha_esperada = LocalDateTime.MAX;
+		when(viaje.proximaFecha(terminal_destino, terminal_origen)).thenReturn(fecha_esperada);
+		assertEquals(fecha_esperada, suject.proximaFecha(terminal_destino, terminal_origen));
 	}
 	
 	@Test 

@@ -80,7 +80,8 @@ public class Buque {
 		this.estado_gps.avanzar(this);
 	}
 
-	public LocalDateTime proximaFecha(Terminal terminal) {
-		return null;
+	public LocalDateTime proximaFecha(Terminal origen, Terminal destino) {
+		if(viaje_asignado == null) return LocalDateTime.MAX;
+		return this.viaje_asignado.proximaFecha(origen, destino);
 	}
 }
