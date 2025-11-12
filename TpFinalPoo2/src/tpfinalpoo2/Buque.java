@@ -6,27 +6,21 @@ public class Buque {
 	private Tramo tramo_actual;
 	private Coordenadas coordenadas;
 
-	public Buque() {
-		
-	}
 
 	public void asignar(Viaje viaje) {
-		this.estado_gps = new Outbound();
 		this.viaje_asignado = viaje;
+		this.estado_gps = new Outbound();
+		this.tramo_actual = this.viaje_asignado.tramoInicial();
 	}
 	
 	public void iniciarViaje() {
-		this.tramo_actual = this.viaje_asignado.tramoInicial();
 		this.coordenadas = tramo_actual.getTerminalOrigen().coordenadas();
 		this.estado_gps.avisarPartida(this);
 	}
 
-	public void actualizarGPS() {
-		this.estado_gps = this.estado_gps.actualizarGPS(this);
-	}
 	
 	protected void cambiarEstado(EstadoGPS estado) {
-		
+		this.estado_gps = estado;
 	}
 	public Double distanciaHaciaDestino() {
 		return this.tramo_actual.distanciaHacia(coordenadas);
@@ -46,8 +40,6 @@ public class Buque {
 
 	public void siguienteDestino() {
 		this.tramo_actual = this.viaje_asignado.siguienteTramo(tramo_actual);
-		this.coordenadas = this.tramo_actual.getTerminalDestinoCoordenadas();
-		this.estado_gps = this.estado_gps.actualizarGPS(this);
 	}
 
 	public void salir() {
@@ -79,5 +71,9 @@ public class Buque {
 	
 	public Terminal terminalDestino() {
 		return this.tramo_actual.getTerminalDestino();
+	}
+
+	public void avanzar() {
+		this.estado_gps.avanzar(this);
 	}
 }
