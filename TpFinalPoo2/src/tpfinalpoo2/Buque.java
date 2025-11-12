@@ -81,7 +81,13 @@ public class Buque {
 	}
 
 	public LocalDateTime proximaFecha(Terminal origen, Terminal destino) {
-		if(viaje_asignado == null) return LocalDateTime.MAX;
-		return this.viaje_asignado.proximaFecha(origen, destino);
+		try {
+			if(viaje_asignado == null) return LocalDateTime.MAX;
+			
+			return this.viaje_asignado.proximaFecha(origen, destino);
+		} catch (IllegalArgumentException e) {
+			return LocalDateTime.MAX;
+		}
+		
 	}
 }
