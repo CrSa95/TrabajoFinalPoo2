@@ -46,9 +46,9 @@ public class Naviera {
 				.collect(Collectors.toList());
 	}
 
-	public LocalDateTime proximaFecha(Terminal terminal) {
+	public LocalDateTime proximaFecha(Terminal destino, Terminal origen) {
 		Optional<LocalDateTime> proximaFecha = this.buques.stream()
-				   .map(b -> b.proximaFecha(terminal))
+				   .map(b -> b.proximaFecha(destino, origen))
 				   .filter(fecha-> !fecha.isEqual(LocalDateTime.MAX))
 				   .min((arg0, arg1) -> arg0.compareTo(arg1));
 		

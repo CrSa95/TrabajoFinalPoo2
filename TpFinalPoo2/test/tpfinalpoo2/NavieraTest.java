@@ -48,18 +48,20 @@ public class NavieraTest {
 	@Test 
 	void proximaFechaTest() {
 		LocalDateTime fecha_esperada = LocalDateTime.now();
-		Terminal terminalSuject = mock(Terminal.class);
+		Terminal destino = mock(Terminal.class);
+		Terminal origen  = mock(Terminal.class);
 		naviera.agregarBuque(buque);
 		when(buque.viaje()).thenReturn(viaje);
-		when(buque.proximaFecha(terminalSuject)).thenReturn(fecha_esperada);
-		Assertions.assertEquals(fecha_esperada ,naviera.proximaFecha(terminalSuject));
+		when(buque.proximaFecha(destino, origen)).thenReturn(fecha_esperada);
+		Assertions.assertEquals(fecha_esperada ,naviera.proximaFecha(destino, origen));
 	}
 	
 	@Test 
 	void proximaFechaDeUnaNavieraSinViajesALaTerminalDevuelveLaFechaMaxima() {
-		Terminal terminalSuject = mock(Terminal.class);
+		Terminal destino = mock(Terminal.class);
+		Terminal origen  = mock(Terminal.class);
 		when(buque.viaje()).thenReturn(viaje);
-		Assertions.assertEquals(LocalDateTime.MAX ,naviera.proximaFecha(terminalSuject));
+		Assertions.assertEquals(LocalDateTime.MAX ,naviera.proximaFecha(destino, origen));
 	}
 	
 	@Test
