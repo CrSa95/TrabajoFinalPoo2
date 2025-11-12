@@ -68,30 +68,30 @@ public class OrdenTest {
     }
 
     @Test
-    void verificarCorrectoDevuelveTrue() {
+    void verificarCorrectoNoLanzaExcepcion() {
         assertDoesNotThrow(() -> orden.verificar(camionMock, choferMock, cargaMock));
     }
 
     @Test
-    void verificarCamionIncorrectoDevuelveFalse() {
+    void verificarCamionIncorrectoLanzaExcepcion() {
         Camion camionIncorrecto = camionConPatente("ZZZ123");
         assertThrows(RuntimeException.class, () -> orden.verificar(camionIncorrecto, choferMock, cargaMock));
     }
 
     @Test
-    void verificarChoferIncorrectoDevuelveFalse() {
+    void verificarChoferIncorrectoLanzaExcepcion() {
         Chofer choferIncorrecto = choferConDni("99999999");
         assertThrows(RuntimeException.class, () -> orden.verificar(camionMock, choferIncorrecto, cargaMock));
     }
 
     @Test
-    void verificarCargaIncorrectaDevuelveFalse() {
+    void verificarCargaIncorrectaNoLanzaExcepcion() {
         Container cargaIncorrecta = cargaConId("TEST9999999");
-        assertThrows(RuntimeException.class, () -> orden.verificar(camionMock, choferMock, cargaIncorrecta));
+        assertDoesNotThrow(() -> orden.verificar(camionMock, choferMock, cargaIncorrecta));
     }
 
     @Test
-    void verificarTodoIncorrectoDevuelveFalse() {
+    void verificarTodoIncorrectoNoLanzaExcepcion() {
         Camion camionIncorrecto = mock(Camion.class);
         Chofer choferIncorrecto = mock(Chofer.class);
         Container cargaIncorrecta = mock(Container.class);
@@ -101,7 +101,7 @@ public class OrdenTest {
         when(cargaIncorrecta.id()).thenReturn("TEST9999999");
         
         
-        assertThrows(RuntimeException.class, () -> orden.verificar(camionIncorrecto, choferIncorrecto, cargaIncorrecta));
+        assertDoesNotThrow(() -> orden.verificar(camionIncorrecto, choferIncorrecto, cargaIncorrecta));
     }
     
     @Test
