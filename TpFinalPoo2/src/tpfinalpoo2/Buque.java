@@ -19,10 +19,6 @@ public class Buque {
 		this.estado_gps = this.estado_gps.actualizarGPS(this);
 	}
 
-	public void avisarSalida() {
-		this.estado_gps.avisarLlegada(this);
-	}
-
 	public Double distanciaHaciaDestino() {
 		return this.tramo_actual.distanciaHacia(coordenadas);
 	}

@@ -9,4 +9,9 @@ public class Departing extends EstadoGPS {
 		}
 		return this;
 	}
+	
+	@Override 
+	public void salir(Buque buque) {
+		buque.siguienteDestino();
+	}
 }

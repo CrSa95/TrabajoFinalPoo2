@@ -67,7 +67,6 @@ public abstract class Container {
 	}
 
 	public boolean isEqual(Container container) {
-		// TODO Auto-generated method stub
 		return this.id().equals(container.id());
 	}
 }

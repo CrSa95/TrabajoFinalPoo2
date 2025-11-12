@@ -67,16 +67,35 @@ class BuqueTest {
 		Terminal terminal = spy(Terminal.class);
 		Tramo siguienteTramo = mock(Tramo.class);
 		when(viaje.siguienteTramo(tramoActual)).thenReturn(siguienteTramo); 
-		when(siguienteTramo.getTerminalDestino()).thenReturn(terminal);
+		
+		when(siguienteTramo.getTerminalDestino()).thenReturn(terminalSuject);
 		when(siguienteTramo.getTerminalOrigen()).thenReturn(terminal);
 		when(tramoActual.distanciaHacia(null)).thenReturn(0d);
 		suject.actualizarGPS();
 		suject.actualizarGPS();
 		suject.empezarTrabajo();
 		suject.permitirSalida();
-		suject.actualizarGPS();
+		suject.salir();
 		suject.avisarPartida();
 		verify(terminal).avisarPartida(suject);
+	}
+	
+	@Test 
+	void sePuedeAvisarLLegadaEnEstadoOutbound() {
+		Terminal terminal = spy(Terminal.class);
+		Tramo siguienteTramo = mock(Tramo.class);
+		when(viaje.siguienteTramo(tramoActual)).thenReturn(siguienteTramo);
+		
+		when(siguienteTramo.getTerminalDestino()).thenReturn(terminal);
+		when(siguienteTramo.getTerminalOrigen()).thenReturn(terminalSuject);
+		when(tramoActual.distanciaHacia(null)).thenReturn(0d);
+		suject.actualizarGPS();
+		suject.actualizarGPS();
+		suject.empezarTrabajo();
+		suject.permitirSalida();
+		suject.salir();
+		suject.avisarLlegada();
+		verify(terminal).avisarLlegada(suject);
 	}
 
 	@Test
