@@ -5,7 +5,7 @@ public class Buque {
 	private Viaje viaje_asignado;
 	private Tramo tramo_actual;
 	private Coordenadas coordenadas;
-
+	
 
 	public void asignar(Viaje viaje) {
 		this.viaje_asignado = viaje;
@@ -28,10 +28,6 @@ public class Buque {
 
 	public void empezarTrabajo() {
 		this.estado_gps.empezarTrabajo(this);
-	}
-
-	public Terminal destinoActual() {
-		return this.viaje_asignado.getTerminalDestino();
 	}
 
 	public void permitirSalida() {
@@ -63,7 +59,6 @@ public class Buque {
 				this.terminalOrigen().coordenadas()
 		);
 	}
-	
 	
 	public Terminal terminalOrigen() {
 		return this.tramo_actual.getTerminalOrigen();
