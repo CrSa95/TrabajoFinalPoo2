@@ -9,11 +9,4 @@ public class Departing extends EstadoGPS {
 		}
 		return this;
 	}
-
-	@Override
-	public void avisarPartida(Buque buque) {
-		buque.avisarPartida();
-	}
-
-
 }

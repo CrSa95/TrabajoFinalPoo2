@@ -80,4 +80,10 @@ public class TerminalGestionada implements Terminal {
 		
 	}
 
+	@Override
+	public void avisarLlegada(Buque buque) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

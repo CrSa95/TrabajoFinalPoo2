@@ -40,9 +40,9 @@ class BuqueTest {
 		when(tramoActual.distanciaHacia(null)).thenReturn(49d);
 		suject.actualizarGPS();
 		when(suject.destinoActual()).thenReturn(terminalSuject);
+		when(tramoActual.getTerminalDestino()).thenReturn(terminalSuject);
 		assertDoesNotThrow(() -> suject.avisarLlegada());
-
-		verify(terminalSuject).notificarClientes(suject);
+		verify(terminalSuject).avisarLlegada(suject);
 	}
 
 	@Test
@@ -68,12 +68,13 @@ class BuqueTest {
 		Tramo siguienteTramo = mock(Tramo.class);
 		when(viaje.siguienteTramo(tramoActual)).thenReturn(siguienteTramo); 
 		when(siguienteTramo.getTerminalDestino()).thenReturn(terminal);
-		
+		when(siguienteTramo.getTerminalOrigen()).thenReturn(terminal);
 		when(tramoActual.distanciaHacia(null)).thenReturn(0d);
 		suject.actualizarGPS();
 		suject.actualizarGPS();
 		suject.empezarTrabajo();
 		suject.permitirSalida();
+		suject.actualizarGPS();
 		suject.avisarPartida();
 		verify(terminal).avisarPartida(suject);
 	}
