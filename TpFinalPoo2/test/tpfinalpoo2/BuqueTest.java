@@ -81,22 +81,27 @@ class BuqueTest {
 
 	@Test
 	void iniciarTrabajoLanzaExcepcionSiNoEstaEnModoArrived() {
-		assertThrows(RuntimeException.class, () -> suject.empezarTrabajo());
+		assertThrows(RuntimeException.class, () -> suject.empezarTrabajo(), "No se puede iniciar trabajo actualmente; muy lejos de la terminal");
 	}
 
 	@Test
 	void permitirSalidaLanzaExcepcionSiNoEstaEnModoWorking() {
-		assertThrows(RuntimeException.class, () -> suject.permitirSalida());
+		assertThrows(RuntimeException.class, () -> suject.permitirSalida(), "El buque ya esta en un viaje");
 	}
 
 	@Test
 	void avisarLLegadaLanzaExcepcionSiNoEstaEnModoOutbound() {
-		assertThrows(RuntimeException.class, () -> suject.avisarLlegada());
+		assertThrows(RuntimeException.class, () -> suject.avisarLlegada(), "El buque no puede avisarLlegada actualmente");
 	}
-
+	
+	@Test
+	void avisarPartidaLanzaExcepcionSiNoEstaEnModoOutbound() {
+		assertThrows(RuntimeException.class, () -> suject.avisarPartida(), "El buque no puede avisar su salida actualmente");
+	}
+	
 	@Test
 	void salirLanzaExcepcionSiNoEstaEnModoDeparting() {
-		assertThrows(RuntimeException.class, () -> suject.salir());
+		assertThrows(RuntimeException.class, () -> suject.salir(), "El buque no puede salir actualmente");
 	}
 	
 	@Test

@@ -96,11 +96,11 @@ public class Orden {
 	}
 	
 	public void notificarPartida(Buque buque) {
-		this.cliente.notificarPartida(buque);
+		if(this.origen != null) this.cliente.notificarPartida(buque);
 	}
 
 	public void notificarLlegada(Buque buque) {
-		this.cliente.notificarLlegada(buque);
+		if(this.destino != null) this.cliente.notificarLlegada(buque);
 	}
 
 }

@@ -132,6 +132,13 @@ public class TerminalGestionadaTest {
 		terminalGestionada.avisarPartida(buque);
 		verify(ordenMock).notificarPartida(buque);
 	}
+	
+	@Test 
+	void notificarLlegada() {
+		terminalGestionada.importar(ordenMock);
+		terminalGestionada.avisarLlegada(buque);
+		verify(ordenMock).notificarLlegada(buque);
+	}
 
 	@Test
 	void testLaTerminalConoceSuNombre() {
