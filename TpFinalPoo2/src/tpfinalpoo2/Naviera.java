@@ -1,7 +1,12 @@
 package tpfinalpoo2;
 
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Naviera {
@@ -39,5 +44,14 @@ public class Naviera {
 																										// viajes
 																										// duplicados
 				.collect(Collectors.toList());
+	}
+
+	public LocalDateTime proximaFecha(Terminal terminal) {
+		Optional<LocalDateTime> proximaFecha = this.buques.stream()
+				   .map(b -> b.proximaFecha(terminal))
+				   .filter(fecha-> !fecha.isEqual(LocalDateTime.MAX))
+				   .min((arg0, arg1) -> arg0.compareTo(arg1));
+		
+		return proximaFecha.orElse(LocalDateTime.MAX);
 	}
 }

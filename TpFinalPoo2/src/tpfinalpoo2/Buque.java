@@ -1,5 +1,7 @@
 package tpfinalpoo2;
 
+import java.time.LocalDateTime;
+
 public class Buque {
 	private EstadoGPS estado_gps;
 	private Viaje viaje_asignado;
@@ -76,5 +78,9 @@ public class Buque {
 
 	public void avanzar() {
 		this.estado_gps.avanzar(this);
+	}
+
+	public LocalDateTime proximaFecha(Terminal terminal) {
+		return null;
 	}
 }

@@ -3,6 +3,7 @@ package tpfinalpoo2;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,6 +45,18 @@ public class NavieraTest {
 
 	}
 
+	@Test 
+	void proximaFechaTest() {
+		LocalDateTime fecha_esperada = LocalDateTime.now();
+		Terminal terminalSuject = mock(Terminal.class);
+		naviera.agregarBuque(buque);
+		when(buque.viaje()).thenReturn(viaje);
+		when(buque.proximaFecha(terminalSuject)).thenReturn(fecha_esperada);
+		
+		
+		Assertions.assertEquals(fecha_esperada ,naviera.proximaFecha(terminalSuject));
+	}
+	
 	@Test
 	void testUnaNavieraPuedeAgregarBuques() {
 		Assertions.assertTrue(naviera.getBuques().isEmpty());
