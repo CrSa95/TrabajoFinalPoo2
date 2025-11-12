@@ -14,7 +14,7 @@ public class Outbound extends EstadoGPS {
 			buque.avisarLlegada();
 		}
 		
-	if( !se_aviso_partida && buque.distanciaHaciaOrigen() >= 1d){
+		if( !se_aviso_partida && buque.distanciaHaciaOrigen() >= 1d){
 			buque.avisarPartida();
 			se_aviso_partida = true;
 		}

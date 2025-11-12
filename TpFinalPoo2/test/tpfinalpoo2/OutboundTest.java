@@ -40,4 +40,17 @@ public class OutboundTest {
 		verify(terminal).avisarPartida(buque);
 	}
 	
+	@Test 
+	void seNotificaAlaTerminalOrigenUnicamenteUnaVez() {
+		when(buque.distanciaHaciaDestino()).thenReturn(50d);
+		when(buque.terminalOrigen()).thenReturn(terminal);
+		when(buque.distanciaHaciaOrigen()).thenReturn(2d);
+		suject.avanzar(buque);
+		suject.avanzar(buque);
+		
+		verify(buque, times(1)).avisarPartida();
+		
+		
+	}
+	
 }
