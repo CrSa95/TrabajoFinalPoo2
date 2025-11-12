@@ -19,17 +19,8 @@ public class DepartingTest {
 		buqueMock = mock(Buque.class);
 	}
 	
-	@Test
-	void testElEstadoInboundNoPuedeCambiarElEstadoAArrivedSiLaDistanciaADestinoNoEsLaCorrecta() {
-		
-		when(buqueMock.distanciaHaciaOrigen()).thenReturn(2d);
-		EstadoGPS cambioDeEstado = suject.actualizarGPS(buqueMock);
-		Assertions.assertTrue(cambioDeEstado.getClass().equals(Outbound.class));
-	}
-	
 	@Test 
-	void estadoDepartingPuedeSalirTerminal() {
+	void departingPermiteSalirDeLaterminal() {
 		suject.salir(buqueMock);
-		verify(buqueMock).siguienteDestino();
 	}
 }

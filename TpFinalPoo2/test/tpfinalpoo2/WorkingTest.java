@@ -1,5 +1,7 @@
 package tpfinalpoo2;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -9,24 +11,22 @@ import org.junit.jupiter.api.Test;
 
 public class WorkingTest {
 	
-	private Working estadoWorking;
+	private Working suject;
 	private Buque buqueMock;
 
 	@BeforeEach
 	public void setUp() {
-		estadoWorking = new Working();
+		suject = new Working();
 		buqueMock = mock(Buque.class);
 	}
 
-	@Test
-	void testElEstadoWorkinNoPuedeCambiarElEstadoADepartingSiLaPartidaNoSeInicio() {	
-		EstadoGPS cambioDeEstado = estadoWorking.actualizarGPS(buqueMock);
-		Assertions.assertEquals(estadoWorking, cambioDeEstado);
+	@Test 
+	void workingPermiteSalida() {
+		assertDoesNotThrow(()-> suject.permitirSalida(buqueMock));
 	}
-	
-	@Test
-	void testElEstadoWorkinPermiteLaSalida() {
-		estadoWorking.permitirSalida(buqueMock);
+	@Test 
+	void permitirSalidaModificaEl() {
+		suject.permitirSalida(buqueMock);
+		verify(buqueMock).cambiarEstado(any());
 	}
-	
 }

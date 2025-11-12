@@ -14,16 +14,16 @@ import org.junit.jupiter.api.Test;
 class BuqueTest {
 	Buque suject;
 	Tramo tramo_inicial;
+	
 	Viaje viaje;
 	Terminal terminal_destino;
 	Terminal terminal_origen;
-
 	@BeforeEach
 	void setUp() throws Exception{
 		suject = new Buque();
 		viaje = mock(Viaje.class);
-		terminal_destino = mock(Terminal.class);
-		terminal_origen = mock(Terminal.class);
+		terminal_destino = spy(Terminal.class);
+		terminal_origen = spy(Terminal.class);
 		tramo_inicial   = mock(Tramo.class);
 		when(viaje.tramoInicial()).thenReturn(tramo_inicial);
 		when(tramo_inicial.getTerminalDestino()).thenReturn(terminal_destino);
@@ -34,8 +34,60 @@ class BuqueTest {
 	void iniciarUnViajeAvisaALaTerminalDestino() {
 		suject.asignar(viaje);
 		suject.iniciarViaje();
+		verify(terminal_origen).avisarPartida(suject);
 	}
 	
+	@Test 
+	void conDistanciaADestinoMenorA50kmNotificaATerminal() {
+		suject.asignar(viaje);
+		suject.iniciarViaje();
+		
+		when(tramo_inicial.distanciaHacia(null)).thenReturn(49d);
+		suject.avanzar();
+		verify(terminal_destino).avisarLlegada(suject);
+	}
+	
+	@Test 
+	void conDistanciaADestinoMenorIgualA0SePuedeIniciarTrabajo() {
+		suject.asignar(viaje);
+		suject.iniciarViaje();
+		
+		when(tramo_inicial.distanciaHacia(null)).thenReturn(49d);
+		suject.avanzar();
+		
+		when(tramo_inicial.distanciaHacia(null)).thenReturn(0d);
+		suject.avanzar();
+		
+		assertDoesNotThrow(()-> suject.empezarTrabajo());
+	}
+	
+	@Test 
+	void sePuedeIniciarPartida() {
+		suject.asignar(viaje);
+		suject.iniciarViaje();
+		when(tramo_inicial.distanciaHacia(null)).thenReturn(49d);
+		suject.avanzar();
+		when(tramo_inicial.distanciaHacia(null)).thenReturn(0d);
+		suject.avanzar();
+		suject.empezarTrabajo();
+		
+		
+	}
+	
+	@Test 
+	void sePuedeSalirDeLaTerminal() {
+		Tramo tramo_siguiente = mock(Tramo.class);
+		when(viaje.siguienteTramo(tramo_inicial)).thenReturn(tramo_siguiente);
+		suject.asignar(viaje);
+		suject.iniciarViaje();
+		when(tramo_inicial.distanciaHacia(null)).thenReturn(49d);
+		suject.avanzar();
+		when(tramo_inicial.distanciaHacia(null)).thenReturn(0d);
+		suject.avanzar();
+		suject.empezarTrabajo();
+		suject.permitirSalida();
+		assertDoesNotThrow(()->suject.salir());
+	}
 	
 	@Test
 	void iniciarTrabajoLanzaExcepcionSiNoEstaEnModoArrived() {

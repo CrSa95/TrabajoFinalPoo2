@@ -23,22 +23,18 @@ public class OutboundTest {
 	
 	
 	@Test 
-	void distanciaMayorIgaulA50km() {
+	void distanciaMenorA50kmCambiaElEstado() {
 		when(buque.distanciaHaciaDestino()).thenReturn(50d);
-		assertEquals(suject, suject.actualizarGPS(buque));
+		suject.avanzar(buque);
+		verify(buque, never()).cambiarEstado(any());
 		
-		when(buque.distanciaHaciaDestino()).thenReturn(51d);
-		assertEquals(suject, suject.actualizarGPS(buque));
-	}
-	
-	@Test 
-	void distanciaMenorA50km() {
 		when(buque.distanciaHaciaDestino()).thenReturn(49d);
-		assertEquals(Inbound.class, suject.actualizarGPS(buque).getClass());
+		suject.avanzar(buque);
+		verify(buque).cambiarEstado(any());
 	}
 	
 	@Test 
-	void seNotificaLaPartidaDelBuque() {
+	void outboundAvisaPartidaATerminal() {
 		when(buque.terminalOrigen()).thenReturn(terminal);
 		suject.avisarPartida(buque);
 		verify(terminal).avisarPartida(buque);
