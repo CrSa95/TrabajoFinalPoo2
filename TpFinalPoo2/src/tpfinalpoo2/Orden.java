@@ -1,51 +1,44 @@
 package tpfinalpoo2;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Orden {
-	private Container carga;
-	private Chofer chofer;
-	private Camion camion;
-	private Cliente cliente;
+	
+	private Terminal origen;
+	private Terminal destino;
 	private Viaje viaje_seleccionado;
 	private Set<Servicio> servicios_contratados;
-	public Orden(Container container, Camion camion, Chofer chofer, Cliente cliente, Set<Servicio> servicios_contratados, Viaje viaje_seleccionado) {
-		this.carga = container;
+	private Container carga;
+	private Camion camion;
+	private Chofer chofer;
+	private Cliente cliente;
+	
+	public Orden(Cliente cliente, Camion camion, Chofer chofer, Container carga, Viaje viaje_seleccionado) {
+		this.origen = null;
+		this.destino = null;
+		this.viaje_seleccionado = viaje_seleccionado;
+		this.carga = carga;
 		this.camion = camion;
 		this.chofer = chofer;
 		this.cliente = cliente;
-		this.servicios_contratados = servicios_contratados;
-		this.viaje_seleccionado = viaje_seleccionado;
+		this.servicios_contratados = new HashSet<>();
 	}
 	
-	public double costoEnServicios() {
-		return this.servicios_contratados
-		        .stream()
-		        .mapToDouble(servicio -> servicio.costo(this))
-		        .sum();
-	}
-	public Container carga() {
-		return this.carga;
-	}
-
-	public LocalDateTime fechaRetiro() {
-		return null;
+	public void terminalOrigen(Terminal terminal) {
+		this.origen = terminal;
 	}
 	
-	public LocalDateTime fechaIngreso() {
-		return null;
+	public void terminalDestino(Terminal terminal) {
+		this.destino = terminal;
 	}
-
-	public boolean perteneceAlContainer(Container container) {
-		return this.carga.isEqual(container);
-	}
-
-	public void verificar(Container container, Camion camion, Chofer chofer) {
-		if (this.carga.isEqual(container)) {
-			this.verificarCamion(camion);
-			this.verificarChofer(chofer);
-		}
+	
+	
+	public void verificar(Camion camion, Chofer chofer, Container container) {
+		this.verificarCamion(camion);
+		this.verificarChofer(chofer);
+		this.verificarCarga(container);
 
 	}
 
@@ -57,29 +50,57 @@ public class Orden {
 
 	private void verificarCamion(Camion camion) {
 		if (!this.camion.patente().equals(camion.patente())) {
-			throw new RuntimeException("Camion no autorizado");
+			throw new RuntimeException("Camión no autorizado");
 		}
+	}
+	
+	private void verificarCarga(Container container) {
+		if (!this.carga.id().equals(container.id())) {
+			throw new RuntimeException("Carga no autorizada");
+		}
+	}
+	
+	public double costoEnServicios() {
+		return this.servicios_contratados
+		        .stream()
+		        .mapToDouble(servicio -> servicio.costo(this))
+		        .sum();
+	}
+	
+	public Double costoRecorrido() {
+		return this.viaje_seleccionado.costo();
+	}
+	
+	public void agregar(Servicio servicio) {
+		this.servicios_contratados.add(servicio);
+	}
+	
+	public LocalDateTime fechaLlegada() {
+		return this.viaje_seleccionado.fechaLlegada(destino);
+	}
+	
+	public LocalDateTime fechaSalida() {
+		return this.viaje_seleccionado.getFechaSalida();
+	}
+	
+	public LocalDateTime fechaRetiro() {
+		return this.fechaLlegada().plusDays(1L).withHour(8);
+	}
+	
+	public Viaje viaje() {
+		return this.viaje_seleccionado;
+	}
+
+	public Container carga() {
+		return this.carga;
+	}
+	
+	public void notificarPartida(Buque buque) {
+		this.cliente.notificarPartida(buque);
 	}
 
 	public void notificarLlegada(Buque buque) {
-		if (this.mismoViaje(buque.viaje())) {
-			this.cliente.notificarLlegada(buque);
-		}
-	}
-
-
-	private boolean mismoViaje(Viaje viaje) {
-		return viaje.equals(viaje);
-	}
-
-	public void notificarPartida(Buque buque) {
-		if (this.mismoViaje(buque.viaje())) {
-			this.cliente.notificarPartida(buque);
-		}
-	}
-
-	public Double costoRecorrido() {
-		return this.viaje_seleccionado.costo();
+		this.cliente.notificarLlegada(buque);
 	}
 
 }

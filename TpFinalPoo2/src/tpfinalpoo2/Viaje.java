@@ -1,21 +1,21 @@
 package tpfinalpoo2;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Viaje {
-	private LocalDate fechaSalida;
+	private LocalDateTime fechaSalida;
 	private Circuito circuito;
 
-	public Viaje(Circuito circuito, LocalDate fechaSalida) {
+	public Viaje(Circuito circuito, LocalDateTime fechaSalida) {
 		this.circuito = circuito;
 		this.fechaSalida = fechaSalida;
 	}
 
-	public LocalDate getFechaLlegada() {
+	public LocalDateTime getFechaLlegada() {
 		return fechaSalida.plusDays((long) circuito.tiempoTotal());
 	}
 
-	public LocalDate getFechaSalida() {
+	public LocalDateTime getFechaSalida() {
 		return this.fechaSalida;
 	}
 
@@ -27,7 +27,7 @@ public class Viaje {
 		return this.circuito.costoCircuito();
 	}
 
-	public LocalDate fechaLlegada(Terminal terminal) {
+	public LocalDateTime fechaLlegada(Terminal terminal) {
 		return this.fechaSalida.plusDays(this.circuito.tiempoHaciaTerminalDesdeOrigen(terminal));
 	}
 

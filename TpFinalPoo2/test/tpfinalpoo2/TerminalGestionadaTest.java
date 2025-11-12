@@ -42,9 +42,10 @@ public class TerminalGestionadaTest {
 		ordenMock = mock(Orden.class);
 		otroChofer = mock(Chofer.class);
 		otroCamion = mock(Camion.class);
-		orden = new Orden(container, camion, chofer, cliente, null, null);
+		orden = new Orden(cliente, camion, chofer, container, null);
 		when(chofer.dni()).thenReturn("123456");
 		when(camion.patente()).thenReturn("ABCDFGH");
+		when(container.id()).thenReturn("TEST1234567");
 		when(otroChofer.dni()).thenReturn("333443");
 		when(otroCamion.patente()).thenReturn("AAAAAA");
 	}
@@ -77,7 +78,7 @@ public class TerminalGestionadaTest {
 		exception = Assertions.assertThrows(RuntimeException.class,
 				() -> terminalGestionada.ingresarCarga(container, otroCamion, chofer));
 		
-		assertEquals("Camion no autorizado", exception.getMessage());
+		assertEquals("Camión no autorizado", exception.getMessage());
 	}
 
 	@Test
@@ -92,7 +93,7 @@ public class TerminalGestionadaTest {
 		
 		exception = Assertions.assertThrows(RuntimeException.class,
 				() -> terminalGestionada.retirarCarga(container, otroCamion, chofer));
-		assertEquals("Camion no autorizado", exception.getMessage());
+		assertEquals("Camión no autorizado", exception.getMessage());
 	}
 
 
