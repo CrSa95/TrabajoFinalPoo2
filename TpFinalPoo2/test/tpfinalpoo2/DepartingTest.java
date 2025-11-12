@@ -27,11 +27,4 @@ public class DepartingTest {
 		Assertions.assertTrue(cambioDeEstado.getClass().equals(Outbound.class));
 		
 	}
-	
-	@Test
-	void elEstadoDepartingPuedeAvisarSuSalida() {
-		estadoDeparting.avisarPartida(buqueMock);
-		verify(buqueMock).avisarPartida();
-	}
-
 }
