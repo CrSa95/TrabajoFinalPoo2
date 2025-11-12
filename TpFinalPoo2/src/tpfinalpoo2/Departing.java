@@ -8,4 +8,5 @@ public class Departing extends EstadoGPS {
 		buque.cambiarEstado(new Outbound());
 		buque.siguienteDestino();
 	}
+	
 }

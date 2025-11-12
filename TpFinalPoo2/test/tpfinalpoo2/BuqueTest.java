@@ -18,12 +18,19 @@ class BuqueTest {
 	Viaje viaje;
 	Terminal terminal_destino;
 	Terminal terminal_origen;
+	Coordenadas coordenadas_origen;
+	Coordenadas coordenadas_destino;
+	
 	@BeforeEach
 	void setUp() throws Exception{
+		coordenadas_origen = mock(Coordenadas.class);
+	    coordenadas_destino = mock(Coordenadas.class);
 		suject = new Buque("Buque Marzo");
 		viaje = mock(Viaje.class);
-		terminal_destino = spy(Terminal.class);
-		terminal_origen = spy(Terminal.class);
+		terminal_destino = mock(Terminal.class);
+		when(terminal_destino.coordenadas()).thenReturn(coordenadas_destino);
+		terminal_origen = mock(Terminal.class);
+		when(terminal_origen.coordenadas()).thenReturn(coordenadas_origen);
 		tramo_inicial   = mock(Tramo.class);
 		when(viaje.tramoInicial()).thenReturn(tramo_inicial);
 		when(tramo_inicial.getTerminalDestino()).thenReturn(terminal_destino);
