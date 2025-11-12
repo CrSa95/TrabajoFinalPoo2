@@ -1,5 +1,6 @@
 package tpfinalpoo2;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
@@ -18,7 +19,22 @@ public class OutboundTest {
 		suject = new Outbound();
 		buque = mock(Buque.class);
 	}
-
+	
+	
+	@Test 
+	void distanciaMayorIgaulA50km() {
+		when(buque.distanciaHaciaDestino()).thenReturn(50d);
+		assertEquals(suject, suject.actualizarGPS(buque));
+		
+		when(buque.distanciaHaciaDestino()).thenReturn(51d);
+		assertEquals(suject, suject.actualizarGPS(buque));
+	}
+	
+	@Test 
+	void distanciaMenorA50km() {
+		when(buque.distanciaHaciaDestino()).thenReturn(49d);
+		assertEquals(Inbound.class, suject.actualizarGPS(buque).getClass());
+	}
 	
 	@Test 
 	void seNotificaLaPartidaDelBuque() {
