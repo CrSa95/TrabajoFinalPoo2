@@ -2,8 +2,6 @@ package tpfinalpoo2;
 
 public abstract class EstadoGPS {
 
-	public abstract EstadoGPS actualizarGPS(Buque buque);
-
 	public void empezarTrabajo(Buque buque) {
 		throw new RuntimeException("No se puede iniciar trabajo actualmente; muy lejos de la terminal");
 	}
@@ -28,6 +26,8 @@ public abstract class EstadoGPS {
 	public void salir(Buque buque) {
 		throw new RuntimeException("El buque no puede salir actualmente");
 	}
+	
+	public void avanzar(Buque buque) {};
 
 
 }
