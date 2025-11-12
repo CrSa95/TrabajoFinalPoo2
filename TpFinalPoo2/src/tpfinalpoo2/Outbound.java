@@ -13,6 +13,6 @@ public class Outbound extends EstadoGPS {
 	
 	@Override
 	public void avisarPartida(Buque buque) {
-		buque.avisarPartida();
+		buque.terminalOrigen().avisarPartida(buque);
 	}
 }

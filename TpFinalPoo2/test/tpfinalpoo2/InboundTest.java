@@ -1,6 +1,7 @@
 package tpfinalpoo2;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -10,13 +11,15 @@ import org.junit.jupiter.api.Test;
 
 public class InboundTest {
 	
-	private Inbound estadoInbound;
-	private Buque buqueMock;
+	Inbound estadoInbound;
+	Buque buqueMock;
+	Terminal terminal;
 
 	@BeforeEach
 	public void setUp() {
 		estadoInbound = new Inbound();
 		buqueMock = mock(Buque.class);
+		terminal = spy(Terminal.class);
 	}
 
 	@Test
@@ -28,9 +31,10 @@ public class InboundTest {
 	
 	@Test
 	void inboundAvisaLlegada() {
+		when(buqueMock.terminalDestino()).thenReturn(terminal);
 		estadoInbound.avisarLlegada(buqueMock);
 		
-		verify(buqueMock).avisarLlegada();
+		verify(terminal).avisarLlegada(buqueMock);
 	}
 	
 }

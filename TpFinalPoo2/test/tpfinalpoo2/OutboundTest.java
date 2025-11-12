@@ -18,6 +18,7 @@ public class OutboundTest {
 	public void setUp() {
 		suject = new Outbound();
 		buque = mock(Buque.class);
+		terminal = spy(Terminal.class);
 	}
 	
 	
@@ -38,9 +39,9 @@ public class OutboundTest {
 	
 	@Test 
 	void seNotificaLaPartidaDelBuque() {
-		when(buque.terminaOrigen()).thenReturn(terminal);
+		when(buque.terminalOrigen()).thenReturn(terminal);
 		suject.avisarPartida(buque);
-		verify(buque).avisarPartida();
+		verify(terminal).avisarPartida(buque);
 	}
 	
 }

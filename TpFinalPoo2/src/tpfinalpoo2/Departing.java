@@ -4,7 +4,7 @@ public class Departing extends EstadoGPS {
 
 	@Override
 	public EstadoGPS actualizarGPS(Buque buque) {
-		if (buque.distanciaHaciaDestino() > 1) {
+		if (buque.distanciaHaciaOrigen() > 1d) {
 			return new Outbound();
 		}
 		return this;
@@ -13,5 +13,6 @@ public class Departing extends EstadoGPS {
 	@Override 
 	public void salir(Buque buque) {
 		buque.siguienteDestino();
+		buque.actualizarGPS();
 	}
 }

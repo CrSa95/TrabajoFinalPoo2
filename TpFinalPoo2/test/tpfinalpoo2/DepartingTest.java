@@ -10,21 +10,26 @@ import org.junit.jupiter.api.Test;
 
 public class DepartingTest {
 	
-	private Departing estadoDeparting;
+	private Departing suject;
 	private Buque buqueMock;
 
 	@BeforeEach
 	public void setUp() {
-		estadoDeparting = new Departing();
+		suject = new Departing();
 		buqueMock = mock(Buque.class);
 	}
 	
 	@Test
 	void testElEstadoInboundNoPuedeCambiarElEstadoAArrivedSiLaDistanciaADestinoNoEsLaCorrecta() {
 		
-		when(buqueMock.distanciaHaciaDestino()).thenReturn(2d);
-		EstadoGPS cambioDeEstado = estadoDeparting.actualizarGPS(buqueMock);
+		when(buqueMock.distanciaHaciaOrigen()).thenReturn(2d);
+		EstadoGPS cambioDeEstado = suject.actualizarGPS(buqueMock);
 		Assertions.assertTrue(cambioDeEstado.getClass().equals(Outbound.class));
-		
+	}
+	
+	@Test 
+	void estadoDepartingPuedeSalirTerminal() {
+		suject.salir(buqueMock);
+		verify(buqueMock).siguienteDestino();
 	}
 }
