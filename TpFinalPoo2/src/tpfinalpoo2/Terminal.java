@@ -6,4 +6,7 @@ public interface Terminal {
 	public Coordenadas coordenadas();
 
 	public void notificarClientes(Buque buque);
+
+	public void avisarPartida(Buque buque);
+	
 }

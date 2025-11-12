@@ -7,6 +7,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,42 +16,29 @@ class BuqueTest {
 	Tramo tramoActual;
 	Viaje viaje;
 	Terminal terminalSuject;
+	EstadoGPS estadoGPS;
+	Outbound estadoOutboundMock;
 
 	@BeforeEach
 	void setUp() throws Exception {
+		tramoActual = mock(Tramo.class);
 		terminalSuject = spy(Terminal.class);
 		suject = new Buque();
-		tramoActual = mock(Tramo.class);
+		
 		viaje = mock(Viaje.class);
 		when(viaje.tramoInicial()).thenReturn(tramoActual);
 		when(viaje.siguienteTramo(tramoActual)).thenReturn(tramoActual);
 		suject.asignar(viaje);
+		estadoGPS = mock(EstadoGPS.class);
+		estadoOutboundMock = mock(Outbound.class);
+		
 	}
 
-	void setearAOutbound() {
-		when(tramoActual.distanciaHacia(null)).thenReturn(49d);
-		suject.actualizarGPS();
-	}
-
-	void setearAArrived() {
-		this.setearAOutbound();
-		when(tramoActual.distanciaHacia(null)).thenReturn(0d);
-		suject.actualizarGPS();
-	}
-
-	void setearAWorking() {
-		this.setearAArrived();
-		suject.empezarTrabajo();
-	}
-
-	void setearDeparting() {
-		this.setearAWorking();
-		suject.permitirSalida();
-	}
 
 	@Test
 	void sePuedeAvisarLlegadaAMenosDe50km() {
-		this.setearAOutbound();
+		when(tramoActual.distanciaHacia(null)).thenReturn(49d);
+		suject.actualizarGPS();
 		when(suject.destinoActual()).thenReturn(terminalSuject);
 		assertDoesNotThrow(() -> suject.avisarLlegada());
 
@@ -59,14 +47,35 @@ class BuqueTest {
 
 	@Test
 	void sePuedeIniciarTrabajoEnLaTerminal() {
-		this.setearAArrived();
+		when(tramoActual.distanciaHacia(null)).thenReturn(0d);
+		suject.actualizarGPS();
+		suject.actualizarGPS();
 		assertDoesNotThrow(() -> suject.empezarTrabajo());
 	}
 
 	@Test
 	void sePuedeIniciarPartidaEnEstadoWorking() {
-		this.setearAWorking();
+		when(tramoActual.distanciaHacia(null)).thenReturn(0d);
+		suject.actualizarGPS();
+		suject.actualizarGPS();
+		suject.empezarTrabajo();
 		assertDoesNotThrow(() -> suject.permitirSalida());
+	}
+	
+	@Test 
+	void alPasarDeEstadoDepartingAInboundSeNotificaSalida() {
+		Terminal terminal = spy(Terminal.class);
+		Tramo siguienteTramo = mock(Tramo.class);
+		when(viaje.siguienteTramo(tramoActual)).thenReturn(siguienteTramo); 
+		when(siguienteTramo.getTerminalDestino()).thenReturn(terminal);
+		
+		when(tramoActual.distanciaHacia(null)).thenReturn(0d);
+		suject.actualizarGPS();
+		suject.actualizarGPS();
+		suject.empezarTrabajo();
+		suject.permitirSalida();
+		suject.avisarPartida();
+		verify(terminal).avisarPartida(suject);
 	}
 
 	@Test
@@ -88,4 +97,11 @@ class BuqueTest {
 	void salirLanzaExcepcionSiNoEstaEnModoDeparting() {
 		assertThrows(RuntimeException.class, () -> suject.salir());
 	}
+	
+	@Test
+	void unBuqueConoceSuViaje() {
+		suject.asignar(viaje);
+		Assertions.assertEquals(viaje, suject.viaje());
+	}
+
 }

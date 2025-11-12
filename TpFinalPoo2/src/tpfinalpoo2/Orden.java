@@ -4,86 +4,82 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 public class Orden {
-	
-
-	private LocalDateTime fecha_llegada;
-	private LocalDateTime fecha_salida;
-	private Terminal origen;
-	private Terminal destino;
+	private Container carga;
+	private Chofer chofer;
+	private Camion camion;
+	private Cliente cliente;
 	private Viaje viaje_seleccionado;
 	private Set<Servicio> servicios_contratados;
-	private Container carga;
-	private Camion camion;
-	private Chofer chofer;
-	private Cliente dueno;
-	
-	public Orden(LocalDateTime fecha_llegada, LocalDateTime fecha_salida, Terminal origen, Terminal destino,
-			Viaje viaje_seleccionado, Set<Servicio> servicios_contratados, Container carga, Camion camion,
-			Chofer chofer, Cliente dueno) {
-		this.fecha_llegada = fecha_llegada;
-		this.fecha_salida = fecha_salida;
-		this.origen = origen;
-		this.destino = destino;
-		this.viaje_seleccionado = viaje_seleccionado;
-		this.servicios_contratados = servicios_contratados;
-		this.carga = carga;
+	public Orden(Container container, Camion camion, Chofer chofer, Cliente cliente, Set<Servicio> servicios_contratados, Viaje viaje_seleccionado) {
+		this.carga = container;
 		this.camion = camion;
 		this.chofer = chofer;
-		this.dueno = dueno;
-	}
-	
-	
-	public boolean verificar(Camion camionAVerificar, Chofer choferAVerificar, Container cargaAVerificar) {
-		return this.verificarCamion(camionAVerificar) && this.verificarChofer(choferAVerificar) && this.verificarCarga(cargaAVerificar);
+		this.cliente = cliente;
+		this.servicios_contratados = servicios_contratados;
+		this.viaje_seleccionado = viaje_seleccionado;
 	}
 	
 	public double costoEnServicios() {
 		return this.servicios_contratados
 		        .stream()
-		        .mapToDouble(servicio -> servicio.costo(this.carga))
+		        .mapToDouble(servicio -> servicio.costo(this))
 		        .sum();
 	}
-	
-	public LocalDateTime fechaSalida() {
-		return this.fecha_salida;
-	}
-	
-	public LocalDateTime fechaLlegada() {
-		return this.fecha_llegada;
-	}
-	
-	public Viaje viaje() {
-    return this.viaje_seleccionado.equals(viaje);
-	}
-	
-	private boolean verificarCamion(Camion camionAVerificar) {
-	    return this.camion.patente().equals(camionAVerificar.patente());
-	}
-
-	private boolean verificarChofer(Chofer choferAVerificar) {
-	    return this.chofer.dni().equals(choferAVerificar.dni());
-	}
-
-	private boolean verificarCarga(Container cargaAVerificar) {
-		return true; // TO DO: Forma de identificar container
-	}
-
 	public Container carga() {
 		return this.carga;
+	}
+
+	public LocalDateTime fechaRetiro() {
+		return null;
+	}
+	
+	public LocalDateTime fechaIngreso() {
+		return null;
 	}
 
 	public boolean perteneceAlContainer(Container container) {
 		return this.carga.isEqual(container);
 	}
 
-	public void notificarLlegada(Buque buque) {
-		if (this.mismoViaje(buque.viaje())) {
-			this.dueno.notificar();
+	public void verificar(Container container, Camion camion, Chofer chofer) {
+		if (this.carga.isEqual(container)) {
+			this.verificarCamion(camion);
+			this.verificarChofer(chofer);
+		}
+
+	}
+
+	private void verificarChofer(Chofer chofer) {
+		if (!this.chofer.dni().equals(chofer.dni())) {
+			throw new RuntimeException("Chofer no autorizado");
 		}
 	}
 
+	private void verificarCamion(Camion camion) {
+		if (!this.camion.patente().equals(camion.patente())) {
+			throw new RuntimeException("Camion no autorizado");
+		}
+	}
+
+	public void notificarLlegada(Buque buque) {
+		if (this.mismoViaje(buque.viaje())) {
+			this.cliente.notificarLlegada(buque);
+		}
+	}
+
+
 	private boolean mismoViaje(Viaje viaje) {
-		return this.viaje_seleccionado.equals(viaje);
+		return viaje.equals(viaje);
+	}
+
+	public void notificarPartida(Buque buque) {
+		if (this.mismoViaje(buque.viaje())) {
+			this.cliente.notificarPartida(buque);
+		}
+	}
+
+	public Double costoRecorrido() {
+		return this.viaje_seleccionado.costo();
 	}
 
 }

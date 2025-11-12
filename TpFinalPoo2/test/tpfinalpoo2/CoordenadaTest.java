@@ -23,5 +23,14 @@ class CoordenadaTest {
 		when(coord2.coordY()).thenReturn(20d);
 		assertEquals(50d, coord1.distanciaHacia(coord2));
 	}
+	
+	@Test
+	void unaCoordenadaSabeAvanzarEnXeY() {
+		coord1.avanzarX(10d);
+		coord1.avanzarY(10d);
+		when(coord2.coordX()).thenReturn(70d);
+		when(coord2.coordY()).thenReturn(30d);
+		assertEquals(0d, coord1.distanciaHacia(coord2));
+	}
 
 }
