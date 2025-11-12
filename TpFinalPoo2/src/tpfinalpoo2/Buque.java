@@ -57,11 +57,20 @@ public class Buque {
 	}
 
 	public void avisarLlegada() {
-		this.tramo_actual.getTerminalDestino().avisarLlegada(this);
+		this.terminalDestino().avisarLlegada(this);
 		this.estado_gps = this.estado_gps.actualizarGPS(this);
 	}
 
 	public void avisarPartida() {
-		this.tramo_actual.getTerminalOrigen().avisarPartida(this);
+		this.terminaOrigen().avisarPartida(this);
+	}
+	
+	
+	public Terminal terminaOrigen() {
+		return this.tramo_actual.getTerminalOrigen();
+	}
+	
+	public Terminal terminalDestino() {
+		return this.tramo_actual.getTerminalDestino();
 	}
 }
