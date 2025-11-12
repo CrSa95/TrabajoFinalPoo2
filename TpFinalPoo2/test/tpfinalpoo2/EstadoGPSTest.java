@@ -35,7 +35,7 @@ class EstadoGPSTest {
 	void avisarLlegada() {
 		assertThrows(
 				RuntimeException.class, 
-				()->suject.permitirSalida(any(Buque.class)), 
+				()->suject.avisarLlegada(any(Buque.class)), 
 				"El buque no puede avisarLlegada actualmente");
 	}
 	
