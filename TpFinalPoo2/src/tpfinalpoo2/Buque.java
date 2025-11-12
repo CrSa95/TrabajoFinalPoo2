@@ -2,7 +2,7 @@ package tpfinalpoo2;
 
 import java.time.LocalDateTime;
 
-public class Buque {
+public class Buque implements Reportable {
 	private EstadoGPS estado_gps;
 	private Viaje viaje_asignado;
 	private Tramo tramo_actual;
@@ -16,6 +16,7 @@ public class Buque {
 	public String nombre() {
 		return this.nombre;
 	}
+	
 	public void asignar(Viaje viaje) {
 		this.viaje_asignado = viaje;
 		this.estado_gps = new Outbound();
@@ -79,7 +80,12 @@ public class Buque {
 	public void avanzar() {
 		this.estado_gps.avanzar(this);
 	}
-
+	
+	@Override
+	public String generar(Reporte reporte) {
+		return reporte.emitir(this);
+	}
+	
 	public LocalDateTime proximaFecha(Terminal origen, Terminal destino) {
 		try {
 			if(viaje_asignado == null) return LocalDateTime.MAX;

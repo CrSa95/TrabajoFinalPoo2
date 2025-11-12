@@ -76,6 +76,71 @@ public class TerminalGestionadaTest {
 		LocalDateTime fecha_esperada = LocalDateTime.MAX;
 		Terminal terminal = mock(Terminal.class);
 		assertEquals(fecha_esperada, terminalGestionada.proximaFecha(terminal));
+
+	}
+
+	@Test
+	void cargasImportadasEnViajeDevuelveCargasEsperadas() {
+	    Viaje viaje = mock(Viaje.class);
+	    Container contImport = mock(Container.class);
+	    Container contExport = mock(Container.class);
+	    Container contOtroViaje = mock(Container.class);
+
+	    Orden importacion = new Orden(cliente, camion, chofer, contImport, viaje);
+
+	    Orden exportacion = new Orden(cliente, camion, chofer, contExport, viaje);
+
+	    Viaje otroViaje = mock(Viaje.class);
+	    Orden otraImport = new Orden(cliente, camion, chofer, contOtroViaje, otroViaje);
+
+	    terminalGestionada.importar(importacion);
+	    terminalGestionada.exportar(exportacion);
+	    terminalGestionada.importar(otraImport);
+
+	    List<Container> resultado = terminalGestionada.cargasImportadasEnViaje(viaje);
+
+	    Assertions.assertEquals(1, resultado.size());
+	    Assertions.assertTrue(resultado.contains(contImport));
+	}
+	
+	@Test
+	void cargasExportadasEnViajeDevuelveCargasEsperadas() {
+	    Viaje viaje = mock(Viaje.class);
+	    Container contImport = mock(Container.class);
+	    Container contExport = mock(Container.class);
+	    Container contOtroViaje = mock(Container.class);
+
+	    Orden importacion = new Orden(cliente, camion, chofer, contImport, viaje);
+
+	    Orden exportacion = new Orden(cliente, camion, chofer, contExport, viaje);
+
+	    Viaje otroViaje = mock(Viaje.class);
+	    Orden otraImport = new Orden(cliente, camion, chofer, contOtroViaje, otroViaje);
+
+	    terminalGestionada.importar(importacion);
+	    terminalGestionada.exportar(exportacion);
+	    terminalGestionada.importar(otraImport);
+
+	    List<Container> resultado = terminalGestionada.cargasExportadasEnViaje(viaje);
+
+	    Assertions.assertEquals(1, resultado.size());
+	    Assertions.assertTrue(resultado.contains(contExport));
+	}
+
+
+	@Test
+	void testCantCargasEnViaje() {
+	    Viaje viaje = mock(Viaje.class);
+	    Orden orden1 = mock(Orden.class);
+	    Orden orden2 = mock(Orden.class);
+
+	    when(orden1.viaje()).thenReturn(viaje);
+	    when(orden2.viaje()).thenReturn(viaje);
+
+	    terminalGestionada.exportar(orden1);
+	    terminalGestionada.exportar(orden2);
+
+	    Assertions.assertEquals(2, terminalGestionada.cantCargasEnViaje(viaje));
 	}
 
 	@Test

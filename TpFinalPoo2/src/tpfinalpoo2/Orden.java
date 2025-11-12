@@ -34,12 +34,19 @@ public class Orden {
 		this.destino = terminal;
 	}
 	
+	public boolean esExportacion() {
+		return this.origen != null;
+	}
+	
+	public boolean esImportacion() {
+		return this.destino != null;
+	}
 	
 	public void verificar(Camion camion, Chofer chofer, Container container) {
-		this.verificarCamion(camion);
-		this.verificarChofer(chofer);
-		this.verificarCarga(container);
-
+		if (this.verificarCarga(container)) {
+			this.verificarCamion(camion);
+			this.verificarChofer(chofer);
+		}
 	}
 
 	private void verificarChofer(Chofer chofer) {
@@ -54,10 +61,8 @@ public class Orden {
 		}
 	}
 	
-	private void verificarCarga(Container container) {
-		if (!this.carga.id().equals(container.id())) {
-			throw new RuntimeException("Carga no autorizada");
-		}
+	private boolean verificarCarga(Container container) {
+		return this.carga.id().equals(container.id());
 	}
 	
 	public double costoEnServicios() {
@@ -96,11 +101,11 @@ public class Orden {
 	}
 	
 	public void notificarPartida(Buque buque) {
-		if(this.origen != null) this.cliente.notificarPartida(buque);
+		if(this.esExportacion()) this.cliente.notificarPartida(buque);
 	}
 
 	public void notificarLlegada(Buque buque) {
-		if(this.destino != null) this.cliente.notificarLlegada(buque);
+		if(this.esImportacion()) this.cliente.notificarLlegada(buque);
 	}
 
 }

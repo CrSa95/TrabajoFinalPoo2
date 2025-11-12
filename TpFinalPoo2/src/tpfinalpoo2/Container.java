@@ -65,6 +65,8 @@ public abstract class Container {
 	public Double peso() {
 		return this.peso;
 	}
+	
+	public abstract String tipo();
 
 	public boolean isEqual(Container container) {
 		return this.id().equals(container.id());

@@ -17,5 +17,10 @@ public class Dry extends Container {
 	public Double peso() {
 		return this.peso + bls.stream().mapToDouble(Dry::peso).sum();
 	}
+	
+	@Override
+	public String tipo() {
+		return "Seco";
+	}
 
 }
