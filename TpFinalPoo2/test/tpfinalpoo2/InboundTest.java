@@ -1,6 +1,9 @@
 package tpfinalpoo2;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -10,27 +13,39 @@ import org.junit.jupiter.api.Test;
 
 public class InboundTest {
 	
-	private Inbound estadoInbound;
-	private Buque buqueMock;
+	Inbound suject;
+	Buque buqueMock;
+	Terminal terminal;
 
 	@BeforeEach
 	public void setUp() {
-		estadoInbound = new Inbound();
+		suject = new Inbound();
 		buqueMock = mock(Buque.class);
+		terminal = spy(Terminal.class);
 	}
 
 	@Test
-	void testElEstadoInboundNoPuedeCambiarElEstadoAArrivedSiLaDistanciaADestinoNoEsLaCorrecta() {
-		when(buqueMock.distanciaHaciaDestino()).thenReturn(10d);
-		EstadoGPS cambioDeEstado = estadoInbound.actualizarGPS(buqueMock);
-		Assertions.assertEquals(estadoInbound, cambioDeEstado);
+	void inboundCambiaEstadoConDistanciaADestinoMenorAIgual0() {
+		when(buqueMock.distanciaHaciaDestino()).thenReturn(0d);
+		suject.avanzar(buqueMock);
+		
+		verify(buqueMock).cambiarEstado(any());
+	}
+	
+	@Test 
+	void inboundNoCambiaEstadoConDistanciaMayorA1() {
+		when(buqueMock.distanciaHaciaDestino()).thenReturn(1d);
+		suject.avanzar(buqueMock);
+		verify(buqueMock, never()).cambiarEstado(any());
+
 	}
 	
 	@Test
 	void inboundAvisaLlegada() {
-		estadoInbound.avisarLlegada(buqueMock);
+		when(buqueMock.terminalDestino()).thenReturn(terminal);
+		suject.avisarLlegada(buqueMock);
 		
-		verify(buqueMock).avisarLlegada();
+		verify(terminal).avisarLlegada(buqueMock);
 	}
 	
 }

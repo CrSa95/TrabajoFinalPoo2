@@ -13,72 +13,82 @@ import org.junit.jupiter.api.Test;
 
 class BuqueTest {
 	Buque suject;
-	Tramo tramoActual;
+	Tramo tramo_inicial;
+	
 	Viaje viaje;
-	Terminal terminalSuject;
-	EstadoGPS estadoGPS;
-	Outbound estadoOutboundMock;
-
+	Terminal terminal_destino;
+	Terminal terminal_origen;
 	@BeforeEach
-	void setUp() throws Exception {
-		tramoActual = mock(Tramo.class);
-		terminalSuject = spy(Terminal.class);
+	void setUp() throws Exception{
 		suject = new Buque();
-		
 		viaje = mock(Viaje.class);
-		when(viaje.tramoInicial()).thenReturn(tramoActual);
-		when(viaje.siguienteTramo(tramoActual)).thenReturn(tramoActual);
-		suject.asignar(viaje);
-		estadoGPS = mock(EstadoGPS.class);
-		estadoOutboundMock = mock(Outbound.class);
-		
-	}
-
-
-	@Test
-	void sePuedeAvisarLlegadaAMenosDe50km() {
-		when(tramoActual.distanciaHacia(null)).thenReturn(49d);
-		suject.actualizarGPS();
-		when(suject.destinoActual()).thenReturn(terminalSuject);
-		when(tramoActual.getTerminalDestino()).thenReturn(terminalSuject);
-		assertDoesNotThrow(() -> suject.avisarLlegada());
-		verify(terminalSuject).avisarLlegada(suject);
-	}
-
-	@Test
-	void sePuedeIniciarTrabajoEnLaTerminal() {
-		when(tramoActual.distanciaHacia(null)).thenReturn(0d);
-		suject.actualizarGPS();
-		suject.actualizarGPS();
-		assertDoesNotThrow(() -> suject.empezarTrabajo());
-	}
-
-	@Test
-	void sePuedeIniciarPartidaEnEstadoWorking() {
-		when(tramoActual.distanciaHacia(null)).thenReturn(0d);
-		suject.actualizarGPS();
-		suject.actualizarGPS();
-		suject.empezarTrabajo();
-		assertDoesNotThrow(() -> suject.permitirSalida());
+		terminal_destino = spy(Terminal.class);
+		terminal_origen = spy(Terminal.class);
+		tramo_inicial   = mock(Tramo.class);
+		when(viaje.tramoInicial()).thenReturn(tramo_inicial);
+		when(tramo_inicial.getTerminalDestino()).thenReturn(terminal_destino);
+		when(tramo_inicial.getTerminalOrigen()).thenReturn(terminal_origen);
 	}
 	
 	@Test 
-	void alPasarDeEstadoDepartingAInboundSeNotificaSalida() {
-		Terminal terminal = spy(Terminal.class);
-		Tramo siguienteTramo = mock(Tramo.class);
-		when(viaje.siguienteTramo(tramoActual)).thenReturn(siguienteTramo); 
-		when(siguienteTramo.getTerminalDestino()).thenReturn(terminal);
-		when(siguienteTramo.getTerminalOrigen()).thenReturn(terminal);
-		when(tramoActual.distanciaHacia(null)).thenReturn(0d);
-		suject.actualizarGPS();
-		suject.actualizarGPS();
+	void iniciarUnViajeAvisaALaTerminalDestino() {
+		suject.asignar(viaje);
+		suject.iniciarViaje();
+		verify(terminal_origen).avisarPartida(suject);
+	}
+	
+	@Test 
+	void conDistanciaADestinoMenorA50kmNotificaATerminal() {
+		suject.asignar(viaje);
+		suject.iniciarViaje();
+		
+		when(tramo_inicial.distanciaHacia(null)).thenReturn(49d);
+		suject.avanzar();
+		verify(terminal_destino).avisarLlegada(suject);
+	}
+	
+	@Test 
+	void conDistanciaADestinoMenorIgualA0SePuedeIniciarTrabajo() {
+		suject.asignar(viaje);
+		suject.iniciarViaje();
+		
+		when(tramo_inicial.distanciaHacia(null)).thenReturn(49d);
+		suject.avanzar();
+		
+		when(tramo_inicial.distanciaHacia(null)).thenReturn(0d);
+		suject.avanzar();
+		
+		assertDoesNotThrow(()-> suject.empezarTrabajo());
+	}
+	
+	@Test 
+	void sePuedeIniciarPartida() {
+		suject.asignar(viaje);
+		suject.iniciarViaje();
+		when(tramo_inicial.distanciaHacia(null)).thenReturn(49d);
+		suject.avanzar();
+		when(tramo_inicial.distanciaHacia(null)).thenReturn(0d);
+		suject.avanzar();
+		suject.empezarTrabajo();
+		
+		
+	}
+	
+	@Test 
+	void sePuedeSalirDeLaTerminal() {
+		Tramo tramo_siguiente = mock(Tramo.class);
+		when(viaje.siguienteTramo(tramo_inicial)).thenReturn(tramo_siguiente);
+		suject.asignar(viaje);
+		suject.iniciarViaje();
+		when(tramo_inicial.distanciaHacia(null)).thenReturn(49d);
+		suject.avanzar();
+		when(tramo_inicial.distanciaHacia(null)).thenReturn(0d);
+		suject.avanzar();
 		suject.empezarTrabajo();
 		suject.permitirSalida();
-		suject.actualizarGPS();
-		suject.avisarPartida();
-		verify(terminal).avisarPartida(suject);
+		assertDoesNotThrow(()->suject.salir());
 	}
-
+	
 	@Test
 	void iniciarTrabajoLanzaExcepcionSiNoEstaEnModoArrived() {
 		assertThrows(RuntimeException.class, () -> suject.empezarTrabajo(), "No se puede iniciar trabajo actualmente; muy lejos de la terminal");
