@@ -29,6 +29,7 @@ public class Buque {
 	protected void cambiarEstado(EstadoGPS estado) {
 		this.estado_gps = estado;
 	}
+	
 	public Double distanciaHaciaDestino() {
 		return this.tramo_actual.distanciaHacia(coordenadas);
 	}
@@ -62,9 +63,7 @@ public class Buque {
 	}
 	
 	public Double distanciaHaciaOrigen() {
-		return this.tramo_actual.distanciaHacia(
-				this.terminalOrigen().coordenadas()
-		);
+		return this.coordenadas.distanciaHacia(this.terminalOrigen().coordenadas());
 	}
 	
 	public Terminal terminalOrigen() {
