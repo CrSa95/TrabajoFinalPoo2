@@ -1,13 +1,13 @@
 package tpfinalpoo2;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class FiltroFechaLlegada implements Filtro {
 
-	private LocalDate fechaLlegada;
+	private LocalDateTime fechaLlegada;
 
-	public FiltroFechaLlegada(LocalDate fechaLlegada) {
+	public FiltroFechaLlegada(LocalDateTime fechaLlegada) {
 		this.fechaLlegada = fechaLlegada;
 	}
 
