@@ -2,11 +2,13 @@ package tpfinalpoo2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,7 +51,32 @@ public class TerminalGestionadaTest {
 		when(otroChofer.dni()).thenReturn("333443");
 		when(otroCamion.patente()).thenReturn("AAAAAA");
 	}
-
+	
+	@Test 
+	void proximaFecha() {
+		LocalDateTime fecha_esperada = LocalDateTime.now();
+		Terminal terminal = mock(Terminal.class);
+		terminalGestionada.agregarNaviera(naviera);
+		when(naviera.proximaFecha(terminalGestionada, terminal)).thenReturn(fecha_esperada);
+		assertEquals(fecha_esperada, terminalGestionada.proximaFecha(terminal));
+		verify(naviera).proximaFecha(terminalGestionada, terminal);
+	}
+	
+	@Test 
+	void proximaFechaDeUnaTerminalSinViajesDevuelveLaFechaMaxima() {
+		LocalDateTime fecha_esperada = LocalDateTime.MAX;
+		Terminal terminal = mock(Terminal.class);
+		terminalGestionada.agregarNaviera(naviera);
+		when(naviera.proximaFecha(eq(terminalGestionada), any(Terminal.class))).thenReturn(fecha_esperada);
+		assertEquals(fecha_esperada, terminalGestionada.proximaFecha(terminal));
+	}
+	
+	@Test 
+	void proximaFechaDeUnaTerminalSinNavierasDevuelveLaFechaMaxima() {
+		LocalDateTime fecha_esperada = LocalDateTime.MAX;
+		Terminal terminal = mock(Terminal.class);
+		assertEquals(fecha_esperada, terminalGestionada.proximaFecha(terminal));
+	}
 
 	@Test
 	void ingresarCarga() {
