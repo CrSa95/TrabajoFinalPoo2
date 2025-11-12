@@ -85,7 +85,6 @@ public class TerminalGestionada implements Terminal {
 	@Override
 	public void avisarLlegada(Buque buque) {
 		this.ordenes.forEach(orden->orden.notificarLlegada(buque));
-
 	}
 
 }
