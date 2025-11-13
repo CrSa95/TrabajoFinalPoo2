@@ -15,6 +15,10 @@ public class Viaje {
 		return this.circuito.costoCircuito();
 	}
 
+	public Double costoEntre(Terminal origen, Terminal destino) {
+		return this.circuito.costoTotalDesdeHasta(origen, destino);
+	}
+
 	public LocalDateTime fechaLlegada(Terminal terminal) {
 		return this.fechaSalida.plusDays(this.circuito.tiempoHaciaTerminalDesdeOrigen(terminal));
 	}

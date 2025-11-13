@@ -44,11 +44,11 @@ public class TerminalGestionada implements Terminal {
 	}
 
 	public List<Container> cargasExportadasEnViaje(Viaje viaje) {
-		return filtrarCargas(o -> viaje.equals(o.viaje()) && o.esExportacion());
+		return filtrarCargas(o -> viaje.equals(o.viaje()) && o.esExportacion(this));
 	}
 
 	public List<Container> cargasImportadasEnViaje(Viaje viaje) {
-		return filtrarCargas(o -> viaje.equals(o.viaje()) && o.esImportacion());
+		return filtrarCargas(o -> viaje.equals(o.viaje()) && o.esImportacion(this));
 	}
 
 	@Override
@@ -56,14 +56,21 @@ public class TerminalGestionada implements Terminal {
 		return this.coordenadas;
 	}
 
-	public void exportar(Orden orden) {
+	public void exportarHacia(Orden orden, Terminal terminal) {
 		orden.terminalOrigen(this);
+		orden.terminalDestino(terminal);
+		this.ordenes.add(orden);
+	}
+
+	public void importarDesde(Orden orden, Terminal terminal) {
+		orden.terminalOrigen(terminal);
+		orden.terminalDestino(this);
 		this.ordenes.add(orden);
 	}
 
 	@Override
 	public void facturar(Buque buque) {
-		this.ordenes.forEach(orden -> orden.facturar(buque));
+		this.ordenes.forEach(orden -> orden.facturar(this, buque));
 	}
 
 	private List<Container> filtrarCargas(Predicate<Orden> criterio) {
@@ -83,11 +90,6 @@ public class TerminalGestionada implements Terminal {
 		return this.nombre;
 	}
 
-	public void importar(Orden orden) {
-		orden.terminalDestino(this);
-		this.ordenes.add(orden);
-	}
-
 	public void ingresarCarga(Container container, Camion camion, Chofer chofer) {
 		this.ordenes.stream().forEach(orden -> orden.verificar(camion, chofer, container));
 	}
@@ -95,16 +97,16 @@ public class TerminalGestionada implements Terminal {
 	@Override
 	public void avisarPartida(Buque buque) {
 		this.ordenes.forEach(orden -> {
-			orden.notificarPartida(buque);
-			orden.facturar(buque);
+			orden.notificarPartida(this, buque);
+			orden.facturar(this, buque);
 		});
 	}
 
 	@Override
 	public void avisarLlegada(Buque buque) {
 		this.ordenes.forEach(orden->{
-			orden.notificarLlegada(buque);
-			orden.facturar(buque);
+			orden.notificarLlegada(this, buque);
+			orden.facturar(this, buque);
 		});
 	}
 	public LocalDateTime proximaFecha(Terminal terminal) {

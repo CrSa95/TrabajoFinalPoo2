@@ -37,23 +37,23 @@ public class Orden {
 	}
 
 	public Double costoRecorrido() {
-		return this.viaje().costo();
+		return this.viaje().costoEntre(origen, destino);
 	}
 
-	public boolean esExportacion() {
-		return this.origen != null;
+	public boolean esExportacion(Terminal terminal) {
+		return this.origen == terminal;
 	}
 
-	public boolean esImportacion() {
-		return this.destino != null;
+	public boolean esImportacion(Terminal terminal) {
+		return this.destino == terminal;
 	}
 
-	public void facturar(Buque buque) {
+	public void facturar(Terminal terminal, Buque buque) {
 		if (this.mismoViaje(buque)) {
-			if (esExportacion()) {
+			if (esExportacion(terminal)) {
 				this.cliente.enviar(new FacturaShipper(this));
 			}
-			if (esImportacion()) {
+			if (esImportacion(terminal)) {
 				this.cliente.enviar(new FacturaConsignee(this));
 			}
 
@@ -76,15 +76,15 @@ public class Orden {
 		return buque.viaje().equals(viaje_seleccionado);
 	}
 
-	public void notificarLlegada(Buque buque) {
-		if (this.mismoViaje(buque) && this.esImportacion()) {
+	public void notificarLlegada(Terminal terminal, Buque buque) {
+		if (this.mismoViaje(buque) && this.esImportacion(terminal)) {
 			this.cliente.notificarLlegada(buque);
 		}
 	}
 
-	public void notificarPartida(Buque buque) {
+	public void notificarPartida(Terminal terminal, Buque buque) {
 
-		if (this.mismoViaje(buque) && this.esExportacion()) {
+		if (this.mismoViaje(buque) && this.esExportacion(terminal)) {
 			this.cliente.notificarPartida(buque);
 		}
 	}
