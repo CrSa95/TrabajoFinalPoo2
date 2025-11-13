@@ -45,7 +45,7 @@ public class Naviera {
 																										// duplicados
 				.collect(Collectors.toList());
 	}
-
+	
 	public LocalDateTime proximaFecha(Terminal destino, Terminal origen) {
 		Optional<LocalDateTime> proximaFecha = this.buques.stream()
 				   .map(b -> b.proximaFecha(destino, origen))
@@ -54,7 +54,7 @@ public class Naviera {
 		
 		return proximaFecha.orElse(LocalDateTime.MAX);
 	}
-	
+
 	public double tiempoDesdeHasta(Terminal terminalOrigen, Terminal terminalDestino) {
 		return  this.getCircuitos().stream()
 				// 1. Filtrar solo los circuitos que tienen un recorrido entre origen y destino
