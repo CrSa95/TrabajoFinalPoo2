@@ -52,12 +52,14 @@ public class Orden {
 		if (this.mismoViaje(buque)) {
 			if (esExportacion(terminal)) {
 				this.cliente.enviar(new FacturaShipper(this));
-			}
-			if (esImportacion(terminal)) {
+				return;
+			} else {
 				this.cliente.enviar(new FacturaConsignee(this));
+				return;
 			}
-
 		}
+		
+		throw new IllegalArgumentException("El buque realiza un viaje distinto al de la Órden");
 	}
 
 	public LocalDateTime fechaLlegada() {
@@ -125,3 +127,4 @@ public class Orden {
 	}
 
 }
+
