@@ -1,6 +1,6 @@
 package tpfinalpoo2;
 
-public class FacturaShipper extends Factura{
+public class FacturaShipper extends Factura {
 
 	public FacturaShipper(Orden orden) {
 		super(orden);

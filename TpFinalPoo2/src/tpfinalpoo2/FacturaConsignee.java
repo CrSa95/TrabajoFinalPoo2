@@ -1,7 +1,7 @@
 package tpfinalpoo2;
 
-public class FacturaConsignee  extends Factura{
-	
+public class FacturaConsignee extends Factura {
+
 	public FacturaConsignee(Orden orden) {
 		super(orden);
 	}
