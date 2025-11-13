@@ -47,6 +47,7 @@ public class OrdenTest {
             cargaMock,
             viajeMock
         );
+        when(buqueMock.viaje()).thenReturn(viajeMock);
     }
     
     private Camion camionConPatente(String patente) {
@@ -65,6 +66,23 @@ public class OrdenTest {
         Container c = mock(Container.class);
         when(c.id()).thenReturn(id);
         return c;
+    }
+    
+    
+    @Test 
+    void facturacionConsignee() {
+    	orden.terminalDestino(terminalMock); 
+    	orden.facturar(buqueMock);
+    	
+    	verify(clienteMock).enviar(any(FacturaConsignee.class));
+    }
+    
+    @Test 
+    void facturacionShipper() {
+    	orden.terminalOrigen(terminalMock);
+    	orden.facturar(buqueMock);
+    	
+    	verify(clienteMock).enviar(any(FacturaShipper.class));
     }
 
     @Test

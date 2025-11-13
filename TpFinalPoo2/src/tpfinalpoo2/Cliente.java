@@ -7,4 +7,7 @@ public class Cliente {
 	public String correo() { return this.correo; }
 	public void notificarLlegada(Buque buque) {	}
 	public void notificarPartida(Buque buque) {	}
+	public void enviar(Factura factura) {
+		
+	}
 }

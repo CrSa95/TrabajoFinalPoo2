@@ -101,11 +101,24 @@ public class Orden {
 	}
 	
 	public void notificarPartida(Buque buque) {
-		if(this.esExportacion()) this.cliente.notificarPartida(buque);
+
+		if(this.mismoViaje(buque) &&  this.esExportacion()) this.cliente.notificarPartida(buque);
 	}
 
 	public void notificarLlegada(Buque buque) {
-		if(this.esImportacion()) this.cliente.notificarLlegada(buque);
+		if(this.mismoViaje(buque) && this.esImportacion()) this.cliente.notificarLlegada(buque);
+	}
+
+	public void facturar(Buque buque) {
+		if(this.mismoViaje(buque)) {
+			if(esExportacion()) this.cliente.enviar(new FacturaShipper(this));
+			if(esImportacion()) this.cliente.enviar(new FacturaConsignee(this));
+
+		}
+	}
+	
+	private boolean mismoViaje(Buque buque) {
+		return buque.viaje().equals(viaje_seleccionado);
 	}
 
 }
