@@ -24,15 +24,6 @@ public class TerminalGestionada implements Terminal {
 		this.getNavieras().add(naviera);
 	}
 
-	@Override
-	public void avisarLlegada(Buque buque) {
-		this.ordenes.forEach(orden -> orden.notificarLlegada(buque));
-	}
-
-	@Override
-	public void avisarPartida(Buque buque) {
-		this.ordenes.forEach(orden -> orden.notificarPartida(buque));
-	}
 
 	public Circuito buscarMejorCircuitoParaLLegarA(Terminal terminalDestino) {
 
@@ -115,7 +106,7 @@ public class TerminalGestionada implements Terminal {
 			orden.notificarLlegada(buque);
 			orden.facturar(buque);
 		});
-
+	}
 	public LocalDateTime proximaFecha(Terminal terminal) {
 		return this.navieras.stream().map(nav -> nav.proximaFecha(this, terminal))
 				.min((arg0, arg1) -> arg0.compareTo(arg1)).orElse(LocalDateTime.MAX);
