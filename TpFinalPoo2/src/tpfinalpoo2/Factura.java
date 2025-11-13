@@ -1,10 +1,7 @@
 package tpfinalpoo2;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-
 public class Factura {
-	private Orden orden;
+
 	private Double costo_recorrido;
 	private Double costo_servicios;
 	public Factura(Orden orden) {
