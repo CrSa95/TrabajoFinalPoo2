@@ -86,5 +86,9 @@ public class TerminalGestionada implements Terminal {
 	public void avisarLlegada(Buque buque) {
 		this.ordenes.forEach(orden->orden.notificarLlegada(buque));
 	}
+	
+	public double tiempoHasta(Naviera naviera, Terminal terminalDestino) {
+		return naviera.tiempoDesdeHasta(this, terminalDestino);
+	}
 
 }

@@ -1,5 +1,6 @@
 package tpfinalpoo2;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -25,6 +26,8 @@ public class NavieraTest {
 	private FiltroFechaSalida filtroFechaSalida;
 	private FiltroFechaLlegada filtroFechaLlegada;
 	private FiltroPuertoDestino filtroPuertoDestino;
+	private Terminal terminalOrigen;
+	private Terminal terminalDestino;
 
 	@BeforeEach
 	public void setUp() {
@@ -41,6 +44,8 @@ public class NavieraTest {
 		filtroFechaSalida = mock(FiltroFechaSalida.class);
 		filtroFechaLlegada = mock(FiltroFechaLlegada.class);
 		filtroPuertoDestino = mock(FiltroPuertoDestino.class);
+		terminalOrigen = mock(Terminal.class);
+		terminalDestino = mock(Terminal.class);
 
 	}
 
@@ -100,5 +105,20 @@ public class NavieraTest {
 		Assertions.assertTrue(resultado.contains(viaje));
 		Assertions.assertTrue(resultado.contains(unViaje));
 		Assertions.assertFalse(resultado.contains(otroViaje));
+	}
+	
+	@Test
+	void unaNavieraPuedeCalcularElTiempoQueLeLlevaIrDeUnaTerminalAOtra(){
+		
+		assertThrows(RuntimeException.class, () -> 
+		naviera.tiempoDesdeHasta(terminalOrigen,terminalDestino), 
+		"No existe circuito entre las terminales");
+		
+		when(circuito.existeRecorridoEntre(terminalOrigen, terminalDestino)).thenReturn(true);
+		when(circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalDestino)).thenReturn(2d);
+		
+		naviera.agregarCircuito(circuito);
+		
+		Assertions.assertEquals(2d,naviera.tiempoDesdeHasta(terminalOrigen, terminalDestino));
 	}
 }

@@ -40,4 +40,20 @@ public class Naviera {
 																										// duplicados
 				.collect(Collectors.toList());
 	}
+	
+	public double tiempoDesdeHasta(Terminal terminalOrigen, Terminal terminalDestino) {
+		return  this.getCircuitos().stream()
+				// 1. Filtrar solo los circuitos que tienen un recorrido entre origen y destino
+                .filter(circuito -> circuito.existeRecorridoEntre(terminalOrigen, terminalDestino)) 
+                // 2. Mapear cada circuito filtrado a su tiempo total
+                .mapToDouble(circuito -> circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalDestino))
+                // 3. Encontrar el valor mínimo entre los tiempos obtenidos
+                .min()
+                // .min() devuelve un OptionalDouble. Si quieres Optional<Double>, puedes usar:
+                // .boxed() // Convierte DoubleStream a Stream<Double>
+                // .min(Comparator.naturalOrder()) 
+                // pero .min() en DoubleStream es más eficiente.
+                .stream().boxed().findFirst()// Esto convierte OptionalDouble a Optional<Double>
+                .orElseThrow(() -> new IllegalArgumentException("No existe circuito entre las terminales")); 
+	}
 }
