@@ -214,12 +214,13 @@ public class TerminalGestionadaTest {
 		terminalGestionada.facturar(buque);
 		verify(ordenMock).facturar(buque);
 	}
-
-	@Test
-	void notificarPartida() {
+	
+	@Test 
+	void notificarPartidaYFacturacionEnAvisarPartida() {
 		terminalGestionada.exportar(ordenMock);
 		terminalGestionada.avisarPartida(buque);
 		verify(ordenMock).notificarPartida(buque);
+		verify(ordenMock).facturar(buque);
 	}
 
 	@Test
@@ -227,6 +228,7 @@ public class TerminalGestionadaTest {
 		terminalGestionada.importar(ordenMock);
 		terminalGestionada.avisarLlegada(buque);
 		verify(ordenMock).notificarLlegada(buque);
+		verify(ordenMock).facturar(buque);
 	}
 
 	@Test

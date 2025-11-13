@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+
 public class TerminalGestionada implements Terminal {
 
 	private String nombre;
@@ -100,6 +101,21 @@ public class TerminalGestionada implements Terminal {
 		this.ordenes.stream().forEach(orden -> orden.verificar(camion, chofer, container));
 	}
 
+	@Override
+	public void avisarPartida(Buque buque) {
+		this.ordenes.forEach(orden -> {
+			orden.notificarPartida(buque);
+			orden.facturar(buque);
+		});
+	}
+
+	@Override
+	public void avisarLlegada(Buque buque) {
+		this.ordenes.forEach(orden->{
+			orden.notificarLlegada(buque);
+			orden.facturar(buque);
+		});
+
 	public LocalDateTime proximaFecha(Terminal terminal) {
 		return this.navieras.stream().map(nav -> nav.proximaFecha(this, terminal))
 				.min((arg0, arg1) -> arg0.compareTo(arg1)).orElse(LocalDateTime.MAX);
@@ -107,6 +123,7 @@ public class TerminalGestionada implements Terminal {
 
 	public void retirarCarga(Container container, Camion camion, Chofer chofer) {
 		this.ordenes.stream().forEach(orden -> orden.verificar(camion, chofer, container));
+
 	}
 
 	public void setEstrategiaDeBusqueda(IBusquedaCircuito strategyCircuitos) {
