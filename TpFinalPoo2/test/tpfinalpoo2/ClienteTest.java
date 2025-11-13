@@ -1,37 +1,37 @@
 package tpfinalpoo2;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ClienteTest {
-	
+
 	private Cliente cliente;
 	private static final String CORREO = "cliente@test.com";
-	
+
 	@BeforeEach
 	void setUp() {
 		this.cliente = new Cliente(CORREO);
 	}
 
-    @Test
-    void correoDevuelveElValorCorrecto() {
-        Cliente cliente = new Cliente(CORREO);
-        
-        String correoCliente = cliente.correo();
+	@Test
+	void correoDevuelveElValorCorrecto() {
+		Cliente cliente = new Cliente(CORREO);
 
-        assertEquals(CORREO, correoCliente);
-    }
+		String correoCliente = cliente.correo();
 
-    @Test
-    void notificarLlegadaNoHaceNada() {
-    	cliente.notificarLlegada(mock(Buque.class));
-    }
+		assertEquals(CORREO, correoCliente);
+	}
 
-    @Test
-    void notificarPartidaNoHaceNada() {
-    	cliente.notificarPartida(mock(Buque.class));
-    }
+	@Test
+	void notificarLlegadaNoHaceNada() {
+		cliente.notificarLlegada(mock(Buque.class));
+	}
+
+	@Test
+	void notificarPartidaNoHaceNada() {
+		cliente.notificarPartida(mock(Buque.class));
+	}
 }

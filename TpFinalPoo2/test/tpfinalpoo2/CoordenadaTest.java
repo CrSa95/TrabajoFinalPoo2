@@ -23,7 +23,7 @@ class CoordenadaTest {
 		when(coord2.coordY()).thenReturn(20d);
 		assertEquals(50d, coord1.distanciaHacia(coord2));
 	}
-	
+
 	@Test
 	void unaCoordenadaSabeAvanzarEnXeY() {
 		coord1.avanzarX(10d);

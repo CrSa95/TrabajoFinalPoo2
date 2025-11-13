@@ -10,10 +10,12 @@ class Coordenadas {
 		this.coord_y = y;
 	}
 
-	public Double distanciaHacia(Coordenadas coordenadas) {
-		Double x = Math.pow(this.coordX() - coordenadas.coordX(), 2);
-		Double y = Math.pow(this.coordY() - coordenadas.coordY(), 2);
-		return Math.sqrt(x + y);
+	public void avanzarX(Double cant) {
+		this.coord_x += cant;
+	}
+
+	public void avanzarY(Double cant) {
+		this.coord_y += cant;
 	}
 
 	public Double coordX() {
@@ -25,12 +27,10 @@ class Coordenadas {
 		return this.coord_y;
 	}
 
-	public void avanzarX(Double cant) {
-		this.coord_x += cant;
-	}
-
-	public void avanzarY(Double cant) {
-		this.coord_y += cant;
+	public Double distanciaHacia(Coordenadas coordenadas) {
+		Double x = Math.pow(this.coordX() - coordenadas.coordX(), 2);
+		Double y = Math.pow(this.coordY() - coordenadas.coordY(), 2);
+		return Math.sqrt(x + y);
 	}
 
 }

@@ -18,64 +18,19 @@ public class TerminalGestionada implements Terminal {
 		this.nombre = nombre;
 		this.coordenadas = coordenadas;
 	}
-	
-	public List<Container> cargasEnViaje(Viaje viaje) {
-	    return filtrarCargas(o -> viaje.equals(o.viaje()));
-	}
-
-	public List<Container> cargasImportadasEnViaje(Viaje viaje) {
-	    return filtrarCargas(o -> viaje.equals(o.viaje()) && o.esImportacion());
-	}
-
-	public List<Container> cargasExportadasEnViaje(Viaje viaje) {
-	    return filtrarCargas(o -> viaje.equals(o.viaje()) && o.esExportacion());
-	}
-	
-	private List<Container> filtrarCargas(Predicate<Orden> criterio) {
-	    return this.ordenes.stream()
-	            .filter(criterio)
-	            .map(Orden::carga)
-	            .toList();
-	}
-	
-	public int cantCargasEnViaje(Viaje viaje) {
-		return this.cargasEnViaje(viaje).size();
-	}
-
-	public void exportar(Orden orden) {
-		orden.terminalOrigen(this);
-		this.ordenes.add(orden);
-	}
-
-	public void importar(Orden orden) {
-		orden.terminalDestino(this);
-		this.ordenes.add(orden);
-	}
-
-	@Override
-	public String getNombre() {
-		return this.nombre;
-	}
 
 	public void agregarNaviera(Naviera naviera) {
 		this.getNavieras().add(naviera);
 	}
 
-	public List<Naviera> getNavieras() {
-		return this.navieras;
+	@Override
+	public void avisarLlegada(Buque buque) {
+		this.ordenes.forEach(orden -> orden.notificarLlegada(buque));
 	}
 
-	public void setEstrategiaDeBusqueda(IBusquedaCircuito strategyCircuitos) {
-		this.estrategiaBusquedaMejorCircuito = strategyCircuitos;
-	}
-
-	public IBusquedaCircuito getEstrategiaDeBusqueda() {
-		return this.estrategiaBusquedaMejorCircuito;
-	}
-
-	public List<Viaje> busquedaDeRutasMaritimasQueCumplan(List<Filtro> filtros) {
-		return this.getNavieras().stream().flatMap(naviera -> naviera.buscarViajesQueCumplan(filtros).stream())
-				.collect(Collectors.toList());
+	@Override
+	public void avisarPartida(Buque buque) {
+		this.ordenes.forEach(orden -> orden.notificarPartida(buque));
 	}
 
 	public Circuito buscarMejorCircuitoParaLLegarA(Terminal terminalDestino) {
@@ -83,40 +38,82 @@ public class TerminalGestionada implements Terminal {
 		return this.getEstrategiaDeBusqueda().seleccionarMejor(this.getNavieras(), this, terminalDestino);
 	}
 
+	public List<Viaje> busquedaDeRutasMaritimasQueCumplan(List<Filtro> filtros) {
+		return this.getNavieras().stream().flatMap(naviera -> naviera.buscarViajesQueCumplan(filtros).stream())
+				.collect(Collectors.toList());
+	}
+
+	public int cantCargasEnViaje(Viaje viaje) {
+		return this.cargasEnViaje(viaje).size();
+	}
+
+	public List<Container> cargasEnViaje(Viaje viaje) {
+		return filtrarCargas(o -> viaje.equals(o.viaje()));
+	}
+
+	public List<Container> cargasExportadasEnViaje(Viaje viaje) {
+		return filtrarCargas(o -> viaje.equals(o.viaje()) && o.esExportacion());
+	}
+
+	public List<Container> cargasImportadasEnViaje(Viaje viaje) {
+		return filtrarCargas(o -> viaje.equals(o.viaje()) && o.esImportacion());
+	}
+
 	@Override
 	public Coordenadas coordenadas() {
 		return this.coordenadas;
 	}
 
-	public void retirarCarga(Container container, Camion camion, Chofer chofer) {
-		this.ordenes.stream().forEach(orden -> orden.verificar(camion, chofer, container));
+	public void exportar(Orden orden) {
+		orden.terminalOrigen(this);
+		this.ordenes.add(orden);
+	}
+
+	@Override
+	public void facturar(Buque buque) {
+		this.ordenes.forEach(orden -> orden.facturar(buque));
+	}
+
+	private List<Container> filtrarCargas(Predicate<Orden> criterio) {
+		return this.ordenes.stream().filter(criterio).map(Orden::carga).toList();
+	}
+
+	public IBusquedaCircuito getEstrategiaDeBusqueda() {
+		return this.estrategiaBusquedaMejorCircuito;
+	}
+
+	public List<Naviera> getNavieras() {
+		return this.navieras;
+	}
+
+	@Override
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public void importar(Orden orden) {
+		orden.terminalDestino(this);
+		this.ordenes.add(orden);
 	}
 
 	public void ingresarCarga(Container container, Camion camion, Chofer chofer) {
 		this.ordenes.stream().forEach(orden -> orden.verificar(camion, chofer, container));
 	}
 
-
-	@Override
-	public void avisarPartida(Buque buque) {
-		this.ordenes.forEach(orden -> orden.notificarPartida(buque));
+	public LocalDateTime proximaFecha(Terminal terminal) {
+		return this.navieras.stream().map(nav -> nav.proximaFecha(this, terminal))
+				.min((arg0, arg1) -> arg0.compareTo(arg1)).orElse(LocalDateTime.MAX);
 	}
 
-	@Override
-	public void avisarLlegada(Buque buque) {
-		this.ordenes.forEach(orden->orden.notificarLlegada(buque));
+	public void retirarCarga(Container container, Camion camion, Chofer chofer) {
+		this.ordenes.stream().forEach(orden -> orden.verificar(camion, chofer, container));
 	}
-	
-	@Override 
-	public void facturar(Buque buque) {
-		this.ordenes.forEach(orden->orden.facturar(buque));
+
+	public void setEstrategiaDeBusqueda(IBusquedaCircuito strategyCircuitos) {
+		this.estrategiaBusquedaMejorCircuito = strategyCircuitos;
 	}
-	
+
 	public double tiempoHasta(Naviera naviera, Terminal terminalDestino) {
 		return naviera.tiempoDesdeHasta(this, terminalDestino);
-	}
-	
-	public LocalDateTime proximaFecha(Terminal terminal) {
-		return this.navieras.stream().map(nav -> nav.proximaFecha(this, terminal)).min((arg0, arg1) -> arg0.compareTo(arg1)).orElse(LocalDateTime.MAX);
 	}
 }

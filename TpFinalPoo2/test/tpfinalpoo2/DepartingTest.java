@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class DepartingTest {
-	
+
 	private Departing suject;
 	private Buque buqueMock;
 
@@ -15,8 +15,8 @@ public class DepartingTest {
 		suject = new Departing();
 		buqueMock = mock(Buque.class);
 	}
-	
-	@Test 
+
+	@Test
 	void departingPermiteSalirDeLaterminal() {
 		suject.salir(buqueMock);
 	}

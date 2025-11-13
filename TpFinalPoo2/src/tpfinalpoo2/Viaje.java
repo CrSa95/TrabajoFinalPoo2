@@ -11,6 +11,14 @@ public class Viaje {
 		this.fechaSalida = fechaSalida;
 	}
 
+	public Double costo() {
+		return this.circuito.costoCircuito();
+	}
+
+	public LocalDateTime fechaLlegada(Terminal terminal) {
+		return this.fechaSalida.plusDays(this.circuito.tiempoHaciaTerminalDesdeOrigen(terminal));
+	}
+
 	public LocalDateTime getFechaLlegada() {
 		return fechaSalida.plusDays((long) circuito.tiempoTotal());
 	}
@@ -23,26 +31,17 @@ public class Viaje {
 		return this.circuito.destinoActual();
 	}
 
-	public Double costo() {
-		return this.circuito.costoCircuito();
-	}
+	public LocalDateTime proximaFecha(Terminal origen, Terminal destino) {
+		return this.getFechaSalida().plusDays((long) this.circuito.tiempoTotalDesdeHasta(origen, destino));
 
-	public LocalDateTime fechaLlegada(Terminal terminal) {
-		return this.fechaSalida.plusDays(this.circuito.tiempoHaciaTerminalDesdeOrigen(terminal));
-	}
-
-	public Tramo tramoInicial() {
-		return this.circuito.tramoInicial();
 	}
 
 	public Tramo siguienteTramo(Tramo tramoActual) {
 		return this.circuito.siguienteTramo(tramoActual);
 	}
 
-	public LocalDateTime proximaFecha(Terminal origen, Terminal destino) {
-		return this.getFechaSalida().plusDays((long) this.circuito.tiempoTotalDesdeHasta(origen, destino));
-
-		
+	public Tramo tramoInicial() {
+		return this.circuito.tramoInicial();
 	}
 
 }

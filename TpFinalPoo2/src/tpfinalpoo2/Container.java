@@ -15,6 +15,45 @@ public abstract class Container {
 		this.setOwner(ownerID);
 	}
 
+	public String id() {
+		return this.id;
+
+	}
+
+	public boolean isEqual(Container container) {
+		return this.id().equals(container.id());
+	}
+
+	public double metrosCubicos() {
+		return (altura * ancho * largo);
+	}
+
+	public Double peso() {
+		return this.peso;
+	}
+
+	private void setAltura(Double altura) {
+		if (altura < 0) {
+			throw new RuntimeException("Container: Altura invalida");
+		}
+		this.altura = altura;
+	}
+
+	private void setAncho(Double ancho) {
+		if (ancho < 0) {
+			throw new RuntimeException("Container: Ancho invalido");
+		}
+		this.ancho = ancho;
+	}
+
+	private void setLargo(Double largo) {
+		if (largo < 0) {
+			throw new RuntimeException("Container: Largo invalido");
+		}
+		this.largo = largo;
+
+	}
+
 	private void setOwner(String ownerId) {
 		if (ownerId == null || ownerId.isEmpty() || ownerId.isBlank()) {
 			throw new RuntimeException("Container: Dueño invalido");
@@ -31,44 +70,5 @@ public abstract class Container {
 
 	}
 
-	private void setLargo(Double largo) {
-		if (largo < 0) {
-			throw new RuntimeException("Container: Largo invalido");
-		}
-		this.largo = largo;
-
-	}
-
-	private void setAncho(Double ancho) {
-		if (ancho < 0) {
-			throw new RuntimeException("Container: Ancho invalido");
-		}
-		this.ancho = ancho;
-	}
-
-	private void setAltura(Double altura) {
-		if (altura < 0) {
-			throw new RuntimeException("Container: Altura invalida");
-		}
-		this.altura = altura;
-	}
-
-	public double metrosCubicos() {
-		return (altura * ancho * largo);
-	}
-
-	public String id() {
-		return this.id;
-
-	}
-
-	public Double peso() {
-		return this.peso;
-	}
-	
 	public abstract String tipo();
-
-	public boolean isEqual(Container container) {
-		return this.id().equals(container.id());
-	}
 }

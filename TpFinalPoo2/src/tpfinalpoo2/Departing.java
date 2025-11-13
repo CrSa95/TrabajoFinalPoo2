@@ -2,11 +2,10 @@ package tpfinalpoo2;
 
 public class Departing extends EstadoGPS {
 
-	
-	@Override 
+	@Override
 	public void salir(Buque buque) {
 		buque.cambiarEstado(new Outbound());
 		buque.siguienteDestino();
 	}
-	
+
 }

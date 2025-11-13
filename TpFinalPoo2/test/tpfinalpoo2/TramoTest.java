@@ -47,12 +47,12 @@ public class TramoTest {
 		when(destino.getNombre()).thenReturn("Montevideo");
 		Assertions.assertTrue(tramo.tieneDeDestinoA(destino));
 	}
-	
+
 	@Test
 	void testUnTramoConoceLasCoordenadasDeSuTerminalDestino() {
-		
+
 		when(destino.coordenadas()).thenReturn(coordenadasMock);
-		
+
 		Assertions.assertEquals(coordenadasMock, tramo.getTerminalDestinoCoordenadas());
 	}
 }

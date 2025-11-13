@@ -27,7 +27,7 @@ public class FiltroFechaSalidaTest {
 		otroViaje = mock(Viaje.class);
 
 		when(unViaje.getFechaSalida()).thenReturn(LocalDateTime.of(2025, 12, 1, 0, 0));
-		when(otroViaje.getFechaSalida()).thenReturn(LocalDateTime.of(2025, 11, 10, 0 ,0));
+		when(otroViaje.getFechaSalida()).thenReturn(LocalDateTime.of(2025, 11, 10, 0, 0));
 
 	}
 
