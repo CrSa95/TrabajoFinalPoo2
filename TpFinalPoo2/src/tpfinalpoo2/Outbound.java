@@ -5,20 +5,25 @@ public class Outbound extends EstadoGPS {
 
 	@Override
 	public void avanzar(Buque buque) {
-		if (buque.distanciaHaciaDestino() < 50d) {
-			buque.cambiarEstado(new Inbound());
-			buque.avisarLlegada();
-		}
-
-		if (!se_aviso_partida && buque.distanciaHaciaOrigen() >= 1d) {
-			buque.avisarPartida();
-			se_aviso_partida = true;
-		}
-
+		this.avanzarAvisandoLlegada(buque);
+		this.avanzarAvisandoPartida(buque);
 	}
 
 	@Override
 	public void avisarPartida(Buque buque) {
 		buque.terminalOrigen().avisarPartida(buque);
+	}
+	private void avanzarAvisandoPartida(Buque buque) {
+		if (!se_aviso_partida && buque.distanciaHaciaOrigen() >= 1d) {
+			buque.avisarPartida();
+			se_aviso_partida = true;
+		}
+	}
+	
+	private void avanzarAvisandoLlegada(Buque buque) {
+		if (buque.distanciaHaciaDestino() < 50d) {
+			buque.cambiarEstado(new Inbound());
+			buque.avisarLlegada();
+		}
 	}
 }
