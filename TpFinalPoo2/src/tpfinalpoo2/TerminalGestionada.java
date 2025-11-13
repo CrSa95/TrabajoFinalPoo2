@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+
 public class TerminalGestionada implements Terminal {
 
 	private String nombre;
@@ -96,15 +97,20 @@ public class TerminalGestionada implements Terminal {
 		this.ordenes.stream().forEach(orden -> orden.verificar(camion, chofer, container));
 	}
 
-
 	@Override
 	public void avisarPartida(Buque buque) {
-		this.ordenes.forEach(orden -> orden.notificarPartida(buque));
+		this.ordenes.forEach(orden -> {
+			orden.notificarPartida(buque);
+			orden.facturar(buque);
+		});
 	}
 
 	@Override
 	public void avisarLlegada(Buque buque) {
-		this.ordenes.forEach(orden->orden.notificarLlegada(buque));
+		this.ordenes.forEach(orden->{
+			orden.notificarLlegada(buque);
+			orden.facturar(buque);
+		});
 	}
 	
 	@Override 
