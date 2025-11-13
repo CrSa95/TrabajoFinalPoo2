@@ -96,10 +96,6 @@ public class TerminalGestionada implements Terminal {
 		this.ordenes.stream().forEach(orden -> orden.verificar(camion, chofer, container));
 	}
 
-	@Override
-	public void notificarClientes(Buque buque) {
-		this.ordenes.forEach(orden -> orden.notificarLlegada(buque));
-	}
 
 	@Override
 	public void avisarPartida(Buque buque) {
