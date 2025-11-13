@@ -40,17 +40,20 @@ public class Circuito {
 		// pasada por parametro
 		// como asi tambien la terminal destino para que a la hora de calcular no haya
 		// errores de calculo
-		this.existeRecorridoEntre(terminalOrigen, terminalDestino);
+		if (this.existeRecorridoEntre(terminalOrigen, terminalDestino)) {
+			// Calcula el costo desde la terminal de origen hasta la terminal destino
+			double costoDesdeHasta = this.tramos.stream().dropWhile(tramo -> !tramo.tieneDeOrigenA(terminalOrigen))
+					.takeWhile(tramo -> !tramo.tieneDeDestinoA(terminalDestino)).mapToDouble(valorExtractor).sum();
 
-		// Calcula el costo desde la terminal de origen hasta la terminal destino
-		double costoDesdeHasta = this.tramos.stream().dropWhile(tramo -> !tramo.tieneDeOrigenA(terminalOrigen))
-				.takeWhile(tramo -> !tramo.tieneDeDestinoA(terminalDestino)).mapToDouble(valorExtractor).sum();
+			// TakeWhile descarta el ultimo tramo, por lo tanto hay que sumarlo
+			double costoUltimoTramo = this.tramos.stream().filter(tramo -> tramo.tieneDeDestinoA(terminalDestino))
+					.mapToDouble(valorExtractor).findFirst().orElse(0.0);
 
-		// TakeWhile descarta el ultimo tramo, por lo tanto hay que sumarlo
-		double costoUltimoTramo = this.tramos.stream().filter(tramo -> tramo.tieneDeDestinoA(terminalDestino))
-				.mapToDouble(valorExtractor).findFirst().orElse(0.0);
-
-		return costoDesdeHasta + costoUltimoTramo;
+			return costoDesdeHasta + costoUltimoTramo;
+		}
+		else {
+			throw new IllegalArgumentException("Origen y destino inexistentes en el circuito");
+		}
 	}
 
 	public int terminalesIntermediasDesdeHasta(Terminal terminalOrigen, Terminal terminalDestino) {
@@ -59,24 +62,27 @@ public class Circuito {
 		// pasada por parametro
 		// como asi tambien la terminal destino para que a la hora de calcular no haya
 		// errores de calculo
-		this.existeRecorridoEntre(terminalOrigen, terminalDestino);
+		if (this.existeRecorridoEntre(terminalOrigen, terminalDestino)) {
 
 		List<Tramo> tramosIntermedios = tramos.stream().dropWhile(tramo -> !tramo.tieneDeOrigenA(terminalOrigen))
 				.takeWhile(tramo -> !tramo.tieneDeDestinoA(terminalDestino)).toList();
 
-		// se utiliza Math.max en caso de que sea un unico tramo el que tenga
-		// la terminal de origen y destino por que lo seria una lista vacia y al
-		// restarle 1
-		// daria como resultado -1
-		return Math.max(0, tramosIntermedios.size() - 1);
-	}
-
-	public void existeRecorridoEntre(Terminal terminalOrigen, Terminal terminalDestino) {
-
-		if (!this.existeAlgunTramoConOrigen(terminalOrigen) && !this.existeAlgunTramoConDestino(terminalDestino)) {
-
+			// se utiliza Math.max en caso de que sea un unico tramo el que tenga
+			// la terminal de origen y destino por que lo seria una lista vacia y al
+			// restarle 1
+			// daria como resultado -1
+			return Math.max(0, tramosIntermedios.size() - 1);
+		}
+		
+		else {
 			throw new IllegalArgumentException("Origen y destino inexistentes en el circuito");
 		}
+	}
+
+	public boolean existeRecorridoEntre(Terminal terminalOrigen, Terminal terminalDestino) {
+		
+		return this.existeAlgunTramoConOrigen(terminalOrigen) && this.existeAlgunTramoConDestino(terminalDestino);
+		
 	}
 
 	private boolean existeAlgunTramoConOrigen(Terminal terminalOrigen) {

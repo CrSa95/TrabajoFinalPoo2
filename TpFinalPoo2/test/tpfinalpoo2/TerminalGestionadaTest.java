@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 public class TerminalGestionadaTest {
 
 	private TerminalGestionada terminalGestionada;
+	private Terminal terminalDestino;
 	private Naviera naviera;
 	private Container container;
 	private Camion camion;
@@ -35,6 +36,7 @@ public class TerminalGestionadaTest {
 	public void setUp() {
 		coordenadas = mock(Coordenadas.class);
 		terminalGestionada = new TerminalGestionada("Buenos Aires", coordenadas);
+		terminalDestino = mock(Terminal.class);
 		naviera = mock(Naviera.class);
 		container = mock(Container.class);
 		chofer = mock(Chofer.class);
@@ -263,5 +265,12 @@ public class TerminalGestionadaTest {
 		Assertions.assertEquals(coordenadas.coordX(), terminalGestionada.coordenadas().coordX());
 		Assertions.assertEquals(coordenadas.coordY(), terminalGestionada.coordenadas().coordY());
 	}
+	
+	@Test
+	void laTerminalConoceElTiempoQueLeTomaLlegarAOtraTerminalMedianteUnaNaviera() {
 
+		terminalGestionada.agregarNaviera(naviera);
+		terminalGestionada.tiempoHasta(naviera, terminalDestino);
+		verify(naviera).tiempoDesdeHasta(terminalGestionada, terminalDestino);
+	}
 }
