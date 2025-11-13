@@ -71,7 +71,7 @@ public class OrdenTest {
 	@Test
 	void facturacionConsignee() {
 		orden.terminalDestino(terminalMock);
-		orden.facturar(buqueMock);
+		orden.facturar(terminalMock, buqueMock);
 
 		verify(clienteMock).enviar(any(FacturaConsignee.class));
 	}
@@ -79,7 +79,7 @@ public class OrdenTest {
 	@Test
 	void facturacionShipper() {
 		orden.terminalOrigen(terminalMock);
-		orden.facturar(buqueMock);
+		orden.facturar(terminalMock, buqueMock);
 
 		verify(clienteMock).enviar(any(FacturaShipper.class));
 	}
@@ -138,10 +138,14 @@ public class OrdenTest {
 
 	@Test
 	void costoRecorridoDevuelveValorCorrecto() {
-		when(viajeMock.costo()).thenReturn(2000.0);
+		Terminal otraTerminalMock = mock(Terminal.class);
+		orden.terminalOrigen(terminalMock);
+		orden.terminalDestino(otraTerminalMock);
+		
+		when(viajeMock.costoEntre(terminalMock, otraTerminalMock)).thenReturn(2000.0);
 
 		assertEquals(2000.0, orden.costoRecorrido());
-		verify(viajeMock).costo();
+		verify(viajeMock).costoEntre(terminalMock, otraTerminalMock);
 	}
 
 	@Test
@@ -200,14 +204,14 @@ public class OrdenTest {
 	@Test
 	void clienteRecibeNotificacionDePartida() {
 		orden.terminalOrigen(terminalMock);
-		orden.notificarPartida(buqueMock);
+		orden.notificarPartida(terminalMock, buqueMock);
 		verify(clienteMock).notificarPartida(buqueMock);
 	}
 
 	@Test
 	void clienteRecibeNotificacionDeLlegada() {
 		orden.terminalDestino(terminalMock);
-		orden.notificarLlegada(buqueMock);
+		orden.notificarLlegada(terminalMock, buqueMock);
 		verify(clienteMock).notificarLlegada(buqueMock);
 	}
 }

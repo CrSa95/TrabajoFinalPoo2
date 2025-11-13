@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 public class TerminalGestionadaTest {
 
 	private TerminalGestionada terminalGestionada;
+	private Terminal terminalOrigen;
 	private Terminal terminalDestino;
 	private Naviera naviera;
 	private Container container;
@@ -36,6 +37,7 @@ public class TerminalGestionadaTest {
 	public void setUp() {
 		coordenadas = mock(Coordenadas.class);
 		terminalGestionada = new TerminalGestionada("Buenos Aires", coordenadas);
+		terminalOrigen = mock(Terminal.class);
 		terminalDestino = mock(Terminal.class);
 		naviera = mock(Naviera.class);
 		container = mock(Container.class);
@@ -95,9 +97,9 @@ public class TerminalGestionadaTest {
 		Viaje otroViaje = mock(Viaje.class);
 		Orden otraImport = new Orden(cliente, camion, chofer, contOtroViaje, otroViaje);
 
-		terminalGestionada.importar(importacion);
-		terminalGestionada.exportar(exportacion);
-		terminalGestionada.importar(otraImport);
+		terminalGestionada.importarDesde(importacion, terminalOrigen);
+		terminalGestionada.exportarHacia(exportacion, terminalDestino);
+		terminalGestionada.importarDesde(otraImport, terminalOrigen);
 
 		List<Container> resultado = terminalGestionada.cargasImportadasEnViaje(viaje);
 
@@ -119,9 +121,9 @@ public class TerminalGestionadaTest {
 		Viaje otroViaje = mock(Viaje.class);
 		Orden otraImport = new Orden(cliente, camion, chofer, contOtroViaje, otroViaje);
 
-		terminalGestionada.importar(importacion);
-		terminalGestionada.exportar(exportacion);
-		terminalGestionada.importar(otraImport);
+		terminalGestionada.importarDesde(importacion, terminalOrigen);
+		terminalGestionada.exportarHacia(exportacion, terminalDestino);
+		terminalGestionada.importarDesde(otraImport, terminalOrigen);
 
 		List<Container> resultado = terminalGestionada.cargasExportadasEnViaje(viaje);
 
@@ -138,28 +140,28 @@ public class TerminalGestionadaTest {
 		when(orden1.viaje()).thenReturn(viaje);
 		when(orden2.viaje()).thenReturn(viaje);
 
-		terminalGestionada.exportar(orden1);
-		terminalGestionada.exportar(orden2);
+		terminalGestionada.exportarHacia(orden1, terminalDestino);
+		terminalGestionada.exportarHacia(orden2, terminalDestino);
 
 		Assertions.assertEquals(2, terminalGestionada.cantCargasEnViaje(viaje));
 	}
 
 	@Test
 	void ingresarCarga() {
-		terminalGestionada.exportar(orden);
+		terminalGestionada.exportarHacia(orden, terminalDestino);
 		Assertions.assertDoesNotThrow(() -> terminalGestionada.retirarCarga(container, camion, chofer));
 	}
 
 	@Test
 	void retirarUnaCarga() {
-		terminalGestionada.exportar(orden);
+		terminalGestionada.exportarHacia(orden, terminalDestino);
 		Assertions.assertDoesNotThrow(() -> terminalGestionada.ingresarCarga(container, camion, chofer));
 	}
 
 	@Test
 	void personalNoAutorizadoNoPuedorIngresarCarga() {
 		RuntimeException exception;
-		terminalGestionada.exportar(orden);
+		terminalGestionada.exportarHacia(orden, terminalDestino);
 
 		when(container.isEqual(any(Container.class))).thenReturn(true);
 		exception = Assertions.assertThrows(RuntimeException.class,
@@ -176,7 +178,7 @@ public class TerminalGestionadaTest {
 	@Test
 	void personalNoAutorizadoNoPuedorRetirarCarga() {
 		RuntimeException exception;
-		terminalGestionada.importar(orden);
+		terminalGestionada.importarDesde(orden, terminalOrigen);
 		when(container.isEqual(any(Container.class))).thenReturn(true);
 
 		exception = Assertions.assertThrows(RuntimeException.class,
@@ -210,25 +212,25 @@ public class TerminalGestionadaTest {
 
 	@Test
 	void terminalGestionadaPuedeFacturar() {
-		terminalGestionada.exportar(ordenMock);
+		terminalGestionada.exportarHacia(ordenMock, terminalDestino);
 		terminalGestionada.facturar(buque);
-		verify(ordenMock).facturar(buque);
+		verify(ordenMock).facturar(terminalGestionada, buque);
 	}
 	
 	@Test 
 	void notificarPartidaYFacturacionEnAvisarPartida() {
-		terminalGestionada.exportar(ordenMock);
+		terminalGestionada.exportarHacia(ordenMock, terminalDestino);
 		terminalGestionada.avisarPartida(buque);
-		verify(ordenMock).notificarPartida(buque);
-		verify(ordenMock).facturar(buque);
+		verify(ordenMock).notificarPartida(terminalGestionada, buque);
+		verify(ordenMock).facturar(terminalGestionada, buque);
 	}
 
 	@Test
 	void notificarLlegada() {
-		terminalGestionada.importar(ordenMock);
+		terminalGestionada.importarDesde(ordenMock, terminalOrigen);
 		terminalGestionada.avisarLlegada(buque);
-		verify(ordenMock).notificarLlegada(buque);
-		verify(ordenMock).facturar(buque);
+		verify(ordenMock).notificarLlegada(terminalGestionada, buque);
+		verify(ordenMock).facturar(terminalGestionada, buque);
 	}
 
 	@Test
