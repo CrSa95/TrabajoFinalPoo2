@@ -1,6 +1,7 @@
 package tpfinalpoo2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -88,6 +89,10 @@ public class CircuitoTest {
 		circuito.agregarTramo(segundoTramo);
 		circuito.agregarTramo(tercerTramo);
 
+		assertThrows(RuntimeException.class, () -> 
+		circuito.costoTotalDesdeHasta(terminalOrigen, terminalDestino), 
+		"Origen y destino inexistentes en el circuito");
+		
 		when(terminalOrigen.getNombre()).thenReturn("unNombre");
 		when(terminalDestino.getNombre()).thenReturn("otroNombre");
 		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
@@ -106,6 +111,10 @@ public class CircuitoTest {
 		circuito.agregarTramo(segundoTramo);
 		circuito.agregarTramo(tercerTramo);
 
+		assertThrows(RuntimeException.class, () -> 
+		circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalDestino), 
+		"Origen y destino inexistentes en el circuito");
+		
 		when(terminalOrigen.getNombre()).thenReturn("unNombre");
 		when(terminalDestino.getNombre()).thenReturn("otroNombre");
 		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
@@ -125,6 +134,10 @@ public class CircuitoTest {
 		circuito.agregarTramo(tercerTramo);
 		circuito.agregarTramo(cuartoTramo);
 
+		assertThrows(RuntimeException.class, () -> 
+		circuito.terminalesIntermediasDesdeHasta(terminalOrigen, terminalDestino), 
+		"Origen y destino inexistentes en el circuito");
+		
 		when(terminalOrigen.getNombre()).thenReturn("unNombre");
 		when(terminalDestino.getNombre()).thenReturn("otroNombre");
 		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
@@ -141,10 +154,8 @@ public class CircuitoTest {
 		circuito.agregarTramo(segundoTramo);
 		circuito.agregarTramo(tercerTramo);
 		circuito.agregarTramo(cuartoTramo);
-
-		Assertions.assertThrows(Exception.class, () -> {
-			circuito.existeRecorridoEntre(terminalOrigen, terminalDestino);
-		});
+		
+		Assertions.assertFalse(circuito.existeRecorridoEntre(terminalOrigen, terminalDestino));
 
 		when(terminalOrigen.getNombre()).thenReturn("unNombre");
 		when(terminalDestino.getNombre()).thenReturn("otroNombre");
@@ -153,7 +164,7 @@ public class CircuitoTest {
 		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
 		when(tercerTramo.getTerminalDestino()).thenReturn(terminalDestino);
 
-		Assertions.assertDoesNotThrow(() -> circuito.existeRecorridoEntre(terminalOrigen, terminalDestino));
+		Assertions.assertTrue(circuito.existeRecorridoEntre(terminalOrigen, terminalDestino));
 	}
 	
 	@Test
@@ -162,6 +173,10 @@ public class CircuitoTest {
 		circuito.agregarTramo(segundoTramo);
 		circuito.agregarTramo(tercerTramo);
 
+		assertThrows(RuntimeException.class, () -> 
+						circuito.tiempoHaciaTerminalDesdeOrigen(terminalDestino), 
+						"Origen y destino inexistentes en el circuito");
+		
 		when(terminalOrigen.getNombre()).thenReturn("unNombre");
 		when(terminalDestino.getNombre()).thenReturn("otroNombre");
 		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
@@ -179,7 +194,7 @@ public class CircuitoTest {
 		circuito.agregarTramo(primerTramo);
 		circuito.agregarTramo(segundoTramo);
 		circuito.agregarTramo(tercerTramo);
-
+		
 		when(terminalOrigen.getNombre()).thenReturn("unNombre");
 		when(terminalDestino.getNombre()).thenReturn("otroNombre");
 		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
