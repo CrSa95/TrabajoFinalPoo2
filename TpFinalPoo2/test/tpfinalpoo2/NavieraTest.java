@@ -50,25 +50,25 @@ public class NavieraTest {
 
 	}
 
-	@Test 
+	@Test
 	void proximaFechaTest() {
 		LocalDateTime fecha_esperada = LocalDateTime.now();
 		Terminal destino = mock(Terminal.class);
-		Terminal origen  = mock(Terminal.class);
+		Terminal origen = mock(Terminal.class);
 		naviera.agregarBuque(buque);
 		when(buque.viaje()).thenReturn(viaje);
 		when(buque.proximaFecha(destino, origen)).thenReturn(fecha_esperada);
-		Assertions.assertEquals(fecha_esperada ,naviera.proximaFecha(destino, origen));
+		Assertions.assertEquals(fecha_esperada, naviera.proximaFecha(destino, origen));
 	}
-	
-	@Test 
+
+	@Test
 	void proximaFechaDeUnaNavieraSinViajesALaTerminalDevuelveLaFechaMaxima() {
 		Terminal destino = mock(Terminal.class);
-		Terminal origen  = mock(Terminal.class);
+		Terminal origen = mock(Terminal.class);
 		when(buque.viaje()).thenReturn(viaje);
-		Assertions.assertEquals(LocalDateTime.MAX ,naviera.proximaFecha(destino, origen));
+		Assertions.assertEquals(LocalDateTime.MAX, naviera.proximaFecha(destino, origen));
 	}
-	
+
 	@Test
 	void testUnaNavieraPuedeAgregarBuques() {
 		Assertions.assertTrue(naviera.getBuques().isEmpty());
@@ -126,19 +126,18 @@ public class NavieraTest {
 		Assertions.assertTrue(resultado.contains(unViaje));
 		Assertions.assertFalse(resultado.contains(otroViaje));
 	}
-	
+
 	@Test
-	void unaNavieraPuedeCalcularElTiempoQueLeLlevaIrDeUnaTerminalAOtra(){
-		
-		assertThrows(RuntimeException.class, () -> 
-		naviera.tiempoDesdeHasta(terminalOrigen,terminalDestino), 
-		"No existe circuito entre las terminales");
-		
+	void unaNavieraPuedeCalcularElTiempoQueLeLlevaIrDeUnaTerminalAOtra() {
+
+		assertThrows(RuntimeException.class, () -> naviera.tiempoDesdeHasta(terminalOrigen, terminalDestino),
+				"No existe circuito entre las terminales");
+
 		when(circuito.existeRecorridoEntre(terminalOrigen, terminalDestino)).thenReturn(true);
 		when(circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalDestino)).thenReturn(2d);
-		
+
 		naviera.agregarCircuito(circuito);
-		
-		Assertions.assertEquals(2d,naviera.tiempoDesdeHasta(terminalOrigen, terminalDestino));
+
+		Assertions.assertEquals(2d, naviera.tiempoDesdeHasta(terminalOrigen, terminalDestino));
 	}
 }

@@ -14,6 +14,10 @@ public class Tramo {
 		this.destino = destino;
 	}
 
+	public Double distanciaHacia(Coordenadas coordenadas) {
+		return this.getTerminalDestino().coordenadas().distanciaHacia(coordenadas);
+	}
+
 	public double getCosto() {
 		return this.costo;
 	}
@@ -22,28 +26,24 @@ public class Tramo {
 		return this.duracion;
 	}
 
-	public Terminal getTerminalOrigen() {
-		return this.origen;
-	}
-
 	public Terminal getTerminalDestino() {
 		return this.destino;
-	}
-
-	public boolean tieneDeOrigenA(Terminal terminalOrigen) {
-		return this.getTerminalOrigen().getNombre().equals(terminalOrigen.getNombre());
-	}
-
-	public boolean tieneDeDestinoA(Terminal terminalDestino) {
-		return this.getTerminalDestino().getNombre().equals(terminalDestino.getNombre());
 	}
 
 	public Coordenadas getTerminalDestinoCoordenadas() {
 		return this.destino.coordenadas();
 	}
 
-	public Double distanciaHacia(Coordenadas coordenadas) {
-		return this.getTerminalDestino().coordenadas().distanciaHacia(coordenadas);
+	public Terminal getTerminalOrigen() {
+		return this.origen;
+	}
+
+	public boolean tieneDeDestinoA(Terminal terminalDestino) {
+		return this.getTerminalDestino().getNombre().equals(terminalDestino.getNombre());
+	}
+
+	public boolean tieneDeOrigenA(Terminal terminalOrigen) {
+		return this.getTerminalOrigen().getNombre().equals(terminalOrigen.getNombre());
 	}
 
 }

@@ -12,20 +12,86 @@ public class Circuito {
 		this.getTramos().add(tramo);
 	}
 
-	public List<Tramo> getTramos() {
-		return this.tramos;
-	}
-
 	public double costoCircuito() {
 		return tramos.stream().mapToDouble(Tramo::getCosto).sum();
 	}
 
-	public double tiempoTotal() {
-		return tramos.stream().mapToDouble(Tramo::getDuracion).sum();
-	}
-
 	public double costoTotalDesdeHasta(Terminal terminalOrigen, Terminal terminalDestino) {
 		return this.totalDesdeHasta(terminalOrigen, terminalDestino, Tramo::getCosto);
+	}
+
+	public Terminal destinoActual() {
+		return this.tramoActual().getTerminalDestino();
+	}
+
+	private boolean existeAlgunTramoConDestino(Terminal terminalDestino) {
+		return this.tramos.stream().anyMatch(tramo -> tramo.tieneDeDestinoA(terminalDestino));
+	}
+
+	private boolean existeAlgunTramoConOrigen(Terminal terminalOrigen) {
+		return this.tramos.stream().anyMatch(tramo -> tramo.tieneDeOrigenA(terminalOrigen));
+	}
+
+	public boolean existeRecorridoEntre(Terminal terminalOrigen, Terminal terminalDestino) {
+
+		return this.existeAlgunTramoConOrigen(terminalOrigen) && this.existeAlgunTramoConDestino(terminalDestino);
+
+	}
+
+	public List<Tramo> getTramos() {
+		return this.tramos;
+	}
+
+	public Terminal origenActual() {
+		return this.tramos.getFirst().getTerminalOrigen();
+	}
+
+	public Tramo siguienteTramo(Tramo tramo_actual) {
+		try {
+			int siguienteIndice = this.getTramos().indexOf(tramo_actual) + 1;
+			return this.getTramos().get(siguienteIndice);
+		} catch (IndexOutOfBoundsException e) {
+			return this.tramoInicial();
+		}
+	}
+
+	public int terminalesIntermediasDesdeHasta(Terminal terminalOrigen, Terminal terminalDestino) {
+
+		// se verifica que en algun tramo exista como terminal de origen la terminal
+		// pasada por parametro
+		// como asi tambien la terminal destino para que a la hora de calcular no haya
+		// errores de calculo
+		if (this.existeRecorridoEntre(terminalOrigen, terminalDestino)) {
+
+			List<Tramo> tramosIntermedios = tramos.stream().dropWhile(tramo -> !tramo.tieneDeOrigenA(terminalOrigen))
+					.takeWhile(tramo -> !tramo.tieneDeDestinoA(terminalDestino)).toList();
+
+			// se utiliza Math.max en caso de que sea un unico tramo el que tenga
+			// la terminal de origen y destino por que lo seria una lista vacia y al
+			// restarle 1
+			// daria como resultado -1
+			return Math.max(0, tramosIntermedios.size() - 1);
+		}
+
+		else {
+			throw new IllegalArgumentException("Origen y destino inexistentes en el circuito");
+		}
+	}
+
+	public Terminal terminalOrigen() {
+		return this.tramos.getFirst().getTerminalOrigen();
+	}
+
+	public Double tiempoHaciaDestinoActual() {
+		return this.siguienteTramo(this.tramoInicial()).getDuracion();
+	}
+
+	public long tiempoHaciaTerminalDesdeOrigen(Terminal terminal) {
+		return (long) this.tiempoTotalDesdeHasta(this.terminalOrigen(), terminal);
+	}
+
+	public double tiempoTotal() {
+		return tramos.stream().mapToDouble(Tramo::getDuracion).sum();
 	}
 
 	public double tiempoTotalDesdeHasta(Terminal terminalOrigen, Terminal terminalDestino) {
@@ -50,84 +116,17 @@ public class Circuito {
 					.mapToDouble(valorExtractor).findFirst().orElse(0.0);
 
 			return costoDesdeHasta + costoUltimoTramo;
-		}
-		else {
+		} else {
 			throw new IllegalArgumentException("Origen y destino inexistentes en el circuito");
 		}
-	}
-
-	public int terminalesIntermediasDesdeHasta(Terminal terminalOrigen, Terminal terminalDestino) {
-
-		// se verifica que en algun tramo exista como terminal de origen la terminal
-		// pasada por parametro
-		// como asi tambien la terminal destino para que a la hora de calcular no haya
-		// errores de calculo
-		if (this.existeRecorridoEntre(terminalOrigen, terminalDestino)) {
-
-		List<Tramo> tramosIntermedios = tramos.stream().dropWhile(tramo -> !tramo.tieneDeOrigenA(terminalOrigen))
-				.takeWhile(tramo -> !tramo.tieneDeDestinoA(terminalDestino)).toList();
-
-			// se utiliza Math.max en caso de que sea un unico tramo el que tenga
-			// la terminal de origen y destino por que lo seria una lista vacia y al
-			// restarle 1
-			// daria como resultado -1
-			return Math.max(0, tramosIntermedios.size() - 1);
-		}
-		
-		else {
-			throw new IllegalArgumentException("Origen y destino inexistentes en el circuito");
-		}
-	}
-
-	public boolean existeRecorridoEntre(Terminal terminalOrigen, Terminal terminalDestino) {
-		
-		return this.existeAlgunTramoConOrigen(terminalOrigen) && this.existeAlgunTramoConDestino(terminalDestino);
-		
-	}
-
-	private boolean existeAlgunTramoConOrigen(Terminal terminalOrigen) {
-		return this.tramos.stream().anyMatch(tramo -> tramo.tieneDeOrigenA(terminalOrigen));
-	}
-
-	private boolean existeAlgunTramoConDestino(Terminal terminalDestino) {
-		return this.tramos.stream().anyMatch(tramo -> tramo.tieneDeDestinoA(terminalDestino));
-	}
-
-	public Terminal destinoActual() {
-		return this.tramoActual().getTerminalDestino();
 	}
 
 	private Tramo tramoActual() {
 		return this.tramos.getFirst();
 	}
 
-	public Terminal origenActual() {
-		return this.tramos.getFirst().getTerminalOrigen();
-	}
-
-	public Terminal terminalOrigen() {
-		return this.tramos.getFirst().getTerminalOrigen();
-	}
-
-	public long tiempoHaciaTerminalDesdeOrigen(Terminal terminal) {
-		return (long) this.tiempoTotalDesdeHasta(this.terminalOrigen(), terminal);
-	}
-
-	public Double tiempoHaciaDestinoActual() {
-		return this.siguienteTramo(this.tramoInicial()).getDuracion();
-	}
-
 	public Tramo tramoInicial() {
 		return this.getTramos().getFirst();
-	}
-
-	public Tramo siguienteTramo(Tramo tramo_actual) {
-		try {
-			int siguienteIndice = this.getTramos().indexOf(tramo_actual) + 1;
-			return this.getTramos().get(siguienteIndice);
-		} catch (IndexOutOfBoundsException e) {
-			return this.tramoInicial();
-		}
 	}
 
 }

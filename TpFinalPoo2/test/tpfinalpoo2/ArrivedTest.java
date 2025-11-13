@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ArrivedTest {
-	
+
 	private Arrived suject;
 	private Buque buqueMock;
 
@@ -23,5 +23,5 @@ public class ArrivedTest {
 		suject.empezarTrabajo(buqueMock);
 		verify(buqueMock).cambiarEstado(any());
 	}
-	
+
 }

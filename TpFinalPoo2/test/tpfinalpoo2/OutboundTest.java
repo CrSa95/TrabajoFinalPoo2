@@ -1,54 +1,57 @@
 package tpfinalpoo2;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class OutboundTest {
-	
+
 	Outbound suject;
 	Buque buque;
 	Terminal terminal;
-	
+
 	@BeforeEach
 	public void setUp() {
 		suject = new Outbound();
 		buque = mock(Buque.class);
 		terminal = spy(Terminal.class);
 	}
-	
-	
-	@Test 
+
+	@Test
 	void distanciaMenorA50kmCambiaElEstado() {
 		when(buque.distanciaHaciaDestino()).thenReturn(50d);
 		suject.avanzar(buque);
 		verify(buque, never()).cambiarEstado(any());
-		
+
 		when(buque.distanciaHaciaDestino()).thenReturn(49d);
 		suject.avanzar(buque);
 		verify(buque).cambiarEstado(any());
 	}
-	
-	@Test 
+
+	@Test
 	void outboundAvisaPartidaATerminal() {
 		when(buque.terminalOrigen()).thenReturn(terminal);
 		suject.avisarPartida(buque);
 		verify(terminal).avisarPartida(buque);
 	}
-	
-	@Test 
+
+	@Test
 	void seNotificaAlaTerminalOrigenUnicamenteUnaVez() {
 		when(buque.distanciaHaciaDestino()).thenReturn(50d);
 		when(buque.terminalOrigen()).thenReturn(terminal);
 		when(buque.distanciaHaciaOrigen()).thenReturn(2d);
 		suject.avanzar(buque);
 		suject.avanzar(buque);
-		
+
 		verify(buque, times(1)).avisarPartida();
-		
-		
+
 	}
-	
+
 }
