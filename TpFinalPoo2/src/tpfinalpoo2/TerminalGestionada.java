@@ -104,12 +104,16 @@ public class TerminalGestionada implements Terminal {
 	@Override
 	public void avisarPartida(Buque buque) {
 		this.ordenes.forEach(orden -> orden.notificarPartida(buque));
-		
 	}
 
 	@Override
 	public void avisarLlegada(Buque buque) {
 		this.ordenes.forEach(orden->orden.notificarLlegada(buque));
+	}
+	
+	@Override 
+	public void facturar(Buque buque) {
+		this.ordenes.forEach(orden->orden.facturar(buque));
 	}
 	
 	public double tiempoHasta(Naviera naviera, Terminal terminalDestino) {

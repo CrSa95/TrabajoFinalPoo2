@@ -214,10 +214,10 @@ public class TerminalGestionadaTest {
 
 
 	@Test
-	void terminalGestionadaPuedeNotificarASusClientes() {
+	void terminalGestionadaPuedeFacturar() {
 		terminalGestionada.exportar(ordenMock);
-		terminalGestionada.notificarClientes(buque);
-		verify(ordenMock).notificarLlegada(buque);
+		terminalGestionada.facturar(buque);
+		verify(ordenMock).facturar(buque);
 	}
 	
 	@Test 

@@ -10,5 +10,7 @@ public interface Terminal {
 	public void avisarPartida(Buque buque);
 
 	public void avisarLlegada(Buque buque);
+
+	void facturar(Buque buque);
 	
 }
