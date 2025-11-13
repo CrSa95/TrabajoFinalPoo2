@@ -10,7 +10,6 @@ public class ServicioElectrico extends Servicio {
 
 	@Override
 	public double costo(Orden orden) {
-		// TODO Auto-generated method stub
 		Duration duracion = Duration.between(orden.fechaSalida(), orden.fechaRetiro());
 		long horas = duracion.toHours();
 		if (horas < 0) {

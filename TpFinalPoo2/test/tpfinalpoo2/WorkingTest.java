@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class WorkingTest {
-	
+
 	private Working suject;
 	private Buque buqueMock;
 
@@ -19,11 +19,12 @@ public class WorkingTest {
 		buqueMock = mock(Buque.class);
 	}
 
-	@Test 
+	@Test
 	void workingPermiteSalida() {
-		assertDoesNotThrow(()-> suject.permitirSalida(buqueMock));
+		assertDoesNotThrow(() -> suject.permitirSalida(buqueMock));
 	}
-	@Test 
+
+	@Test
 	void permitirSalidaModificaEl() {
 		suject.permitirSalida(buqueMock);
 		verify(buqueMock).cambiarEstado(any());

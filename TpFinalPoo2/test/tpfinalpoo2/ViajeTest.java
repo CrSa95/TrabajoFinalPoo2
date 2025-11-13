@@ -28,21 +28,21 @@ class ViajeTest {
 		suject = new Viaje(circuito, fechaSalida);
 		when(circuito.terminalOrigen()).thenReturn(terminalOrigen);
 	}
-	
-	@Test 
+
+	@Test
 	void proximaFechaTest() {
 		Long dias_esperados = 5l;
-		when(circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalFinal)).thenReturn((double)dias_esperados);
+		when(circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalFinal)).thenReturn((double) dias_esperados);
 		assertEquals(fechaSalida.plusDays(dias_esperados), suject.proximaFecha(terminalOrigen, terminalFinal));
 	}
-	
-	@Test 
+
+	@Test
 	void proximaFechaLanzaErrorSiNoExistenLasTerminalesEnElCircuito() {
-		
-		when(
-				circuito.tiempoTotalDesdeHasta(any(Terminal.class), any(Terminal.class))
-			).thenThrow(new IllegalArgumentException("Origen y destino inexistentes en el circuito"));
-		assertThrows(IllegalArgumentException.class, ()-> suject.proximaFecha(terminalOrigen, terminalFinal), "Origen y destino inexistentes en el circuito");
+
+		when(circuito.tiempoTotalDesdeHasta(any(Terminal.class), any(Terminal.class)))
+				.thenThrow(new IllegalArgumentException("Origen y destino inexistentes en el circuito"));
+		assertThrows(IllegalArgumentException.class, () -> suject.proximaFecha(terminalOrigen, terminalFinal),
+				"Origen y destino inexistentes en el circuito");
 	}
 
 	@Test

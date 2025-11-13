@@ -6,12 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class RefrigeradoTest {
-	
+
 	Refrigerado refrigerado;
 
 	@BeforeEach
 	void setUp() {
-		refrigerado = new Refrigerado("Dueño", 1d, 1d, 1d, 1d,1d,1d);
+		refrigerado = new Refrigerado("Dueño", 1d, 1d, 1d, 1d, 1d, 1d);
 	}
 
 	@Test
