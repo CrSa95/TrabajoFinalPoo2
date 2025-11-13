@@ -16,8 +16,6 @@ public class Orden {
 	private Cliente cliente;
 
 	public Orden(Cliente cliente, Camion camion, Chofer chofer, Container carga, Viaje viaje_seleccionado) {
-		this.origen = null;
-		this.destino = null;
 		this.viaje_seleccionado = viaje_seleccionado;
 		this.carga = carga;
 		this.camion = camion;
@@ -39,7 +37,7 @@ public class Orden {
 	}
 
 	public Double costoRecorrido() {
-		return this.viaje_seleccionado.costo();
+		return this.viaje().costo();
 	}
 
 	public boolean esExportacion() {
@@ -63,7 +61,7 @@ public class Orden {
 	}
 
 	public LocalDateTime fechaLlegada() {
-		return this.viaje_seleccionado.fechaLlegada(destino);
+		return this.viaje().fechaLlegada(destino);
 	}
 
 	public LocalDateTime fechaRetiro() {

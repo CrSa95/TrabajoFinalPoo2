@@ -67,7 +67,7 @@ public class Buque implements Reportable {
 
 	public LocalDateTime proximaFecha(Terminal origen, Terminal destino) {
 		try {
-			if (viaje_asignado == null) {
+			if (!viajeAsignado()) {
 				return LocalDateTime.MAX;
 			}
 
@@ -76,6 +76,10 @@ public class Buque implements Reportable {
 			return LocalDateTime.MAX;
 		}
 
+	}
+
+	private boolean viajeAsignado() {
+		return viaje_asignado != null;
 	}
 
 	public void salir() {

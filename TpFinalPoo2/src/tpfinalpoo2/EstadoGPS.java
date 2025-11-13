@@ -5,12 +5,6 @@ public abstract class EstadoGPS {
 	public void avanzar(Buque buque) {
 	}
 
-	/*
-	 * public void informar(Buque buque) { throw new
-	 * RuntimeException("No se puede informar a la terminal actualmente: muy lejos de la terminal"
-	 * ); }
-	 */
-
 	public void avisarLlegada(Buque buque) {
 		throw new RuntimeException("El buque no puede avisarLlegada actualmente");
 	}
