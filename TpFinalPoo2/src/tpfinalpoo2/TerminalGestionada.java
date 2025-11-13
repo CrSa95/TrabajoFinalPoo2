@@ -119,5 +119,4 @@ public class TerminalGestionada implements Terminal {
 	public LocalDateTime proximaFecha(Terminal terminal) {
 		return this.navieras.stream().map(nav -> nav.proximaFecha(this, terminal)).min((arg0, arg1) -> arg0.compareTo(arg1)).orElse(LocalDateTime.MAX);
 	}
-
 }
