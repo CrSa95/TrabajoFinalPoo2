@@ -18,6 +18,7 @@ public class TerminalGestionada implements Terminal {
 	public TerminalGestionada(String nombre, Coordenadas coordenadas) {
 		this.nombre = nombre;
 		this.coordenadas = coordenadas;
+		this.setEstrategiaDeBusqueda(new MenorPrecioADestino());
 	}
 
 	public void agregarNaviera(Naviera naviera) {
