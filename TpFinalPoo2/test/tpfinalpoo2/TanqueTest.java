@@ -43,5 +43,10 @@ class TanqueTest {
 	void peso() {
 		assertEquals(peso, suject.peso());
 	}
+	
+	@Test
+	void conoceSuTipoDeContainer() {
+		assertEquals("Tanque", suject.tipo());
+	}
 
 }

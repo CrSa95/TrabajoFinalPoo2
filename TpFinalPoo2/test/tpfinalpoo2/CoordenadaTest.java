@@ -26,8 +26,7 @@ class CoordenadaTest {
 
 	@Test
 	void unaCoordenadaSabeAvanzarEnXeY() {
-		coord1.avanzarX(10d);
-		coord1.avanzarY(10d);
+		coord1.avanzarHacia(10d, 10d);
 		when(coord2.coordX()).thenReturn(70d);
 		when(coord2.coordY()).thenReturn(30d);
 		assertEquals(0d, coord1.distanciaHacia(coord2));
