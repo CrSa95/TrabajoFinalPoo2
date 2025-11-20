@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.management.RuntimeErrorException;
+
 
 public class TerminalGestionada implements Terminal {
 
@@ -58,15 +60,28 @@ public class TerminalGestionada implements Terminal {
 	}
 
 	public void exportarHacia(Orden orden, Terminal terminal) {
+		this.validarOrden(orden);
 		orden.terminalOrigen(this);
 		orden.terminalDestino(terminal);
 		this.ordenes.add(orden);
 	}
 
 	public void importarDesde(Orden orden, Terminal terminal) {
+		this.validarOrden(orden);
 		orden.terminalOrigen(terminal);
 		orden.terminalDestino(this);
 		this.ordenes.add(orden);
+	}
+	
+	private void validarOrden(Orden orden) {
+		this.validarViajeDeOrden(orden);
+	}
+	
+	private void validarViajeDeOrden(Orden orden) {
+		if(orden.viaje() == null) throw  new RuntimeException("Orden invalida");
+		if(!this.navieras.stream().anyMatch(n -> n.tieneElViaje(orden.viaje()))) {
+			throw new RuntimeException("Orden invalida");
+		}
 	}
 
 	@Override

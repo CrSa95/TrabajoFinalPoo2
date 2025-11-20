@@ -65,4 +65,9 @@ public class Naviera {
 				.stream().boxed().findFirst()// Esto convierte OptionalDouble a Optional<Double>
 				.orElseThrow(() -> new IllegalArgumentException("No existe circuito entre las terminales"));
 	}
+
+	public boolean tieneElViaje(Viaje viaje) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
