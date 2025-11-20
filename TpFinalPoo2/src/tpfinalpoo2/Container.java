@@ -71,4 +71,6 @@ public abstract class Container {
 	}
 
 	public abstract String tipo();
+	
+	public boolean desconsolidable() { return false; }
 }

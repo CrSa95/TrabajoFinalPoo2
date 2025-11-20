@@ -22,5 +22,8 @@ public class Dry extends Container {
 	public String tipo() {
 		return "Seco";
 	}
+	
+	@Override 
+	public boolean desconsolidable() { return true;	}
 
 }
