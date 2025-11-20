@@ -1,5 +1,7 @@
 package tpfinalpoo2;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -139,5 +141,14 @@ public class NavieraTest {
 		naviera.agregarCircuito(circuito);
 
 		Assertions.assertEquals(2d, naviera.tiempoDesdeHasta(terminalOrigen, terminalDestino));
+	}
+	
+	@Test 
+	void navieraPuedeResponderSiTieneUnViaje() {
+		Viaje viaje = mock(Viaje.class);
+		assertFalse(naviera.tieneElViaje(viaje));
+		
+		naviera.agregarViaje(viaje);
+		assertTrue(naviera.tieneElViaje(viaje));
 	}
 }

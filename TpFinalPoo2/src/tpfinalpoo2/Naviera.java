@@ -67,7 +67,6 @@ public class Naviera {
 	}
 
 	public boolean tieneElViaje(Viaje viaje) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.viajes.stream().anyMatch(v -> v.equals(v));
 	}
 }
