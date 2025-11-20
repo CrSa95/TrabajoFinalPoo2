@@ -10,16 +10,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class FacturaConsigneeTest {
-	
+
 	private Orden orden;
 	private FacturaConsignee suject;
-	
+
 	@BeforeEach
 	void setUp() throws Exception {
 		orden = mock(Orden.class);
-		suject = new FacturaConsignee(orden,LocalDate.of(2025, 11, 15));
+		suject = new FacturaConsignee(orden, LocalDate.of(2025, 11, 15));
 	}
-	
+
 	@Test
 	void facturaConsigneeFacturaServiciosYCostoRecorrdio() {
 		double costo_servicios = 100d;

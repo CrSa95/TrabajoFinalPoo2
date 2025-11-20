@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class FacturaShipperTest {
-	
+
 	private Orden orden;
 	private FacturaShipper suject;
 
@@ -17,7 +17,7 @@ class FacturaShipperTest {
 		orden = mock(Orden.class);
 		suject = new FacturaShipper(orden);
 	}
-	
+
 	@Test
 	void facturaShipperUnicamenteCobraServicios() {
 		double costo_servicios = 100d;

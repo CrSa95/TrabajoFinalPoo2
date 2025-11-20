@@ -141,7 +141,7 @@ public class OrdenTest {
 		Terminal otraTerminalMock = mock(Terminal.class);
 		orden.terminalOrigen(terminalMock);
 		orden.terminalDestino(otraTerminalMock);
-		
+
 		when(viajeMock.costoEntre(terminalMock, otraTerminalMock)).thenReturn(2000.0);
 
 		assertEquals(2000.0, orden.costoRecorrido());
@@ -214,4 +214,18 @@ public class OrdenTest {
 		orden.notificarLlegada(terminalMock, buqueMock);
 		verify(clienteMock).notificarLlegada(buqueMock);
 	}
+	
+	@Test 
+	void seValidaLaOrdenAlCrearse() {
+		assertDoesNotThrow(()-> new Orden(clienteMock, camionMock, choferMock, cargaMock, viajeMock));
+		
+		assertThrows(RuntimeException.class, ()->new Orden(null, camionMock, choferMock, cargaMock, viajeMock));
+		assertThrows(RuntimeException.class, ()->new Orden(clienteMock, null, choferMock, cargaMock, viajeMock));
+		assertThrows(RuntimeException.class, ()->new Orden(clienteMock, camionMock, null, cargaMock, viajeMock));
+		assertThrows(RuntimeException.class, ()->new Orden(clienteMock, camionMock, choferMock, null, viajeMock));
+		assertThrows(RuntimeException.class, ()->new Orden(clienteMock, camionMock, choferMock, cargaMock, null));
+		
+		
+	}
+	
 }

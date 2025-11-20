@@ -84,18 +84,17 @@ class ViajeTest {
 		when(circuito.destinoActual()).thenReturn(terminalFinal);
 		assertEquals(terminalFinal, suject.getTerminalDestino());
 	}
-	
+
 	@Test
 	void viajeConoceElSiguienteTramo() {
 		when(circuito.siguienteTramo(tramoInicial)).thenReturn(siguienteTramo);
 		assertEquals(siguienteTramo, suject.siguienteTramo(siguienteTramo));
 	}
-	
+
 	@Test
 	void viajeConoceSuTramoInicial() {
 		when(circuito.tramoInicial()).thenReturn(tramoInicial);
 		assertEquals(tramoInicial, suject.tramoInicial());
 	}
-	
 
 }

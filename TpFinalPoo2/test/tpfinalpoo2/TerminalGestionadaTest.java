@@ -67,21 +67,35 @@ public class TerminalGestionadaTest {
 	void exportarOrdenLaValida() {
 		terminalGestionada.agregarNaviera(naviera);
 		when(ordenMock.viaje()).thenReturn(null);
-		assertThrows(
-				RuntimeException.class,
-				()->{
-					terminalGestionada.exportarHacia(ordenMock, terminalDestino);
-				}
-				, "Orden invalida");
-		
-		
+		assertThrows(RuntimeException.class, () -> {
+			terminalGestionada.exportarHacia(ordenMock, terminalDestino);
+		}, "Orden invalida");
+
 		when(ordenMock.viaje()).thenReturn(viaje);
+		when(naviera.tieneElViaje(viaje)).thenReturn(false);
+		assertThrows(RuntimeException.class, () -> terminalGestionada.exportarHacia(orden, terminalDestino),
+				"Orden invalida");
 		when(naviera.tieneElViaje(viaje)).thenReturn(true);
-		assertDoesNotThrow(
-				()->{
-					terminalGestionada.exportarHacia(ordenMock, terminalDestino);
-				});
-		
+		assertDoesNotThrow(() -> terminalGestionada.exportarHacia(ordenMock, terminalDestino));
+	} 
+	
+
+	@Test
+	void importarOrdenLaValida() {
+		terminalGestionada.agregarNaviera(naviera);
+		when(ordenMock.viaje()).thenReturn(null);
+		assertThrows(RuntimeException.class, () -> {
+			terminalGestionada.importarDesde(ordenMock, terminalDestino);
+		}, "Orden invalida");
+
+		when(ordenMock.viaje()).thenReturn(viaje);
+		when(naviera.tieneElViaje(viaje)).thenReturn(false);
+		assertThrows(RuntimeException.class, () -> {
+			terminalGestionada.importarDesde(ordenMock, terminalDestino);
+		}, "Orden invalida");
+
+		when(naviera.tieneElViaje(viaje)).thenReturn(true);
+		assertDoesNotThrow(() -> terminalGestionada.importarDesde(ordenMock, terminalDestino));
 	}
 
 	@Test
@@ -125,7 +139,7 @@ public class TerminalGestionadaTest {
 		Viaje otroViaje = mock(Viaje.class);
 		Orden otraImport = new Orden(cliente, camion, chofer, contOtroViaje, otroViaje);
 		terminalGestionada.agregarNaviera(naviera);
-		
+
 		when(naviera.tieneElViaje(any(Viaje.class))).thenReturn(true);
 		terminalGestionada.importarDesde(importacion, terminalOrigen);
 		terminalGestionada.exportarHacia(exportacion, terminalDestino);
@@ -200,7 +214,7 @@ public class TerminalGestionadaTest {
 		when(container.isEqual(any(Container.class))).thenReturn(true);
 		assertThrows(RuntimeException.class, () -> terminalGestionada.ingresarCarga(container, camion, otroChofer),
 				"Chofer no autorizado");
-		
+
 		doThrow(new RuntimeException("Camión no autorizado")).when(ordenMock).verificar(otroCamion, chofer, container);
 		assertThrows(RuntimeException.class, () -> terminalGestionada.ingresarCarga(container, otroCamion, chofer),
 				"Camión no autorizado");
@@ -212,16 +226,12 @@ public class TerminalGestionadaTest {
 		terminalGestionada.importarDesde(ordenMock, terminalOrigen);
 		when(container.isEqual(any(Container.class))).thenReturn(true);
 		doThrow(new RuntimeException("Chofer no autorizado")).when(ordenMock).verificar(camion, otroChofer, container);
-		assertThrows(
-				RuntimeException.class,
-				() -> terminalGestionada.retirarCarga(container, camion, otroChofer),
+		assertThrows(RuntimeException.class, () -> terminalGestionada.retirarCarga(container, camion, otroChofer),
 				"Chofer no autorizado");
-		
+
 		doThrow(new RuntimeException("Camión no autorizado")).when(ordenMock).verificar(otroCamion, chofer, container);
 
-		assertThrows(
-				RuntimeException.class,
-				() -> terminalGestionada.retirarCarga(container, otroCamion, chofer),
+		assertThrows(RuntimeException.class, () -> terminalGestionada.retirarCarga(container, otroCamion, chofer),
 				"Camión no autorizado");
 	}
 

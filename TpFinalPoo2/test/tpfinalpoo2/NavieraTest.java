@@ -142,12 +142,12 @@ public class NavieraTest {
 
 		Assertions.assertEquals(2d, naviera.tiempoDesdeHasta(terminalOrigen, terminalDestino));
 	}
-	
-	@Test 
+
+	@Test
 	void navieraPuedeResponderSiTieneUnViaje() {
 		Viaje viaje = mock(Viaje.class);
 		assertFalse(naviera.tieneElViaje(viaje));
-		
+
 		naviera.agregarViaje(viaje);
 		assertTrue(naviera.tieneElViaje(viaje));
 	}
