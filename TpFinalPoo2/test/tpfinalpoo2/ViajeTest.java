@@ -1,5 +1,6 @@
 package tpfinalpoo2;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -83,16 +84,17 @@ class ViajeTest {
 		when(circuito.destinoActual()).thenReturn(terminalFinal);
 		assertEquals(terminalFinal, suject.getTerminalDestino());
 	}
-	
+
 	@Test
 	void viajeConoceElSiguienteTramo() {
 		when(circuito.siguienteTramo(tramoInicial)).thenReturn(siguienteTramo);
 		assertEquals(siguienteTramo, suject.siguienteTramo(siguienteTramo));
 	}
-	
+
 	@Test
 	void viajeConoceSuTramoInicial() {
 		when(circuito.tramoInicial()).thenReturn(tramoInicial);
 		assertEquals(tramoInicial, suject.tramoInicial());
 	}
+
 }
