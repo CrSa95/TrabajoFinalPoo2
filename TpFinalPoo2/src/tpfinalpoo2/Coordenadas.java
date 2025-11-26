@@ -10,11 +10,6 @@ class Coordenadas {
 		this.coord_y = y;
 	}
 
-	public void avanzarHacia(double coordX, double coordY) {
-		this.avanzarX(coordX);
-		this.avanzarY(coordY);
-	}
-
 	private void avanzarX(double cant) {
 		this.coord_x += cant;
 	}
@@ -36,6 +31,13 @@ class Coordenadas {
 		double x = Math.pow(this.coordX() - coordenadas.coordX(), 2);
 		double y = Math.pow(this.coordY() - coordenadas.coordY(), 2);
 		return Math.sqrt(x + y);
+	}
+
+	public void avanzarHacia(Coordenadas coordenadas) {
+	    double deltaX = coordenadas.coordX() - this.coordX();
+	    double deltaY = coordenadas.coordY() - this.coordY();
+	    this.avanzarX(deltaX);
+	    this.avanzarY(deltaY);
 	}
 
 }

@@ -22,6 +22,15 @@ public class Buque implements Reportable {
 	public void avanzar() {
 		this.estado_gps.avanzar(this);
 	}
+	
+	protected void avanzarADestino() {
+		if(this.viaje_asignado == null) throw new RuntimeException("No se puede avanzar a destino sin un viaje asignado");
+		
+		this.coordenadas.avanzarHacia(
+				this.terminalDestino().coordenadas()
+				);
+		
+	}
 
 	public void avisarLlegada() {
 		this.estado_gps.avisarLlegada(this);
@@ -100,5 +109,9 @@ public class Buque implements Reportable {
 
 	private boolean viajeAsignado() {
 		return viaje_asignado != null;
+	}
+	
+	public Coordenadas coordenadas() {
+		return this.coordenadas;
 	}
 }

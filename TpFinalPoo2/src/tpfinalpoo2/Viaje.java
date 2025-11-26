@@ -7,8 +7,14 @@ public class Viaje {
 	private Circuito circuito;
 
 	public Viaje(Circuito circuito, LocalDateTime fechaSalida) {
-		this.circuito = circuito;
+		this.circuito(circuito);
 		this.fechaSalida = fechaSalida;
+	}
+	
+	private void circuito(Circuito circuito) {
+		if(circuito == null) throw new RuntimeException("Circuito invalido en viaje");
+		
+		this.circuito = circuito;
 	}
 
 	public Double costo() {

@@ -10,26 +10,27 @@ import org.junit.jupiter.api.Test;
 class CoordenadaTest {
 	Coordenadas coord1;
 	Coordenadas coord2;
-
-	@Test
-	void distanciaHacia() {
-		when(coord2.coordX()).thenReturn(10d);
-		when(coord2.coordY()).thenReturn(20d);
-		assertEquals(50d, coord1.distanciaHacia(coord2));
-	}
-
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		coord1 = new Coordenadas(60d, 20d);
-		coord2 = mock(Coordenadas.class);
+		coord2 = new Coordenadas(10d, 20d);
 	}
 
 	@Test
+	void distanciaHacia() {
+		assertEquals(50d, coord1.distanciaHacia(coord2));
+	}
+
+
+
+	@Test
 	void unaCoordenadaSabeAvanzarEnXeY() {
-		coord1.avanzarHacia(10d, 10d);
-		when(coord2.coordX()).thenReturn(70d);
-		when(coord2.coordY()).thenReturn(30d);
-		assertEquals(0d, coord1.distanciaHacia(coord2));
+		assertEquals(60d, coord1.coordX());
+		assertEquals(20d, coord1.coordY());
+		coord1.avanzarHacia(coord2);
+		assertEquals(10d, coord1.coordX());
+		assertEquals(20d, coord1.coordY());
 	}
 
 }
