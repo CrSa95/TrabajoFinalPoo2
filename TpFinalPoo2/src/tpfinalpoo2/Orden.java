@@ -17,39 +17,12 @@ public class Orden {
 
 	public Orden(Cliente cliente, Camion camion, Chofer chofer, Container carga, Viaje viaje_seleccionado) {
 		this.setViajeSeleccionado(viaje_seleccionado);
-        this.setCarga(carga);
-        this.setCamion(camion);
-        this.setChofer(chofer);
-        this.setCliente(cliente);
+		this.setCarga(carga);
+		this.setCamion(camion);
+		this.setChofer(chofer);
+		this.setCliente(cliente);
 		this.servicios_contratados = new HashSet<>();
 	}
-
-	public void setViajeSeleccionado(Viaje viaje_seleccionado) {
-		if(viaje_seleccionado == null) throw new RuntimeException("Se necesita un viaje para la Orden");
-        this.viaje_seleccionado = viaje_seleccionado;
-    }
-    
-    public void setCarga(Container carga) {
-    	if(carga == null) throw new RuntimeException("Se necesita una carga para la Orden");
-        this.carga = carga;
-    }
-    
-    public void setCamion(Camion camion) {
-    	if(camion == null) throw new RuntimeException("Se necesita un camion para la Orden");
-        this.camion = camion;
-    }
-    
-    public void setChofer(Chofer chofer) {
-    	if(chofer == null) throw new RuntimeException("Se necesita un chofer para la Orden");
-        this.chofer = chofer;
-    }
-    
-    public void setCliente(Cliente cliente) {
-    	if(cliente == null) throw new RuntimeException("Se necesita un cliente para la Orden");
-        this.cliente = cliente;
-    }
-
-
 
 	public void agregar(Servicio servicio) {
 		this.servicios_contratados.add(servicio);
@@ -85,7 +58,7 @@ public class Orden {
 				return;
 			}
 		}
-		
+
 		throw new IllegalArgumentException("El buque realiza un viaje distinto al de la Órden");
 	}
 
@@ -116,6 +89,41 @@ public class Orden {
 		if (this.mismoViaje(buque) && this.esExportacion(terminal)) {
 			this.cliente.notificarPartida(buque);
 		}
+	}
+
+	public void setCamion(Camion camion) {
+		if (camion == null) {
+			throw new RuntimeException("Se necesita un camion para la Orden");
+		}
+		this.camion = camion;
+	}
+
+	public void setCarga(Container carga) {
+		if (carga == null) {
+			throw new RuntimeException("Se necesita una carga para la Orden");
+		}
+		this.carga = carga;
+	}
+
+	public void setChofer(Chofer chofer) {
+		if (chofer == null) {
+			throw new RuntimeException("Se necesita un chofer para la Orden");
+		}
+		this.chofer = chofer;
+	}
+
+	public void setCliente(Cliente cliente) {
+		if (cliente == null) {
+			throw new RuntimeException("Se necesita un cliente para la Orden");
+		}
+		this.cliente = cliente;
+	}
+
+	public void setViajeSeleccionado(Viaje viaje_seleccionado) {
+		if (viaje_seleccionado == null) {
+			throw new RuntimeException("Se necesita un viaje para la Orden");
+		}
+		this.viaje_seleccionado = viaje_seleccionado;
 	}
 
 	public void terminalDestino(Terminal terminal) {
@@ -153,4 +161,3 @@ public class Orden {
 		return this.viaje_seleccionado;
 	}
 }
-

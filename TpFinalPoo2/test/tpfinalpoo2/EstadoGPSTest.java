@@ -11,21 +11,9 @@ import org.junit.jupiter.api.Test;
 class EstadoGPSTest {
 	EstadoGPS suject;
 
-	@BeforeEach
-	void setUp() throws Exception {
-		suject = spy(EstadoGPS.class);
-	}
-
 	@Test
-	void empezarTrabajo() {
-		assertThrows(RuntimeException.class, () -> suject.empezarTrabajo(any(Buque.class)),
-				"No se puede iniciar trabajo actualmente; muy lejos de la terminal");
-	}
-
-	@Test
-	void permitirSalida() {
-		assertThrows(RuntimeException.class, () -> suject.permitirSalida(any(Buque.class)),
-				"El buque ya esta en un viaje");
+	void avanzar() {
+		assertDoesNotThrow(() -> suject.avanzar(null));
 	}
 
 	@Test
@@ -41,13 +29,25 @@ class EstadoGPSTest {
 	}
 
 	@Test
+	void empezarTrabajo() {
+		assertThrows(RuntimeException.class, () -> suject.empezarTrabajo(any(Buque.class)),
+				"No se puede iniciar trabajo actualmente; muy lejos de la terminal");
+	}
+
+	@Test
+	void permitirSalida() {
+		assertThrows(RuntimeException.class, () -> suject.permitirSalida(any(Buque.class)),
+				"El buque ya esta en un viaje");
+	}
+
+	@Test
 	void salir() {
 		assertThrows(RuntimeException.class, () -> suject.salir(any(Buque.class)),
 				"El buque no puede salir actualmente");
 	}
 
-	@Test
-	void avanzar() {
-		assertDoesNotThrow(() -> suject.avanzar(null));
+	@BeforeEach
+	void setUp() throws Exception {
+		suject = spy(EstadoGPS.class);
 	}
 }

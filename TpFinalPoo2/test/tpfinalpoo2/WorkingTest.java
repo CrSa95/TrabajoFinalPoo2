@@ -13,6 +13,12 @@ public class WorkingTest {
 	private Working suject;
 	private Buque buqueMock;
 
+	@Test
+	void permitirSalidaModificaEl() {
+		suject.permitirSalida(buqueMock);
+		verify(buqueMock).cambiarEstado(any());
+	}
+
 	@BeforeEach
 	public void setUp() {
 		suject = new Working();
@@ -22,11 +28,5 @@ public class WorkingTest {
 	@Test
 	void workingPermiteSalida() {
 		assertDoesNotThrow(() -> suject.permitirSalida(buqueMock));
-	}
-
-	@Test
-	void permitirSalidaModificaEl() {
-		suject.permitirSalida(buqueMock);
-		verify(buqueMock).cambiarEstado(any());
 	}
 }

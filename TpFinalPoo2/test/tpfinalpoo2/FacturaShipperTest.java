@@ -12,17 +12,17 @@ class FacturaShipperTest {
 	private Orden orden;
 	private FacturaShipper suject;
 
-	@BeforeEach
-	void setUp() throws Exception {
-		orden = mock(Orden.class);
-		suject = new FacturaShipper(orden);
-	}
-
 	@Test
 	void facturaShipperUnicamenteCobraServicios() {
 		double costo_servicios = 100d;
 		when(orden.costoEnServicios()).thenReturn(costo_servicios);
 		assertEquals(costo_servicios, suject.costoTotal());
+	}
+
+	@BeforeEach
+	void setUp() throws Exception {
+		orden = mock(Orden.class);
+		suject = new FacturaShipper(orden);
 	}
 
 }

@@ -12,16 +12,16 @@ public class ArrivedTest {
 	private Arrived suject;
 	private Buque buqueMock;
 
-	@BeforeEach
-	public void setUp() {
-		suject = new Arrived();
-		buqueMock = mock(Buque.class);
-	}
-
 	@Test
 	void arrivedPuedeIniciarTrabajo() {
 		suject.empezarTrabajo(buqueMock);
 		verify(buqueMock).cambiarEstado(any());
+	}
+
+	@BeforeEach
+	public void setUp() {
+		suject = new Arrived();
+		buqueMock = mock(Buque.class);
 	}
 
 }

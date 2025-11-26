@@ -9,7 +9,7 @@ public class FacturaConsignee extends Factura {
 	}
 
 	public FacturaConsignee(Orden orden, LocalDate fecha) {
-		super(orden,fecha);
+		super(orden, fecha);
 	}
 
 	@Override

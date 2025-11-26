@@ -15,6 +15,9 @@ import org.junit.jupiter.api.Test;
 
 public class OrdenTest {
 
+	private static final String PATENTE_CAMION = "AAA123";
+	private static final String DNI_CHOFER = "12345678";
+	private static final String ID_CARGA = "CARGA1";
 	private Orden orden;
 	private Camion camionMock;
 	private Chofer choferMock;
@@ -22,43 +25,25 @@ public class OrdenTest {
 	private Viaje viajeMock;
 	private Cliente clienteMock;
 	private Servicio servicioMock1;
+
 	private Servicio servicioMock2;
 	private Terminal terminalMock;
 	private Buque buqueMock;
 
-	private static final String PATENTE_CAMION = "AAA123";
-	private static final String DNI_CHOFER = "12345678";
-	private static final String ID_CARGA = "CARGA1";
+	@Test
+	void AgregarAgregaServicioCorrectamente() {
+		when(servicioMock1.costo(orden)).thenReturn(100.0);
 
-	@BeforeEach
-	void setUp() {
-		this.camionMock = mock(Camion.class);
-		this.choferMock = mock(Chofer.class);
-		this.cargaMock = mock(Container.class);
-		this.viajeMock = mock(Viaje.class);
-		this.clienteMock = mock(Cliente.class);
-		this.servicioMock1 = mock(Servicio.class);
-		this.servicioMock2 = mock(Servicio.class);
-		this.terminalMock = mock(Terminal.class);
-		this.buqueMock = mock(Buque.class);
+		assertEquals(0.0, orden.costoEnServicios());
 
-		when(camionMock.patente()).thenReturn(PATENTE_CAMION);
-		when(choferMock.dni()).thenReturn(DNI_CHOFER);
-		when(cargaMock.id()).thenReturn(ID_CARGA);
+		orden.agregar(servicioMock1);
 
-		orden = new Orden(clienteMock, camionMock, choferMock, cargaMock, viajeMock);
-		when(buqueMock.viaje()).thenReturn(viajeMock);
+		assertEquals(100.0, orden.costoEnServicios());
 	}
 
 	private Camion camionConPatente(String patente) {
 		Camion c = mock(Camion.class);
 		when(c.patente()).thenReturn(patente);
-		return c;
-	}
-
-	private Chofer choferConDni(String dni) {
-		Chofer c = mock(Chofer.class);
-		when(c.dni()).thenReturn(dni);
 		return c;
 	}
 
@@ -69,55 +54,28 @@ public class OrdenTest {
 	}
 
 	@Test
-	void facturacionConsignee() {
+	void cargaDevuelveCargaCorrecta() {
+		assertEquals(cargaMock, orden.carga());
+	}
+
+	private Chofer choferConDni(String dni) {
+		Chofer c = mock(Chofer.class);
+		when(c.dni()).thenReturn(dni);
+		return c;
+	}
+
+	@Test
+	void clienteRecibeNotificacionDeLlegada() {
 		orden.terminalDestino(terminalMock);
-		orden.facturar(terminalMock, buqueMock);
-
-		verify(clienteMock).enviar(any(FacturaConsignee.class));
+		orden.notificarLlegada(terminalMock, buqueMock);
+		verify(clienteMock).notificarLlegada(buqueMock);
 	}
 
 	@Test
-	void facturacionShipper() {
+	void clienteRecibeNotificacionDePartida() {
 		orden.terminalOrigen(terminalMock);
-		orden.facturar(terminalMock, buqueMock);
-
-		verify(clienteMock).enviar(any(FacturaShipper.class));
-	}
-
-	@Test
-	void verificarCorrectoNoLanzaExcepcion() {
-		assertDoesNotThrow(() -> orden.verificar(camionMock, choferMock, cargaMock));
-	}
-
-	@Test
-	void verificarCamionIncorrectoLanzaExcepcion() {
-		Camion camionIncorrecto = camionConPatente("ZZZ123");
-		assertThrows(RuntimeException.class, () -> orden.verificar(camionIncorrecto, choferMock, cargaMock));
-	}
-
-	@Test
-	void verificarChoferIncorrectoLanzaExcepcion() {
-		Chofer choferIncorrecto = choferConDni("99999999");
-		assertThrows(RuntimeException.class, () -> orden.verificar(camionMock, choferIncorrecto, cargaMock));
-	}
-
-	@Test
-	void verificarCargaIncorrectaNoLanzaExcepcion() {
-		Container cargaIncorrecta = cargaConId("TEST9999999");
-		assertDoesNotThrow(() -> orden.verificar(camionMock, choferMock, cargaIncorrecta));
-	}
-
-	@Test
-	void verificarTodoIncorrectoNoLanzaExcepcion() {
-		Camion camionIncorrecto = mock(Camion.class);
-		Chofer choferIncorrecto = mock(Chofer.class);
-		Container cargaIncorrecta = mock(Container.class);
-
-		when(camionIncorrecto.patente()).thenReturn("ZZZ123");
-		when(choferIncorrecto.dni()).thenReturn("99999999");
-		when(cargaIncorrecta.id()).thenReturn("TEST9999999");
-
-		assertDoesNotThrow(() -> orden.verificar(camionIncorrecto, choferIncorrecto, cargaIncorrecta));
+		orden.notificarPartida(terminalMock, buqueMock);
+		verify(clienteMock).notificarPartida(buqueMock);
 	}
 
 	@Test
@@ -149,14 +107,19 @@ public class OrdenTest {
 	}
 
 	@Test
-	void AgregarAgregaServicioCorrectamente() {
-		when(servicioMock1.costo(orden)).thenReturn(100.0);
+	void facturacionConsignee() {
+		orden.terminalDestino(terminalMock);
+		orden.facturar(terminalMock, buqueMock);
 
-		assertEquals(0.0, orden.costoEnServicios());
+		verify(clienteMock).enviar(any(FacturaConsignee.class));
+	}
 
-		orden.agregar(servicioMock1);
+	@Test
+	void facturacionShipper() {
+		orden.terminalOrigen(terminalMock);
+		orden.facturar(terminalMock, buqueMock);
 
-		assertEquals(100.0, orden.costoEnServicios());
+		verify(clienteMock).enviar(any(FacturaShipper.class));
 	}
 
 	@Test
@@ -167,14 +130,6 @@ public class OrdenTest {
 		when(viajeMock.fechaLlegada(terminalMock)).thenReturn(fechaLlegadaViaje);
 
 		assertEquals(fechaLlegadaViaje, orden.fechaLlegada());
-	}
-
-	@Test
-	void fechaSalidaDevuelveFechaSalidaDeViaje() {
-		LocalDateTime fechaSalidaViaje = LocalDateTime.now();
-		when(viajeMock.getFechaSalida()).thenReturn(fechaSalidaViaje);
-
-		assertEquals(fechaSalidaViaje, orden.fechaSalida());
 	}
 
 	@Test
@@ -192,40 +147,84 @@ public class OrdenTest {
 	}
 
 	@Test
+	void fechaSalidaDevuelveFechaSalidaDeViaje() {
+		LocalDateTime fechaSalidaViaje = LocalDateTime.now();
+		when(viajeMock.getFechaSalida()).thenReturn(fechaSalidaViaje);
+
+		assertEquals(fechaSalidaViaje, orden.fechaSalida());
+	}
+
+	@BeforeEach
+	void setUp() {
+		this.camionMock = mock(Camion.class);
+		this.choferMock = mock(Chofer.class);
+		this.cargaMock = mock(Container.class);
+		this.viajeMock = mock(Viaje.class);
+		this.clienteMock = mock(Cliente.class);
+		this.servicioMock1 = mock(Servicio.class);
+		this.servicioMock2 = mock(Servicio.class);
+		this.terminalMock = mock(Terminal.class);
+		this.buqueMock = mock(Buque.class);
+
+		when(camionMock.patente()).thenReturn(PATENTE_CAMION);
+		when(choferMock.dni()).thenReturn(DNI_CHOFER);
+		when(cargaMock.id()).thenReturn(ID_CARGA);
+
+		orden = new Orden(clienteMock, camionMock, choferMock, cargaMock, viajeMock);
+		when(buqueMock.viaje()).thenReturn(viajeMock);
+	}
+
+	@Test
+	void seValidaLaOrdenAlCrearse() {
+		assertDoesNotThrow(() -> new Orden(clienteMock, camionMock, choferMock, cargaMock, viajeMock));
+
+		assertThrows(RuntimeException.class, () -> new Orden(null, camionMock, choferMock, cargaMock, viajeMock));
+		assertThrows(RuntimeException.class, () -> new Orden(clienteMock, null, choferMock, cargaMock, viajeMock));
+		assertThrows(RuntimeException.class, () -> new Orden(clienteMock, camionMock, null, cargaMock, viajeMock));
+		assertThrows(RuntimeException.class, () -> new Orden(clienteMock, camionMock, choferMock, null, viajeMock));
+		assertThrows(RuntimeException.class, () -> new Orden(clienteMock, camionMock, choferMock, cargaMock, null));
+
+	}
+
+	@Test
+	void verificarCamionIncorrectoLanzaExcepcion() {
+		Camion camionIncorrecto = camionConPatente("ZZZ123");
+		assertThrows(RuntimeException.class, () -> orden.verificar(camionIncorrecto, choferMock, cargaMock));
+	}
+
+	@Test
+	void verificarCargaIncorrectaNoLanzaExcepcion() {
+		Container cargaIncorrecta = cargaConId("TEST9999999");
+		assertDoesNotThrow(() -> orden.verificar(camionMock, choferMock, cargaIncorrecta));
+	}
+
+	@Test
+	void verificarChoferIncorrectoLanzaExcepcion() {
+		Chofer choferIncorrecto = choferConDni("99999999");
+		assertThrows(RuntimeException.class, () -> orden.verificar(camionMock, choferIncorrecto, cargaMock));
+	}
+
+	@Test
+	void verificarCorrectoNoLanzaExcepcion() {
+		assertDoesNotThrow(() -> orden.verificar(camionMock, choferMock, cargaMock));
+	}
+
+	@Test
+	void verificarTodoIncorrectoNoLanzaExcepcion() {
+		Camion camionIncorrecto = mock(Camion.class);
+		Chofer choferIncorrecto = mock(Chofer.class);
+		Container cargaIncorrecta = mock(Container.class);
+
+		when(camionIncorrecto.patente()).thenReturn("ZZZ123");
+		when(choferIncorrecto.dni()).thenReturn("99999999");
+		when(cargaIncorrecta.id()).thenReturn("TEST9999999");
+
+		assertDoesNotThrow(() -> orden.verificar(camionIncorrecto, choferIncorrecto, cargaIncorrecta));
+	}
+
+	@Test
 	void viajeDevuelveViajeCOrrecto() {
 		assertEquals(viajeMock, orden.viaje());
 	}
 
-	@Test
-	void cargaDevuelveCargaCorrecta() {
-		assertEquals(cargaMock, orden.carga());
-	}
-
-	@Test
-	void clienteRecibeNotificacionDePartida() {
-		orden.terminalOrigen(terminalMock);
-		orden.notificarPartida(terminalMock, buqueMock);
-		verify(clienteMock).notificarPartida(buqueMock);
-	}
-
-	@Test
-	void clienteRecibeNotificacionDeLlegada() {
-		orden.terminalDestino(terminalMock);
-		orden.notificarLlegada(terminalMock, buqueMock);
-		verify(clienteMock).notificarLlegada(buqueMock);
-	}
-	
-	@Test 
-	void seValidaLaOrdenAlCrearse() {
-		assertDoesNotThrow(()-> new Orden(clienteMock, camionMock, choferMock, cargaMock, viajeMock));
-		
-		assertThrows(RuntimeException.class, ()->new Orden(null, camionMock, choferMock, cargaMock, viajeMock));
-		assertThrows(RuntimeException.class, ()->new Orden(clienteMock, null, choferMock, cargaMock, viajeMock));
-		assertThrows(RuntimeException.class, ()->new Orden(clienteMock, camionMock, null, cargaMock, viajeMock));
-		assertThrows(RuntimeException.class, ()->new Orden(clienteMock, camionMock, choferMock, null, viajeMock));
-		assertThrows(RuntimeException.class, ()->new Orden(clienteMock, camionMock, choferMock, cargaMock, null));
-		
-		
-	}
-	
 }

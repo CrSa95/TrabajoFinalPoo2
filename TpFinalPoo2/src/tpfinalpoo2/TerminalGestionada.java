@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import javax.management.RuntimeErrorException;
-
-
 public class TerminalGestionada implements Terminal {
 
 	private String nombre;
@@ -27,6 +24,21 @@ public class TerminalGestionada implements Terminal {
 		this.getNavieras().add(naviera);
 	}
 
+	@Override
+	public void avisarLlegada(Buque buque) {
+		this.ordenes.forEach(orden -> {
+			orden.notificarLlegada(this, buque);
+			orden.facturar(this, buque);
+		});
+	}
+
+	@Override
+	public void avisarPartida(Buque buque) {
+		this.ordenes.forEach(orden -> {
+			orden.notificarPartida(this, buque);
+			orden.facturar(this, buque);
+		});
+	}
 
 	public Circuito buscarMejorCircuitoParaLLegarA(Terminal terminalDestino) {
 
@@ -66,24 +78,6 @@ public class TerminalGestionada implements Terminal {
 		this.ordenes.add(orden);
 	}
 
-	public void importarDesde(Orden orden, Terminal terminal) {
-		this.validarOrden(orden);
-		orden.terminalOrigen(terminal);
-		orden.terminalDestino(this);
-		this.ordenes.add(orden);
-	}
-	
-	private void validarOrden(Orden orden) {
-		this.validarViajeDeOrden(orden);
-	}
-	
-	private void validarViajeDeOrden(Orden orden) {
-		if(orden.viaje() == null) throw  new RuntimeException("Orden invalida");
-		if(!this.navieras.stream().anyMatch(n -> n.tieneElViaje(orden.viaje()))) {
-			throw new RuntimeException("Orden invalida");
-		}
-	}
-
 	@Override
 	public void facturar(Buque buque) {
 		this.ordenes.forEach(orden -> orden.facturar(this, buque));
@@ -106,25 +100,17 @@ public class TerminalGestionada implements Terminal {
 		return this.nombre;
 	}
 
+	public void importarDesde(Orden orden, Terminal terminal) {
+		this.validarOrden(orden);
+		orden.terminalOrigen(terminal);
+		orden.terminalDestino(this);
+		this.ordenes.add(orden);
+	}
+
 	public void ingresarCarga(Container container, Camion camion, Chofer chofer) {
 		this.ordenes.stream().forEach(orden -> orden.verificar(camion, chofer, container));
 	}
 
-	@Override
-	public void avisarPartida(Buque buque) {
-		this.ordenes.forEach(orden -> {
-			orden.notificarPartida(this, buque);
-			orden.facturar(this, buque);
-		});
-	}
-
-	@Override
-	public void avisarLlegada(Buque buque) {
-		this.ordenes.forEach(orden->{
-			orden.notificarLlegada(this, buque);
-			orden.facturar(this, buque);
-		});
-	}
 	public LocalDateTime proximaFecha(Terminal terminal) {
 		return this.navieras.stream().map(nav -> nav.proximaFecha(this, terminal))
 				.min((arg0, arg1) -> arg0.compareTo(arg1)).orElse(LocalDateTime.MAX);
@@ -141,5 +127,15 @@ public class TerminalGestionada implements Terminal {
 
 	public double tiempoHasta(Naviera naviera, Terminal terminalDestino) {
 		return naviera.tiempoDesdeHasta(this, terminalDestino);
+	}
+
+	private void validarOrden(Orden orden) {
+		this.validarViajeDeOrden(orden);
+	}
+
+	private void validarViajeDeOrden(Orden orden) {
+		if ((orden.viaje() == null) || !this.navieras.stream().anyMatch(n -> n.tieneElViaje(orden.viaje()))) {
+			throw new RuntimeException("Orden invalida");
+		}
 	}
 }

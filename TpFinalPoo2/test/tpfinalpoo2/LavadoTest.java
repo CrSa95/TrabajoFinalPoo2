@@ -14,12 +14,11 @@ class LavadoTest {
 	Container container;
 	Orden orden;
 
-	@BeforeEach
-	void setup() {
-		servicio = new Lavado(monto_fijo);
-		container = mock(Container.class);
-		orden = mock(Orden.class);
-		when(orden.carga()).thenReturn(container);
+	@Test
+	void seAplicaPrecioAdicional() {
+		when(container.metrosCubicos()).thenReturn((double) 71);
+		Assertions.assertEquals(monto_fijo + monto_adicional, servicio.costo(orden));
+
 	}
 
 	@Test
@@ -27,10 +26,11 @@ class LavadoTest {
 		Assertions.assertEquals(monto_fijo, servicio.costo(orden));
 	}
 
-	@Test
-	void seAplicaPrecioAdicional() {
-		when(container.metrosCubicos()).thenReturn((double) 71);
-		Assertions.assertEquals(monto_fijo + monto_adicional, servicio.costo(orden));
-
+	@BeforeEach
+	void setup() {
+		servicio = new Lavado(monto_fijo);
+		container = mock(Container.class);
+		orden = mock(Orden.class);
+		when(orden.carga()).thenReturn(container);
 	}
 }

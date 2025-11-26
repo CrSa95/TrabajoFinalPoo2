@@ -15,6 +15,10 @@ public abstract class Container {
 		this.setOwner(ownerID);
 	}
 
+	public boolean desconsolidable() {
+		return false;
+	}
+
 	public String id() {
 		return this.id;
 
@@ -71,6 +75,4 @@ public abstract class Container {
 	}
 
 	public abstract String tipo();
-	
-	public boolean desconsolidable() { return false; }
 }

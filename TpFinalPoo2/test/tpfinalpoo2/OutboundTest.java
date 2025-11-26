@@ -17,13 +17,6 @@ public class OutboundTest {
 	Buque buque;
 	Terminal terminal;
 
-	@BeforeEach
-	public void setUp() {
-		suject = new Outbound();
-		buque = mock(Buque.class);
-		terminal = spy(Terminal.class);
-	}
-
 	@Test
 	void distanciaMenorA50kmCambiaElEstado() {
 		when(buque.distanciaHaciaDestino()).thenReturn(50d);
@@ -52,6 +45,13 @@ public class OutboundTest {
 
 		verify(buque, times(1)).avisarPartida();
 
+	}
+
+	@BeforeEach
+	public void setUp() {
+		suject = new Outbound();
+		buque = mock(Buque.class);
+		terminal = spy(Terminal.class);
 	}
 
 }

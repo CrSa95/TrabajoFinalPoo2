@@ -10,14 +10,14 @@ public class DepartingTest {
 	private Departing suject;
 	private Buque buqueMock;
 
+	@Test
+	void departingPermiteSalirDeLaterminal() {
+		suject.salir(buqueMock);
+	}
+
 	@BeforeEach
 	public void setUp() {
 		suject = new Departing();
 		buqueMock = mock(Buque.class);
-	}
-
-	@Test
-	void departingPermiteSalirDeLaterminal() {
-		suject.salir(buqueMock);
 	}
 }

@@ -16,9 +16,9 @@ class TanqueTest {
 	Tanque suject;
 	Cliente cliente;
 
-	@BeforeEach
-	void setUp() throws Exception {
-		suject = new Tanque(clienteId, altura, ancho, largo, peso);
+	@Test
+	void conoceSuTipoDeContainer() {
+		assertEquals("Tanque", suject.tipo());
 	}
 
 	@Test
@@ -44,9 +44,9 @@ class TanqueTest {
 		assertEquals(peso, suject.peso());
 	}
 
-	@Test
-	void conoceSuTipoDeContainer() {
-		assertEquals("Tanque", suject.tipo());
+	@BeforeEach
+	void setUp() throws Exception {
+		suject = new Tanque(clienteId, altura, ancho, largo, peso);
 	}
 
 }

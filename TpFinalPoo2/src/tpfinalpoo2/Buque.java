@@ -78,10 +78,6 @@ public class Buque implements Reportable {
 
 	}
 
-	private boolean viajeAsignado() {
-		return viaje_asignado != null;
-	}
-
 	public void salir() {
 		this.estado_gps.salir(this);
 	}
@@ -100,5 +96,9 @@ public class Buque implements Reportable {
 
 	public Viaje viaje() {
 		return this.viaje_asignado;
+	}
+
+	private boolean viajeAsignado() {
+		return viaje_asignado != null;
 	}
 }

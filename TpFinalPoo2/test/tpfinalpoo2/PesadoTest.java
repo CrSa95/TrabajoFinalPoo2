@@ -13,17 +13,17 @@ class PesadoTest {
 	Container container;
 	Orden orden;
 
+	@Test
+	void seRegistroElPesoDelContainer() {
+		when(orden.carga()).thenReturn(container);
+		assertEquals(costo_fijo, servicio.costo(orden));
+	}
+
 	@BeforeEach
 	void setup() {
 		servicio = new Pesado(costo_fijo);
 		orden = mock(Orden.class);
 		container = mock(Container.class);
-	}
-
-	@Test
-	void seRegistroElPesoDelContainer() {
-		when(orden.carga()).thenReturn(container);
-		assertEquals(costo_fijo, servicio.costo(orden));
 	}
 
 }
