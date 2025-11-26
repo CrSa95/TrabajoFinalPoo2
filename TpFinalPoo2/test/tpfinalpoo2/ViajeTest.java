@@ -21,6 +21,17 @@ class ViajeTest {
 	Terminal terminalOrigen = new TerminalGestionada(null, null);
 	Terminal terminalIntermedia = new TerminalGestionada(null, null);
 	Terminal terminalFinal = new TerminalGestionada(null, null);
+	
+	
+	@Test 
+	void circuitoNuloLanzaError() {
+		assertThrows(
+				RuntimeException.class,
+				()-> new Viaje(null, fechaSalida),
+				"Circuito invalido en viaje");
+		
+		suject = new Viaje(circuito, fechaSalida);
+	}
 
 	@Test
 	void costoViaje() {
