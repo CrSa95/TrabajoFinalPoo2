@@ -1,7 +1,9 @@
+
 package tpfinalpoo2;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -22,6 +24,22 @@ class BuqueTest {
 	Terminal terminal_origen;
 	Coordenadas coordenadas_origen;
 	Coordenadas coordenadas_destino;
+	@BeforeEach
+	void setUp() throws Exception {
+		coordenadas_origen = mock(Coordenadas.class);
+		coordenadas_destino = mock(Coordenadas.class);
+		suject = new Buque("Buque Marzo");
+		viaje = mock(Viaje.class);
+		terminal_destino = mock(Terminal.class);
+		when(terminal_destino.coordenadas()).thenReturn(coordenadas_destino);
+		terminal_origen = mock(Terminal.class);
+		when(terminal_origen.coordenadas()).thenReturn(coordenadas_origen);
+		tramo_inicial = mock(Tramo.class);
+		when(viaje.tramoInicial()).thenReturn(tramo_inicial);
+		when(tramo_inicial.getTerminalDestino()).thenReturn(terminal_destino);
+		when(tramo_inicial.getTerminalOrigen()).thenReturn(terminal_origen);
+	}
+	
 
 	@Test
 	void avisarLLegadaLanzaExcepcionSiNoEstaEnModoOutbound() {
@@ -132,21 +150,7 @@ class BuqueTest {
 		assertDoesNotThrow(() -> suject.salir());
 	}
 
-	@BeforeEach
-	void setUp() throws Exception {
-		coordenadas_origen = mock(Coordenadas.class);
-		coordenadas_destino = mock(Coordenadas.class);
-		suject = new Buque("Buque Marzo");
-		viaje = mock(Viaje.class);
-		terminal_destino = mock(Terminal.class);
-		when(terminal_destino.coordenadas()).thenReturn(coordenadas_destino);
-		terminal_origen = mock(Terminal.class);
-		when(terminal_origen.coordenadas()).thenReturn(coordenadas_origen);
-		tramo_inicial = mock(Tramo.class);
-		when(viaje.tramoInicial()).thenReturn(tramo_inicial);
-		when(tramo_inicial.getTerminalDestino()).thenReturn(terminal_destino);
-		when(tramo_inicial.getTerminalOrigen()).thenReturn(terminal_origen);
-	}
+
 
 	@Test
 	void unBuqueConoceSuViaje() {

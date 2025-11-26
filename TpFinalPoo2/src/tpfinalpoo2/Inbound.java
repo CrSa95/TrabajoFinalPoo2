@@ -6,6 +6,8 @@ public class Inbound extends EstadoGPS {
 		if (buque.distanciaHaciaDestino() <= 0d) {
 			buque.cambiarEstado(new Arrived());
 		}
+		
+		buque.avanzarADestino();
 	}
 
 	@Override

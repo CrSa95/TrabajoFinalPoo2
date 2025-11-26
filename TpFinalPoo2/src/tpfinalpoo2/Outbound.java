@@ -7,6 +7,7 @@ public class Outbound extends EstadoGPS {
 	public void avanzar(Buque buque) {
 		this.avanzarAvisandoLlegada(buque);
 		this.avanzarAvisandoPartida(buque);
+		buque.avanzarADestino();
 	}
 
 	private void avanzarAvisandoLlegada(Buque buque) {

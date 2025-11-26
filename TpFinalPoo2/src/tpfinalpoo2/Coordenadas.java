@@ -38,4 +38,11 @@ class Coordenadas {
 		return Math.sqrt(x + y);
 	}
 
+	public void avanzarHacia(Coordenadas coordenadas) {
+	    double deltaX = coordenadas.coordX() - this.coordX();
+	    double deltaY = coordenadas.coordY() - this.coordY();
+	    this.avanzarX(deltaX);
+	    this.avanzarY(deltaY);
+	}
+
 }
