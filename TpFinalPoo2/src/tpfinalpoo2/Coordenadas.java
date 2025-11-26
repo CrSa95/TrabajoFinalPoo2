@@ -10,11 +10,6 @@ class Coordenadas {
 		this.coord_y = y;
 	}
 
-	public void avanzarHacia(double coordX, double coordY) {
-		this.avanzarX(coordX);
-		this.avanzarY(coordY);
-	}
-
 	private void avanzarX(double cant) {
 		this.coord_x += cant;
 	}
