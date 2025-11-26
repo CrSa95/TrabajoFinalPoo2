@@ -31,16 +31,6 @@ public class CircuitoTest {
 	}
 
 	@Test
-	void siguienteTramoTest() {
-		circuito.agregarTramo(primerTramo);
-		circuito.agregarTramo(segundoTramo);
-		circuito.agregarTramo(tercerTramo);
-
-		assertEquals(segundoTramo, circuito.siguienteTramo(primerTramo));
-		assertEquals(tercerTramo, circuito.siguienteTramo(segundoTramo));
-	}
-
-	@Test
 	void siguienteTramoDelUltimoDevuelveElPrimero() {
 		circuito.agregarTramo(primerTramo);
 		circuito.agregarTramo(segundoTramo);
@@ -50,140 +40,13 @@ public class CircuitoTest {
 	}
 
 	@Test
-	void testUnCircuitoPuedeAgregarUnTramo() {
-		Assertions.assertTrue(circuito.getTramos().isEmpty());
-		circuito.agregarTramo(primerTramo);
-		Assertions.assertEquals(1, circuito.getTramos().size());
-		circuito.agregarTramo(segundoTramo);
-		Assertions.assertEquals(2, circuito.getTramos().size());
-		Assertions.assertFalse(circuito.getTramos().isEmpty());
-	}
-
-	@Test
-	void testUnCircuitoPuedeCalcularSuCosto() {
-
-		circuito.agregarTramo(primerTramo);
-		circuito.agregarTramo(segundoTramo);
-
-		when(primerTramo.getCosto()).thenReturn(10d);
-		when(segundoTramo.getCosto()).thenReturn(20d);
-
-		Assertions.assertEquals(30, circuito.costoCircuito());
-	}
-
-	@Test
-	void testUnCircuitoPuedeCalcularElTiempoDeRecorrido() {
-
-		circuito.agregarTramo(primerTramo);
-		circuito.agregarTramo(segundoTramo);
-
-		when(primerTramo.getDuracion()).thenReturn(10d);
-		when(segundoTramo.getDuracion()).thenReturn(20d);
-
-		Assertions.assertEquals(30, circuito.tiempoTotal());
-	}
-
-	@Test
-	void testUnCircuitoPuedeCalcularElCostoTotalDeUnSubtramo() {
+	void siguienteTramoTest() {
 		circuito.agregarTramo(primerTramo);
 		circuito.agregarTramo(segundoTramo);
 		circuito.agregarTramo(tercerTramo);
 
-		assertThrows(RuntimeException.class, () -> circuito.costoTotalDesdeHasta(terminalOrigen, terminalDestino),
-				"Origen y destino inexistentes en el circuito");
-
-		when(terminalOrigen.getNombre()).thenReturn("unNombre");
-		when(terminalDestino.getNombre()).thenReturn("otroNombre");
-		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
-		when(segundoTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
-		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
-		when(segundoTramo.getTerminalDestino()).thenReturn(terminalDestino);
-		when(primerTramo.getCosto()).thenReturn(10d);
-		when(segundoTramo.getCosto()).thenReturn(10d);
-
-		Assertions.assertEquals(20d, circuito.costoTotalDesdeHasta(terminalOrigen, terminalDestino));
-	}
-
-	@Test
-	void testUnCircuitoPuedeCalcularElTiempoTotalDeUnSubtramo() {
-		circuito.agregarTramo(primerTramo);
-		circuito.agregarTramo(segundoTramo);
-		circuito.agregarTramo(tercerTramo);
-
-		assertThrows(RuntimeException.class, () -> circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalDestino),
-				"Origen y destino inexistentes en el circuito");
-
-		when(terminalOrigen.getNombre()).thenReturn("unNombre");
-		when(terminalDestino.getNombre()).thenReturn("otroNombre");
-		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
-		when(segundoTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
-		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
-		when(segundoTramo.getTerminalDestino()).thenReturn(terminalDestino);
-		when(primerTramo.getDuracion()).thenReturn(10d);
-		when(segundoTramo.getDuracion()).thenReturn(10d);
-
-		Assertions.assertEquals(20d, circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalDestino));
-	}
-
-	@Test
-	void testUnCircuitoPuedeCalcularTerminalesIntermediasDesdeUnaTerminalAOtra() {
-		circuito.agregarTramo(primerTramo);
-		circuito.agregarTramo(segundoTramo);
-		circuito.agregarTramo(tercerTramo);
-		circuito.agregarTramo(cuartoTramo);
-
-		assertThrows(RuntimeException.class,
-				() -> circuito.terminalesIntermediasDesdeHasta(terminalOrigen, terminalDestino),
-				"Origen y destino inexistentes en el circuito");
-
-		when(terminalOrigen.getNombre()).thenReturn("unNombre");
-		when(terminalDestino.getNombre()).thenReturn("otroNombre");
-		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
-		when(tercerTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
-		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
-		when(tercerTramo.getTerminalDestino()).thenReturn(terminalDestino);
-
-		Assertions.assertEquals(1, circuito.terminalesIntermediasDesdeHasta(terminalOrigen, terminalDestino));
-	}
-
-	@Test
-	void testUnCircuitoPuedeInformarSiExisteUnRecorridoEntreTerminales() {
-		circuito.agregarTramo(primerTramo);
-		circuito.agregarTramo(segundoTramo);
-		circuito.agregarTramo(tercerTramo);
-		circuito.agregarTramo(cuartoTramo);
-
-		Assertions.assertFalse(circuito.existeRecorridoEntre(terminalOrigen, terminalDestino));
-
-		when(terminalOrigen.getNombre()).thenReturn("unNombre");
-		when(terminalDestino.getNombre()).thenReturn("otroNombre");
-		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
-		when(tercerTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
-		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
-		when(tercerTramo.getTerminalDestino()).thenReturn(terminalDestino);
-
-		Assertions.assertTrue(circuito.existeRecorridoEntre(terminalOrigen, terminalDestino));
-	}
-
-	@Test
-	void testUnCircuitoPuedeCalcularElTiempoDesdeSuTerminalOrigenHastaOtra() {
-		circuito.agregarTramo(primerTramo);
-		circuito.agregarTramo(segundoTramo);
-		circuito.agregarTramo(tercerTramo);
-
-		assertThrows(RuntimeException.class, () -> circuito.tiempoHaciaTerminalDesdeOrigen(terminalDestino),
-				"Origen y destino inexistentes en el circuito");
-
-		when(terminalOrigen.getNombre()).thenReturn("unNombre");
-		when(terminalDestino.getNombre()).thenReturn("otroNombre");
-		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
-		when(segundoTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
-		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
-		when(segundoTramo.getTerminalDestino()).thenReturn(terminalDestino);
-		when(primerTramo.getDuracion()).thenReturn(10d);
-		when(segundoTramo.getDuracion()).thenReturn(10d);
-
-		Assertions.assertEquals(20l, circuito.tiempoHaciaTerminalDesdeOrigen(terminalDestino));
+		assertEquals(segundoTramo, circuito.siguienteTramo(primerTramo));
+		assertEquals(tercerTramo, circuito.siguienteTramo(segundoTramo));
 	}
 
 	@Test
@@ -225,6 +88,143 @@ public class CircuitoTest {
 		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
 
 		Assertions.assertEquals(terminalOrigen, circuito.origenActual());
+	}
+
+	@Test
+	void testUnCircuitoPuedeAgregarUnTramo() {
+		Assertions.assertTrue(circuito.getTramos().isEmpty());
+		circuito.agregarTramo(primerTramo);
+		Assertions.assertEquals(1, circuito.getTramos().size());
+		circuito.agregarTramo(segundoTramo);
+		Assertions.assertEquals(2, circuito.getTramos().size());
+		Assertions.assertFalse(circuito.getTramos().isEmpty());
+	}
+
+	@Test
+	void testUnCircuitoPuedeCalcularElCostoTotalDeUnSubtramo() {
+		circuito.agregarTramo(primerTramo);
+		circuito.agregarTramo(segundoTramo);
+		circuito.agregarTramo(tercerTramo);
+
+		assertThrows(RuntimeException.class, () -> circuito.costoTotalDesdeHasta(terminalOrigen, terminalDestino),
+				"Origen y destino inexistentes en el circuito");
+
+		when(terminalOrigen.getNombre()).thenReturn("unNombre");
+		when(terminalDestino.getNombre()).thenReturn("otroNombre");
+		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
+		when(segundoTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
+		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
+		when(segundoTramo.getTerminalDestino()).thenReturn(terminalDestino);
+		when(primerTramo.getCosto()).thenReturn(10d);
+		when(segundoTramo.getCosto()).thenReturn(10d);
+
+		Assertions.assertEquals(20d, circuito.costoTotalDesdeHasta(terminalOrigen, terminalDestino));
+	}
+
+	@Test
+	void testUnCircuitoPuedeCalcularElTiempoDeRecorrido() {
+
+		circuito.agregarTramo(primerTramo);
+		circuito.agregarTramo(segundoTramo);
+
+		when(primerTramo.getDuracion()).thenReturn(10d);
+		when(segundoTramo.getDuracion()).thenReturn(20d);
+
+		Assertions.assertEquals(30, circuito.tiempoTotal());
+	}
+
+	@Test
+	void testUnCircuitoPuedeCalcularElTiempoDesdeSuTerminalOrigenHastaOtra() {
+		circuito.agregarTramo(primerTramo);
+		circuito.agregarTramo(segundoTramo);
+		circuito.agregarTramo(tercerTramo);
+
+		assertThrows(RuntimeException.class, () -> circuito.tiempoHaciaTerminalDesdeOrigen(terminalDestino),
+				"Origen y destino inexistentes en el circuito");
+
+		when(terminalOrigen.getNombre()).thenReturn("unNombre");
+		when(terminalDestino.getNombre()).thenReturn("otroNombre");
+		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
+		when(segundoTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
+		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
+		when(segundoTramo.getTerminalDestino()).thenReturn(terminalDestino);
+		when(primerTramo.getDuracion()).thenReturn(10d);
+		when(segundoTramo.getDuracion()).thenReturn(10d);
+
+		Assertions.assertEquals(20l, circuito.tiempoHaciaTerminalDesdeOrigen(terminalDestino));
+	}
+
+	@Test
+	void testUnCircuitoPuedeCalcularElTiempoTotalDeUnSubtramo() {
+		circuito.agregarTramo(primerTramo);
+		circuito.agregarTramo(segundoTramo);
+		circuito.agregarTramo(tercerTramo);
+
+		assertThrows(RuntimeException.class, () -> circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalDestino),
+				"Origen y destino inexistentes en el circuito");
+
+		when(terminalOrigen.getNombre()).thenReturn("unNombre");
+		when(terminalDestino.getNombre()).thenReturn("otroNombre");
+		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
+		when(segundoTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
+		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
+		when(segundoTramo.getTerminalDestino()).thenReturn(terminalDestino);
+		when(primerTramo.getDuracion()).thenReturn(10d);
+		when(segundoTramo.getDuracion()).thenReturn(10d);
+
+		Assertions.assertEquals(20d, circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalDestino));
+	}
+
+	@Test
+	void testUnCircuitoPuedeCalcularSuCosto() {
+
+		circuito.agregarTramo(primerTramo);
+		circuito.agregarTramo(segundoTramo);
+
+		when(primerTramo.getCosto()).thenReturn(10d);
+		when(segundoTramo.getCosto()).thenReturn(20d);
+
+		Assertions.assertEquals(30, circuito.costoCircuito());
+	}
+
+	@Test
+	void testUnCircuitoPuedeCalcularTerminalesIntermediasDesdeUnaTerminalAOtra() {
+		circuito.agregarTramo(primerTramo);
+		circuito.agregarTramo(segundoTramo);
+		circuito.agregarTramo(tercerTramo);
+		circuito.agregarTramo(cuartoTramo);
+
+		assertThrows(RuntimeException.class,
+				() -> circuito.terminalesIntermediasDesdeHasta(terminalOrigen, terminalDestino),
+				"Origen y destino inexistentes en el circuito");
+
+		when(terminalOrigen.getNombre()).thenReturn("unNombre");
+		when(terminalDestino.getNombre()).thenReturn("otroNombre");
+		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
+		when(tercerTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
+		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
+		when(tercerTramo.getTerminalDestino()).thenReturn(terminalDestino);
+
+		Assertions.assertEquals(1, circuito.terminalesIntermediasDesdeHasta(terminalOrigen, terminalDestino));
+	}
+
+	@Test
+	void testUnCircuitoPuedeInformarSiExisteUnRecorridoEntreTerminales() {
+		circuito.agregarTramo(primerTramo);
+		circuito.agregarTramo(segundoTramo);
+		circuito.agregarTramo(tercerTramo);
+		circuito.agregarTramo(cuartoTramo);
+
+		Assertions.assertFalse(circuito.existeRecorridoEntre(terminalOrigen, terminalDestino));
+
+		when(terminalOrigen.getNombre()).thenReturn("unNombre");
+		when(terminalDestino.getNombre()).thenReturn("otroNombre");
+		when(primerTramo.tieneDeOrigenA(terminalOrigen)).thenReturn(true);
+		when(tercerTramo.tieneDeDestinoA(terminalDestino)).thenReturn(true);
+		when(primerTramo.getTerminalOrigen()).thenReturn(terminalOrigen);
+		when(tercerTramo.getTerminalDestino()).thenReturn(terminalDestino);
+
+		Assertions.assertTrue(circuito.existeRecorridoEntre(terminalOrigen, terminalDestino));
 	}
 
 }

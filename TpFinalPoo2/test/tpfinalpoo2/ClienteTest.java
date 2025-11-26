@@ -8,13 +8,8 @@ import org.junit.jupiter.api.Test;
 
 class ClienteTest {
 
-	private Cliente cliente;
 	private static final String CORREO = "cliente@test.com";
-
-	@BeforeEach
-	void setUp() {
-		this.cliente = new Cliente(CORREO);
-	}
+	private Cliente cliente;
 
 	@Test
 	void correoDevuelveElValorCorrecto() {
@@ -33,5 +28,10 @@ class ClienteTest {
 	@Test
 	void notificarPartidaNoHaceNada() {
 		cliente.notificarPartida(mock(Buque.class));
+	}
+
+	@BeforeEach
+	void setUp() {
+		this.cliente = new Cliente(CORREO);
 	}
 }

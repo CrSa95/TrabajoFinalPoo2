@@ -17,13 +17,14 @@ class ServicioElectricoTest {
 	Container container;
 	Orden orden;
 
-	@BeforeEach
-	void setup() {
-		servicio = new ServicioElectrico(costo_fijo_kw_h);
-		container = mock(Container.class);
-		orden = mock(Orden.class);
-		when(orden.carga()).thenReturn(container);
+	@Test
+	void consumoElectricoAumentaPorDias() {
+		int cant_dias = 5;
+		LocalDateTime fechaRetiro = fechaIngreso.plusDays(cant_dias);
+		when(orden.fechaRetiro()).thenReturn(fechaRetiro);
+		when(orden.fechaSalida()).thenReturn(fechaIngreso);
 
+		assertEquals(costo_fijo_kw_h * cant_dias * 24, servicio.costo(orden));
 	}
 
 	@Test
@@ -37,21 +38,20 @@ class ServicioElectricoTest {
 	}
 
 	@Test
-	void consumoElectricoAumentaPorDias() {
-		int cant_dias = 5;
-		LocalDateTime fechaRetiro = fechaIngreso.plusDays(cant_dias);
-		when(orden.fechaRetiro()).thenReturn(fechaRetiro);
-		when(orden.fechaSalida()).thenReturn(fechaIngreso);
-
-		assertEquals(costo_fijo_kw_h * cant_dias * 24, servicio.costo(orden));
-	}
-
-	@Test
 	void noSeCobraMontosNegativos() {
 		LocalDateTime fechaRetiro = fechaIngreso.plusDays(-5);
 		when(orden.fechaRetiro()).thenReturn(fechaRetiro);
 		when(orden.fechaSalida()).thenReturn(fechaIngreso);
 		assertTrue(servicio.costo(orden) >= 0);
+
+	}
+
+	@BeforeEach
+	void setup() {
+		servicio = new ServicioElectrico(costo_fijo_kw_h);
+		container = mock(Container.class);
+		orden = mock(Orden.class);
+		when(orden.carga()).thenReturn(container);
 
 	}
 

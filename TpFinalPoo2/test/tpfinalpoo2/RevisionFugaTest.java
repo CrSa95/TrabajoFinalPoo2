@@ -12,16 +12,16 @@ class RevisionFugaTest {
 	Container container;
 	double costo_fijo = 50d;
 
+	@Test
+	void revisionFuga() {
+		assertEquals(costo_fijo, suject.costo(orden));
+	}
+
 	@BeforeEach
 	void setUp() throws Exception {
 		orden = mock(Orden.class);
 		suject = new RevisionFuga(costo_fijo);
 
-	}
-
-	@Test
-	void revisionFuga() {
-		assertEquals(costo_fijo, suject.costo(orden));
 	}
 
 }

@@ -14,6 +14,11 @@ public class Dry extends Container {
 	}
 
 	@Override
+	public boolean desconsolidable() {
+		return true;
+	}
+
+	@Override
 	public Double peso() {
 		return this.peso + bls.stream().mapToDouble(Dry::peso).sum();
 	}

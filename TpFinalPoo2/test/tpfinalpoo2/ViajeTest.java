@@ -1,6 +1,5 @@
 package tpfinalpoo2;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -23,42 +22,11 @@ class ViajeTest {
 	Terminal terminalIntermedia = new TerminalGestionada(null, null);
 	Terminal terminalFinal = new TerminalGestionada(null, null);
 
-	@BeforeEach
-	void setUp() throws Exception {
-		circuito = mock(Circuito.class);
-		suject = new Viaje(circuito, fechaSalida);
-		when(circuito.terminalOrigen()).thenReturn(terminalOrigen);
-	}
-
-	@Test
-	void proximaFechaTest() {
-		Long dias_esperados = 5l;
-		when(circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalFinal)).thenReturn((double) dias_esperados);
-		assertEquals(fechaSalida.plusDays(dias_esperados), suject.proximaFecha(terminalOrigen, terminalFinal));
-	}
-
-	@Test
-	void proximaFechaLanzaErrorSiNoExistenLasTerminalesEnElCircuito() {
-
-		when(circuito.tiempoTotalDesdeHasta(any(Terminal.class), any(Terminal.class)))
-				.thenThrow(new IllegalArgumentException("Origen y destino inexistentes en el circuito"));
-		assertThrows(IllegalArgumentException.class, () -> suject.proximaFecha(terminalOrigen, terminalFinal),
-				"Origen y destino inexistentes en el circuito");
-	}
-
 	@Test
 	void costoViaje() {
 		assertEquals(0d, suject.costo());
 		when(circuito.costoCircuito()).thenReturn(5d);
 		assertEquals(5d, suject.costo());
-	}
-
-	@Test
-	void fechaLlegadaViaje() {
-		when(circuito.tiempoTotal()).thenReturn(0d);
-		assertEquals(fechaSalida, suject.getFechaLlegada());
-		when(circuito.tiempoTotal()).thenReturn(5d);
-		assertEquals(fechaSalida.plusDays(5), suject.getFechaLlegada());
 	}
 
 	@Test
@@ -80,15 +48,46 @@ class ViajeTest {
 	}
 
 	@Test
-	void viajeConoceLaTerminalDeDestino() {
-		when(circuito.destinoActual()).thenReturn(terminalFinal);
-		assertEquals(terminalFinal, suject.getTerminalDestino());
+	void fechaLlegadaViaje() {
+		when(circuito.tiempoTotal()).thenReturn(0d);
+		assertEquals(fechaSalida, suject.getFechaLlegada());
+		when(circuito.tiempoTotal()).thenReturn(5d);
+		assertEquals(fechaSalida.plusDays(5), suject.getFechaLlegada());
+	}
+
+	@Test
+	void proximaFechaLanzaErrorSiNoExistenLasTerminalesEnElCircuito() {
+
+		when(circuito.tiempoTotalDesdeHasta(any(Terminal.class), any(Terminal.class)))
+				.thenThrow(new IllegalArgumentException("Origen y destino inexistentes en el circuito"));
+		assertThrows(IllegalArgumentException.class, () -> suject.proximaFecha(terminalOrigen, terminalFinal),
+				"Origen y destino inexistentes en el circuito");
+	}
+
+	@Test
+	void proximaFechaTest() {
+		Long dias_esperados = 5l;
+		when(circuito.tiempoTotalDesdeHasta(terminalOrigen, terminalFinal)).thenReturn((double) dias_esperados);
+		assertEquals(fechaSalida.plusDays(dias_esperados), suject.proximaFecha(terminalOrigen, terminalFinal));
+	}
+
+	@BeforeEach
+	void setUp() throws Exception {
+		circuito = mock(Circuito.class);
+		suject = new Viaje(circuito, fechaSalida);
+		when(circuito.terminalOrigen()).thenReturn(terminalOrigen);
 	}
 
 	@Test
 	void viajeConoceElSiguienteTramo() {
 		when(circuito.siguienteTramo(tramoInicial)).thenReturn(siguienteTramo);
 		assertEquals(siguienteTramo, suject.siguienteTramo(siguienteTramo));
+	}
+
+	@Test
+	void viajeConoceLaTerminalDeDestino() {
+		when(circuito.destinoActual()).thenReturn(terminalFinal);
+		assertEquals(terminalFinal, suject.getTerminalDestino());
 	}
 
 	@Test

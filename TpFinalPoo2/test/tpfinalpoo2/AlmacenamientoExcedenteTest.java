@@ -15,12 +15,6 @@ class AlmacenamientoExcedenteTest {
 	AlmacenamientoExcedente servicio;
 	Orden orden;
 
-	@BeforeEach
-	void setup() {
-		servicio = new AlmacenamientoExcedente(costo_fijo);
-		orden = mock(Orden.class);
-	}
-
 	@Test
 	void noSeCobraAlmacenamientoExcedente() {
 		when(orden.fechaRetiro()).thenReturn(ahora);
@@ -43,6 +37,12 @@ class AlmacenamientoExcedenteTest {
 
 		when(orden.fechaRetiro()).thenReturn(ahora.plusDays(4l));
 		assertEquals(costo_fijo * -4, servicio.costo(orden));
+	}
+
+	@BeforeEach
+	void setup() {
+		servicio = new AlmacenamientoExcedente(costo_fijo);
+		orden = mock(Orden.class);
 	}
 
 }

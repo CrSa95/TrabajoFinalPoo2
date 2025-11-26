@@ -27,6 +27,14 @@ public class TramoTest {
 	}
 
 	@Test
+	void testUnTramoConoceLasCoordenadasDeSuTerminalDestino() {
+
+		when(destino.coordenadas()).thenReturn(coordenadasMock);
+
+		Assertions.assertEquals(coordenadasMock, tramo.getTerminalDestinoCoordenadas());
+	}
+
+	@Test
 	void testUnTramoConoceSuCosto() {
 		Assertions.assertEquals(20d, tramo.getCosto());
 	}
@@ -37,22 +45,14 @@ public class TramoTest {
 	}
 
 	@Test
-	void testUnTramoConoceSuTerminalDeOrigen() {
-		when(origen.getNombre()).thenReturn("Buenos Aires");
-		Assertions.assertTrue(tramo.tieneDeOrigenA(origen));
-	}
-
-	@Test
 	void testUnTramoConoceSuTerminalDeDestino() {
 		when(destino.getNombre()).thenReturn("Montevideo");
 		Assertions.assertTrue(tramo.tieneDeDestinoA(destino));
 	}
 
 	@Test
-	void testUnTramoConoceLasCoordenadasDeSuTerminalDestino() {
-
-		when(destino.coordenadas()).thenReturn(coordenadasMock);
-
-		Assertions.assertEquals(coordenadasMock, tramo.getTerminalDestinoCoordenadas());
+	void testUnTramoConoceSuTerminalDeOrigen() {
+		when(origen.getNombre()).thenReturn("Buenos Aires");
+		Assertions.assertTrue(tramo.tieneDeOrigenA(origen));
 	}
 }

@@ -33,12 +33,6 @@ public class ANDTest {
 	}
 
 	@Test
-	void testSePuedeAgregarUnFiltro() {
-		filtroAND.agregarFiltro(filtroFechaLlegada);
-		Assertions.assertTrue(filtroAND.getFiltros().contains(filtroFechaLlegada));
-	}
-
-	@Test
 	void testSeAplicanLosFiltrosDeBusqueda() {
 
 		List<Viaje> listaViajes = Arrays.asList(viaje, otroViaje);
@@ -57,5 +51,11 @@ public class ANDTest {
 		verify(filtroPuertoDestino).filtrar(listaFiltrada);
 		Assertions.assertEquals(resultado, listaFiltrada);
 		Assertions.assertFalse(resultado.contains(otroViaje));
+	}
+
+	@Test
+	void testSePuedeAgregarUnFiltro() {
+		filtroAND.agregarFiltro(filtroFechaLlegada);
+		Assertions.assertTrue(filtroAND.getFiltros().contains(filtroFechaLlegada));
 	}
 }

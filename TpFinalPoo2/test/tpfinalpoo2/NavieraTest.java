@@ -32,6 +32,34 @@ public class NavieraTest {
 	private Terminal terminalOrigen;
 	private Terminal terminalDestino;
 
+	@Test
+	void navieraPuedeResponderSiTieneUnViaje() {
+		Viaje viaje = mock(Viaje.class);
+		assertFalse(naviera.tieneElViaje(viaje));
+
+		naviera.agregarViaje(viaje);
+		assertTrue(naviera.tieneElViaje(viaje));
+	}
+
+	@Test
+	void proximaFechaDeUnaNavieraSinViajesALaTerminalDevuelveLaFechaMaxima() {
+		Terminal destino = mock(Terminal.class);
+		Terminal origen = mock(Terminal.class);
+		when(buque.viaje()).thenReturn(viaje);
+		Assertions.assertEquals(LocalDateTime.MAX, naviera.proximaFecha(destino, origen));
+	}
+
+	@Test
+	void proximaFechaTest() {
+		LocalDateTime fecha_esperada = LocalDateTime.now();
+		Terminal destino = mock(Terminal.class);
+		Terminal origen = mock(Terminal.class);
+		naviera.agregarBuque(buque);
+		when(buque.viaje()).thenReturn(viaje);
+		when(buque.proximaFecha(destino, origen)).thenReturn(fecha_esperada);
+		Assertions.assertEquals(fecha_esperada, naviera.proximaFecha(destino, origen));
+	}
+
 	@BeforeEach
 	public void setUp() {
 		naviera = new Naviera();
@@ -53,25 +81,6 @@ public class NavieraTest {
 	}
 
 	@Test
-	void proximaFechaTest() {
-		LocalDateTime fecha_esperada = LocalDateTime.now();
-		Terminal destino = mock(Terminal.class);
-		Terminal origen = mock(Terminal.class);
-		naviera.agregarBuque(buque);
-		when(buque.viaje()).thenReturn(viaje);
-		when(buque.proximaFecha(destino, origen)).thenReturn(fecha_esperada);
-		Assertions.assertEquals(fecha_esperada, naviera.proximaFecha(destino, origen));
-	}
-
-	@Test
-	void proximaFechaDeUnaNavieraSinViajesALaTerminalDevuelveLaFechaMaxima() {
-		Terminal destino = mock(Terminal.class);
-		Terminal origen = mock(Terminal.class);
-		when(buque.viaje()).thenReturn(viaje);
-		Assertions.assertEquals(LocalDateTime.MAX, naviera.proximaFecha(destino, origen));
-	}
-
-	@Test
 	void testUnaNavieraPuedeAgregarBuques() {
 		Assertions.assertTrue(naviera.getBuques().isEmpty());
 		naviera.agregarBuque(buque);
@@ -82,16 +91,6 @@ public class NavieraTest {
 	}
 
 	@Test
-	void testUnaNavieraPuedeAgregarViajes() {
-		Assertions.assertTrue(naviera.getViajes().isEmpty());
-		naviera.agregarViaje(viaje);
-		Assertions.assertEquals(1, naviera.getViajes().size());
-		naviera.agregarViaje(otroViaje);
-		Assertions.assertEquals(2, naviera.getViajes().size());
-		Assertions.assertFalse(naviera.getViajes().isEmpty());
-	}
-
-	@Test
 	void testUnaNavieraPuedeAgregarCircuitos() {
 		Assertions.assertTrue(naviera.getCircuitos().isEmpty());
 		naviera.agregarCircuito(circuito);
@@ -99,6 +98,16 @@ public class NavieraTest {
 		naviera.agregarCircuito(otroCircuito);
 		Assertions.assertEquals(2, naviera.getCircuitos().size());
 		Assertions.assertFalse(naviera.getCircuitos().isEmpty());
+	}
+
+	@Test
+	void testUnaNavieraPuedeAgregarViajes() {
+		Assertions.assertTrue(naviera.getViajes().isEmpty());
+		naviera.agregarViaje(viaje);
+		Assertions.assertEquals(1, naviera.getViajes().size());
+		naviera.agregarViaje(otroViaje);
+		Assertions.assertEquals(2, naviera.getViajes().size());
+		Assertions.assertFalse(naviera.getViajes().isEmpty());
 	}
 
 	@Test
@@ -141,14 +150,5 @@ public class NavieraTest {
 		naviera.agregarCircuito(circuito);
 
 		Assertions.assertEquals(2d, naviera.tiempoDesdeHasta(terminalOrigen, terminalDestino));
-	}
-
-	@Test
-	void navieraPuedeResponderSiTieneUnViaje() {
-		Viaje viaje = mock(Viaje.class);
-		assertFalse(naviera.tieneElViaje(viaje));
-
-		naviera.agregarViaje(viaje);
-		assertTrue(naviera.tieneElViaje(viaje));
 	}
 }

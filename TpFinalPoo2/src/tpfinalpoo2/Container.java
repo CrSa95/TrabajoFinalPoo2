@@ -15,6 +15,10 @@ public abstract class Container {
 		this.setOwner(ownerID);
 	}
 
+	public boolean desconsolidable() {
+		return false;
+	}
+
 	public String id() {
 		return this.id;
 

@@ -8,7 +8,11 @@ public class Desconsolidado extends Servicio {
 
 	@Override
 	public double costo(Orden orden) {
-		return this.precio_fijo;
+		if (orden.carga().desconsolidable()) {
+			return this.precio_fijo;
+		}
+
+		return 0;
 	}
 
 }

@@ -35,12 +35,6 @@ public class ORTest {
 	}
 
 	@Test
-	void testSePuedeAgregarUnFiltro() {
-		filtroOR.agregarFiltro(filtroFechaLlegada);
-		Assertions.assertTrue(filtroOR.getFiltros().contains(filtroFechaLlegada));
-	}
-
-	@Test
 	void testSeAplicanLosFiltrosDeBusqueda() {
 
 		List<Viaje> listaViajes = Arrays.asList(viaje, otroViaje, unViaje);
@@ -62,5 +56,11 @@ public class ORTest {
 		Assertions.assertTrue(resultado.contains(viaje));
 		Assertions.assertTrue(resultado.contains(otroViaje));
 		Assertions.assertFalse(resultado.contains(unViaje));
+	}
+
+	@Test
+	void testSePuedeAgregarUnFiltro() {
+		filtroOR.agregarFiltro(filtroFechaLlegada);
+		Assertions.assertTrue(filtroOR.getFiltros().contains(filtroFechaLlegada));
 	}
 }

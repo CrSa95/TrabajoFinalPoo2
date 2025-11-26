@@ -16,11 +16,12 @@ public class InboundTest {
 	Buque buqueMock;
 	Terminal terminal;
 
-	@BeforeEach
-	public void setUp() {
-		suject = new Inbound();
-		buqueMock = mock(Buque.class);
-		terminal = spy(Terminal.class);
+	@Test
+	void inboundAvisaLlegada() {
+		when(buqueMock.terminalDestino()).thenReturn(terminal);
+		suject.avisarLlegada(buqueMock);
+
+		verify(terminal).avisarLlegada(buqueMock);
 	}
 
 	@Test
@@ -39,12 +40,11 @@ public class InboundTest {
 
 	}
 
-	@Test
-	void inboundAvisaLlegada() {
-		when(buqueMock.terminalDestino()).thenReturn(terminal);
-		suject.avisarLlegada(buqueMock);
-
-		verify(terminal).avisarLlegada(buqueMock);
+	@BeforeEach
+	public void setUp() {
+		suject = new Inbound();
+		buqueMock = mock(Buque.class);
+		terminal = spy(Terminal.class);
 	}
 
 }

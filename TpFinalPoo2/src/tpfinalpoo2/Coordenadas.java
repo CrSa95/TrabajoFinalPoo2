@@ -14,7 +14,7 @@ class Coordenadas {
 		this.avanzarX(coordX);
 		this.avanzarY(coordY);
 	}
-	
+
 	private void avanzarX(double cant) {
 		this.coord_x += cant;
 	}

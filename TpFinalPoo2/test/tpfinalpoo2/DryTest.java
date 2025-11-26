@@ -14,9 +14,14 @@ class DryTest {
 	Double largo_valido = 1d;
 	Double peso_valido = 1d;
 
-	@BeforeEach
-	void setUp() {
-		suject = new Dry(ownerID, 1d, 1d, 1d, 1d);
+	@Test
+	void elPesoAumentaPorDry() {
+		Dry dry1 = new Dry(ownerID, altura_valida, ancho_valido, largo_valido, peso_valido);
+		assertEquals(1d, suject.peso());
+		suject.agregarProducto(dry1);
+		assertEquals(2d, suject.peso());
+		suject.agregarProducto(dry1);
+		assertEquals(3d, suject.peso());
 	}
 
 	@Test
@@ -35,13 +40,8 @@ class DryTest {
 
 	}
 
-	@Test
-	void elPesoAumentaPorDry() {
-		Dry dry1 = new Dry(ownerID, altura_valida, ancho_valido, largo_valido, peso_valido);
-		assertEquals(1d, suject.peso());
-		suject.agregarProducto(dry1);
-		assertEquals(2d, suject.peso());
-		suject.agregarProducto(dry1);
-		assertEquals(3d, suject.peso());
+	@BeforeEach
+	void setUp() {
+		suject = new Dry(ownerID, 1d, 1d, 1d, 1d);
 	}
 }
