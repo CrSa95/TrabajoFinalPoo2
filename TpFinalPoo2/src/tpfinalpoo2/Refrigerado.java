@@ -1,6 +1,6 @@
 package tpfinalpoo2;
 
-public class Refrigerado extends Container {
+public class Refrigerado extends Container implements Refrigerable {
 	private Double temperatura_requerida;
 	private Double consumo_kw_hora;
 
@@ -10,7 +10,13 @@ public class Refrigerado extends Container {
 		this.temperatura_requerida = tempRequerida;
 		this.consumo_kw_hora = consumoKwHora;
 	}
+	
+	@Override
+ 	public boolean aplicaServicioElectrico() {
+		return true;
+	}
 
+	@Override
 	public Double consumoKwHora() {
 		return this.consumo_kw_hora;
 	}

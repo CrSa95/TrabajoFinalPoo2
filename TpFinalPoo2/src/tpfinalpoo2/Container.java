@@ -18,6 +18,10 @@ public abstract class Container {
 	public boolean desconsolidable() {
 		return false;
 	}
+	
+	public boolean aplicaServicioElectrico() {
+		return false;
+	}
 
 	public String id() {
 		return this.id;

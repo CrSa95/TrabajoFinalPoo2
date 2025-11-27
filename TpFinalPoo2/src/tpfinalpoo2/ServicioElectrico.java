@@ -10,12 +10,16 @@ public class ServicioElectrico extends Servicio {
 
 	@Override
 	public double costo(Orden orden) {
+		if (!orden.carga().aplicaServicioElectrico() ) { return 0; }
+		
+		Refrigerable refrigerable = (Refrigerable) orden.carga();
+		
 		Duration duracion = Duration.between(orden.fechaSalida(), orden.fechaRetiro());
 		long horas = duracion.toHours();
 		if (horas < 0) {
 			return 0;
 		}
-		return horas * this.precio_fijo;
+		return horas * refrigerable.consumoKwHora();
 	}
 
 }
