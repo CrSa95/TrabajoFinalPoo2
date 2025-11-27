@@ -71,7 +71,7 @@ public class Orden {
 	}
 
 	public LocalDateTime fechaSalida() {
-		return this.viaje_seleccionado.getFechaSalida();
+		return this.viaje_seleccionado.fechaSalida(origen);
 	}
 
 	private boolean mismoViaje(Buque buque) {

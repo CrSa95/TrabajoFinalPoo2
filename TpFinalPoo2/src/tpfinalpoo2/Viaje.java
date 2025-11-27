@@ -28,6 +28,10 @@ public class Viaje {
 	public LocalDateTime fechaLlegada(Terminal terminal) {
 		return this.fechaSalida.plusDays(this.circuito.tiempoHaciaTerminalDesdeOrigen(terminal));
 	}
+	
+	public LocalDateTime fechaSalida(Terminal terminal) {
+		return this.fechaSalida.plusDays(this.circuito.tiempoHaciaTerminalDesdeOrigen(terminal));
+	}
 
 	public LocalDateTime getFechaLlegada() {
 		return fechaSalida.plusDays((long) circuito.tiempoTotal());
