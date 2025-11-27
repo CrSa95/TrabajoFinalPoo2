@@ -14,7 +14,7 @@ class ServicioElectricoTest {
 	double costo_fijo_kw_h = 10;
 	LocalDateTime fechaIngreso = LocalDateTime.now();
 	ServicioElectrico servicio;
-	Container container;
+	Refrigerado container;
 	Orden orden;
 
 	@Test
@@ -23,6 +23,9 @@ class ServicioElectricoTest {
 		LocalDateTime fechaRetiro = fechaIngreso.plusDays(cant_dias);
 		when(orden.fechaRetiro()).thenReturn(fechaRetiro);
 		when(orden.fechaSalida()).thenReturn(fechaIngreso);
+		when(orden.carga()).thenReturn(container);
+		when(container.aplicaServicioElectrico()).thenReturn(true);
+		when(container.consumoKwHora()).thenReturn(costo_fijo_kw_h);
 
 		assertEquals(costo_fijo_kw_h * cant_dias * 24, servicio.costo(orden));
 	}
@@ -33,6 +36,9 @@ class ServicioElectricoTest {
 		LocalDateTime fechaRetiro = fechaIngreso.plusHours(cant_horas);
 		when(orden.fechaRetiro()).thenReturn(fechaRetiro);
 		when(orden.fechaSalida()).thenReturn(fechaIngreso);
+		when(orden.carga()).thenReturn(container);
+		when(container.aplicaServicioElectrico()).thenReturn(true);
+		when(container.consumoKwHora()).thenReturn(costo_fijo_kw_h);
 
 		assertEquals(costo_fijo_kw_h * cant_horas, servicio.costo(orden));
 	}
@@ -49,7 +55,7 @@ class ServicioElectricoTest {
 	@BeforeEach
 	void setup() {
 		servicio = new ServicioElectrico(costo_fijo_kw_h);
-		container = mock(Container.class);
+		container = mock(Refrigerado.class);
 		orden = mock(Orden.class);
 		when(orden.carga()).thenReturn(container);
 
