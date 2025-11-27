@@ -149,7 +149,8 @@ public class OrdenTest {
 	@Test
 	void fechaSalidaDevuelveFechaSalidaDeViaje() {
 		LocalDateTime fechaSalidaViaje = LocalDateTime.now();
-		when(viajeMock.getFechaSalida()).thenReturn(fechaSalidaViaje);
+		orden.terminalOrigen(terminalMock);
+		when(viajeMock.fechaSalida(terminalMock)).thenReturn(fechaSalidaViaje);
 
 		assertEquals(fechaSalidaViaje, orden.fechaSalida());
 	}
@@ -228,3 +229,4 @@ public class OrdenTest {
 	}
 
 }
+
